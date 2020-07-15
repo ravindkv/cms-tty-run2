@@ -1,0 +1,13 @@
+python $argv -s TTGamma &
+python $argv -s TTbar &
+python $argv -s TGJets &
+python $argv -s WJets &
+python $argv -s ZJets &
+python $argv -s WGamma &
+python $argv -s ZGamma &
+python $argv -s Diboson &
+python $argv -s SingleTop &
+python $argv -s TTV &
+python $argv -s GJets &
+python $argv -s QCD &
+python $argv -s Data &
