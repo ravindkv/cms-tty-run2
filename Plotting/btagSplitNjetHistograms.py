@@ -78,6 +78,9 @@ if "QCD" in sample:
     PhoselQCDTemplate = TH1F("phoselnjets0Tag_QCD_DD","phoselnjets0Tag_QCD_DD",10,0,10)
     tree = TChain("AnalysisTree")
     fileList = samples[sampleList[-1]][0]
+    print "samples: ", samples
+    print "sampleList: ", sampleList
+    print "fileList: ", fileList
     print fileList
     for fileName in fileList:
         tree.Add("%s/QCDcr_%s"%(analysisNtupleLocation,fileName))
