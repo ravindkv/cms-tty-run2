@@ -1,0 +1,13 @@
+#!/bin/bash
+
+condor_submit condor_makeHistograms_nominal.jdl
+condor_submit condor_makeHistograms_PU.jdl
+condor_submit condor_makeHistograms_MuEff.jdl
+condor_submit condor_makeHistograms_PhoEff.jdl
+condor_submit condor_makeHistograms_BTagSF_b.jdl
+condor_submit condor_makeHistograms_BTagSF_l.jdl
+condor_submit condor_makeHistograms_EleEff.jdl
+condor_submit condor_makeHistograms_Q2.jdl
+#condor_submit condor_makeHistograms_Pdf.jdl
+#condor_submit condor_makeHistograms_isr.jdl
+#condor_submit condor_makeHistograms_fsr.jdl
