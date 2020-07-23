@@ -15,13 +15,13 @@ finalState = options.channel
 if finalState in ["Mu","mu"]:
     sample = "QCDMu"
     outputFileName = "histograms/mu/qcdTransferFactors.root"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/qcdmuons/V08_00_26_07"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion/2016"
     preselCut = "passPresel_Mu"
     qcdRelIsoCut = "muPFRelIso>0.15 && muPFRelIso<0.3 && "
 elif finalState in ["Ele","ele","e"]:
     sample = "QCDEle"
     outputFileName = "histograms/ele/qcdTransferFactors.root"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/qcdelectrons/V08_00_26_07"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion/2016"
     preselCut = "passPresel_Ele"
     qcdRelIsoCut = "elePFRelIso>0.01 &&"
 else:
@@ -33,6 +33,7 @@ outputFile = TFile(outputFileName,"recreate")
 
 tree = TChain("AnalysisTree")
 fileList = samples[sample][0]
+print "fileList = ", fileList
 for fileName in fileList:
     tree.Add("%s/QCDcr_%s"%(analysisNtupleLocation,fileName))
 
@@ -66,9 +67,9 @@ outputFile.cd()
 histCR2.Write()
 
 if finalState in ["Mu","mu"]:
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/muons/V08_00_26_07"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/2016/"
 else:
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/electrons/V08_00_26_07"
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/2016/"
 
 tree = TChain("AnalysisTree")
 fileList = samples[sample][0]

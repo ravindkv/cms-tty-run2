@@ -1,3 +1,6 @@
+# ./runAllBash.sh fileName
+# fileName will be parsed as an argument to python
+# The & is used to run each of the command in background
 file=$1
 python $file  TTGamma   &
 python $file  TTbar     &
