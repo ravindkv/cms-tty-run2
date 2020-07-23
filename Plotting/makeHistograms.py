@@ -33,6 +33,8 @@ parser.add_option("--addPlots","--addOnly", dest="onlyAddPlots", default=False,a
                      help="Use only if you want to add a couple of plots to the file, does not remove other plots" )
 parser.add_option("--output", dest="outputFileName", default="hists",
                      help="Give the name of the root file for histograms to be saved in (default is hists.root)" )
+parser.add_option("--histDir", dest="outputHistDir", default="base",
+		help="dir inside the root file where histograms will be stored"),
 parser.add_option("--plot", dest="plotList",action="append",
                      help="Add plots" )
 parser.add_option("--multiPlots", "--multiplots", dest="multiPlotList",action="append",
@@ -58,14 +60,7 @@ parser.add_option("--quiet", "-q", dest="quiet",default=False,action="store_true
 parser.add_option("--fwdjets","--fwdjets", dest="FwdJets",action="store_true",default=False,
                      help="include fwd jets" )
 
-
-
-
-
-
-
 (options, args) = parser.parse_args()
-
 level =options.level
 syst = options.systematic
 if syst=="":
@@ -93,6 +88,7 @@ isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
 isLooseCRe3g1Selection = options.isLooseCRe3g1Selection
 onlyAddPlots = options.onlyAddPlots
 outputFileName = options.outputFileName
+outputHistDir = options.outputHistDir
 FwdJets=options.FwdJets
 makedRPlots=options.makedRPlots
 makeAllPlots = options.makeAllPlots
@@ -150,7 +146,7 @@ if finalState=="Mu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/2016/"
-    outputhistName = "histograms/mu/%s"%outputFileName
+    outputhistName = "/eos/uscms/store/user/rverma/histograms/mu/%s"%outputFileName
     if runsystematic:
 
 	if syst=="PU":
@@ -160,14 +156,14 @@ if finalState=="Mu":
                 else:
                         Pileup = "PUweight_Do"
 
-                outputhistName = "histograms/mu/%sPU_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sPU_%s"%(outputFileName,level)
 
         elif 'Q2' in syst:
                 if level=="up":
                         Q2="q2weight_Up"
                 else:
                         Q2="q2weight_Do"
-                outputhistName = "histograms/mu/%sQ2_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sQ2_%s"%(outputFileName,level)
 
         elif 'Pdf' in syst:
 		if syst=="Pdf":
@@ -176,13 +172,13 @@ if finalState=="Mu":
 				Pdf="pdfweight_Up"
 			else:
 				Pdf="pdfweight_Do"
-			outputhistName = "histograms/mu/%sPdf_%s"%(outputFileName,level)
+			#outputhistName = "histograms/mu/%sPdf_%s"%(outputFileName,level)
 
 		else:
 			if type(eval(syst[3:]))==type(int()):
 				pdfNumber = eval(syst[3:])
 				Pdf="pdfSystWeight[%i]/pdfWeight"%(pdfNumber-1)
-				outputhistName = "histograms/mu/%sPdf/Pdf%i"%(outputFileName,pdfNumber)				
+				#outputhistName = "histograms/mu/%sPdf/Pdf%i"%(outputFileName,pdfNumber)				
 
 
         elif 'MuEff' in syst:
@@ -191,7 +187,7 @@ if finalState=="Mu":
                 else:
                         MuEff = "muEffWeight_Do"
 
-                outputhistName = "histograms/mu/%sMuEff_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sMuEff_%s"%(outputFileName,level)
 
         elif 'EleEff' in syst:
                 if level=="up":
@@ -199,7 +195,7 @@ if finalState=="Mu":
                 else:
                         EleEff = "eleEffWeight_Do"
 
-                outputhistName = "histograms/mu/%sEleEff_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sEleEff_%s"%(outputFileName,level)
 	
 	elif 'PhoEff' in syst:
                 if level=="up":
@@ -209,7 +205,7 @@ if finalState=="Mu":
                         PhoEff = "phoEffWeight_Do"
                         loosePhoEff = "loosePhoEffWeight_Do"
 
-                outputhistName = "histograms/mu/%sPhoEff_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sPhoEff_%s"%(outputFileName,level)
 
         elif 'BTagSF' in syst:
                 if level=="up":
@@ -217,22 +213,22 @@ if finalState=="Mu":
                 else:
                         btagWeightCategory = ["1","(1-btagWeight_Do[0])","(btagWeight_Do[2])","(btagWeight_Do[1])"]
 
-                outputhistName = "histograms/mu/%sBTagSF_%s"%(outputFileName,level)
+                #outputhistName = "histograms/mu/%sBTagSF_%s"%(outputFileName,level)
 	#elif syst=="isr" or syst=="fsr":
 	#	if level=="up":
 	#		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/muons/V08_00_26_07/%s_up_"%(syst)
-         #               outputhistName = "histograms/mu/%s%s_up"%(outputFileName,syst)
+         #               #outputhistName = "histograms/mu/%s%s_up"%(outputFileName,syst)
 	#	if level=="down":
 	#		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/muons/V08_00_26_07/%s_down_"%(syst)
-         #               outputhistName = "histograms/mu/%s%s_down"%(outputFileName,syst)
+         #               #outputhistName = "histograms/mu/%s%s_down"%(outputFileName,syst)
 
 	else:
 		if  level=="up":
             		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/systematics_muons/V08_00_26_07/%s_up_"%(syst)
-            		outputhistName = "histograms/mu/%s%s_up"%(outputFileName,syst)
+            		#outputhistName = "histograms/mu/%s%s_up"%(outputFileName,syst)
         	if level=="down":
             		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/systematics_muons/V08_00_26_07/%s_down_"%(syst)
-            		outputhistName = "histograms/mu/%s%s_down"%(outputFileName,syst)
+            		#outputhistName = "histograms/mu/%s%s_down"%(outputFileName,syst)
 
 
 
@@ -272,7 +268,7 @@ elif finalState=="Ele":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/electrons/V08_00_26_07/"
-    outputhistName = "histograms/ele/%s"%outputFileName
+    outputhistName = "/eos/uscms/store/user/rverma/histograms/ele/%s"%outputFileName
     if runsystematic:
 	 if 'PU' in syst:
                 if level=="up":
@@ -280,7 +276,7 @@ elif finalState=="Ele":
                 else:
                         Pileup = "PUweight_Do"
 
-                outputhistName = "histograms/ele/%sPU_%s"%(outputFileName,level)
+                #outputhistName = "histograms/ele/%sPU_%s"%(outputFileName,level)
 
 
          elif 'Q2' in syst:
@@ -288,7 +284,7 @@ elif finalState=="Ele":
                         Q2="q2weight_Up"
                 else:
                         Q2="q2weight_Do"
-                outputhistName = "histograms/ele/%sQ2_%s"%(outputFileName,level)
+                #outputhistName = "histograms/ele/%sQ2_%s"%(outputFileName,level)
 
 
          elif 'Pdf' in syst:
@@ -298,13 +294,13 @@ elif finalState=="Ele":
 				Pdf="pdfweight_Up"
 			else:
 				Pdf="pdfweight_Do"
-			outputhistName = "histograms/ele/%sPdf_%s"%(outputFileName,level)
+			#outputhistName = "histograms/ele/%sPdf_%s"%(outputFileName,level)
 
 		else:
 			if type(eval(syst[3:]))==type(int()):
 				pdfNumber = eval(syst[3:])
 				Pdf="pdfSystWeight[%i]/pdfWeight"%(pdfNumber-1)
-				outputhistName = "histograms/ele/%sPdf/Pdf%i"%(outputFileName,pdfNumber)				
+				#outputhistName = "histograms/ele/%sPdf/Pdf%i"%(outputFileName,pdfNumber)				
 				
          elif 'MuEff' in syst:
                 if level=="up":
@@ -312,14 +308,14 @@ elif finalState=="Ele":
                 else:
                         MuEff = "muEffWeight_Do"
 
-                outputhistName = "histograms/ele/%sMuEff_%s"%(outputFileName,level)
+                #outputhistName = "histograms/ele/%sMuEff_%s"%(outputFileName,level)
 
          elif 'EleEff' in syst:
                 if level=="up":
                         EleEff = "eleEffWeight_Up"
                 else:
                         EleEff = "eleEffWeight_Do"
-		outputhistName = "histograms/ele/%sEleEff_%s"%(outputFileName,level)
+		#outputhistName = "histograms/ele/%sEleEff_%s"%(outputFileName,level)
                                                     
 	 elif 'PhoEff' in syst:
                 if level=="up":
@@ -329,7 +325,7 @@ elif finalState=="Ele":
                         PhoEff = "phoEffWeight_Do"
                         loosePhoEff = "loosePhoEffWeight_Do"
 
-                outputhistName = "histograms/ele/%sPhoEff_%s"%(outputFileName,level)
+                #outputhistName = "histograms/ele/%sPhoEff_%s"%(outputFileName,level)
 
 
          elif 'BTagSF' in syst:
@@ -339,23 +335,23 @@ elif finalState=="Ele":
                         btagWeightCategory = ["1","(1-btagWeight_Do[0])","(btagWeight_Do[2])","(btagWeight_Do[1])"]
 
 
-                outputhistName = "histograms/ele/%sBTagSF_%s"%(outputFileName,level)  
+                #outputhistName = "histograms/ele/%sBTagSF_%s"%(outputFileName,level)  
 	# elif syst=="isr" or syst=="fsr":
          #       if level=="up":
           #              analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/electrons/V08_00_26_07/%s_up_"%(syst)
-           #             outputhistName = "histograms/ele/%s%s_up"%(outputFileName,syst)
+           #             #outputhistName = "histograms/ele/%s%s_up"%(outputFileName,syst)
             #    if level=="down":
              #           analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/electrons/V08_00_26_07/%s_down_"%(syst)
-              #          outputhistName = "histograms/ele/%s%s_down"%(outputFileName,syst) 
+              #          #outputhistName = "histograms/ele/%s%s_down"%(outputFileName,syst) 
 
 	 else:                     
         	if  level=="up":
             		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/systematics_electrons/V08_00_26_07/%s_up_"%(syst)
 			
-            		outputhistName = "histograms/ele/%s%s_up"%(outputFileName,syst)
+            		#outputhistName = "histograms/ele/%s%s_up"%(outputFileName,syst)
         	if level=="down":
             		analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/systematics_electrons/V08_00_26_07/%s_down_"%(syst)
-            		outputhistName = "histograms/ele/%s%s_down"%(outputFileName,syst)
+            		#outputhistName = "histograms/ele/%s%s_down"%(outputFileName,syst)
 		
 
 
@@ -400,7 +396,7 @@ elif finalState=="DiMu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/dimuons/V08_00_26_07/Dilep_"
-    outputhistName = "histograms/mu/dilep%s"%outputFileName
+    outputhistName = "/eos/uscms/store/user/rverma/histograms/mu/dilep%s"%outputFileName
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
@@ -442,7 +438,7 @@ elif finalState=="DiEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/dielectrons/V08_00_26_07/Dilep_"
-    outputhistName = "histograms/ele/dilep%s"%outputFileName
+    outputhistName = "/eos/uscms/store/user/rverma/histograms/ele/dilep%s"%outputFileName
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
@@ -597,7 +593,7 @@ else:
 
 
 btagWeight = btagWeightCategory[nBJets]
-
+signalOrCR = "SignalRegion"
 if isTightSelection:
     if not runQuiet: print "Tight Select"
     nJets = 4
@@ -606,7 +602,7 @@ if isTightSelection:
     # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
     extraCuts = extraCutsTight 
     extraPhotonCuts = extraPhotonCutsTight 
-    outputhistName = outputhistName +"_tight"
+    signalOrCR = "ControlRegion/Tight"
     dir_="_tight"
 
 if isVeryTightSelection:
@@ -617,7 +613,7 @@ if isVeryTightSelection:
    
     extraCuts = extraCutsVeryTight
     extraPhotonCuts = extraPhotonCutsVeryTight
-    outputhistName = outputhistName + ""
+    signalOrCR = "ControlRegion/VerytTight"
     dir_=""
 
 
@@ -630,7 +626,7 @@ if isTightSelection0b:
     # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
     extraCuts = extraCutsTight0b
     extraPhotonCuts = extraPhotonCutsTight0b
-    outputhistName = outputhistName + "_tight0b"
+    signalOrCR = "ControlRegion/Tight0b"
     dir_="_tight0b"
 
 
@@ -642,7 +638,7 @@ if isLooseCR2e1Selection:
     #    weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[1]"
     extraCuts = extraCutsLooseCR2e1
     extraPhotonCuts = extraPhotonCutsLooseCR2e1
-    outputhistName = outputhistName + "_looseCR2e1"
+    signalOrCR = "ControlRegion/LooseCR2e1"
     dir_="_looseCR2e1"
 
 if isLooseCRe2g1Selection:
@@ -657,7 +653,7 @@ if isLooseCRe2g1Selection:
     #     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight"
     extraCuts = extraCutsLooseCR2g1
     extraPhotonCuts = extraPhotonCutsLooseCR2g1    
-    outputhistName = outputhistName + "_looseCRe2g1"
+    signalOrCR = "ControlRegion/LooseCR2g1"
     dir_="_looseCRe2g1"
 
 if isLooseCR3g0Selection:
@@ -669,7 +665,7 @@ if isLooseCR3g0Selection:
        	btagWeight="1"
     extraCuts = extraCutsLooseCRe3g0
     extraPhotonCuts = extraPhotonCutsLooseCRe3g0
-    outputhistName = outputhistName + "_looseCRe3g0"
+    signalOrCR = "ControlRegion/LooseCRe3g0"
     dir_="_looseCRe3g0"
 
 
@@ -683,7 +679,7 @@ if isLooseCRe3g1Selection:
     #weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*(btagWeight[0])"
     extraCuts = extraCutsLooseCRe3g1
     extraPhotonCuts = extraPhotonCutsLooseCRe3g1
-    outputhistName = outputhistName + "_looseCRe3g1"
+    signalOrCR = "ControlRegion/LooseCRe3g1"
     dir_="_looseCRe3g1"
 
 if "QCD" in finalState:
@@ -762,7 +758,9 @@ if plotList is None:
 
 plotList.sort()
 if not runQuiet: print '-----'
-if not runQuiet: print "Making the following plots:"
+if not runQuiet: print "The histogram directory inside the root file is:"
+if not runQuiet: print "%s"%signalOrCR+"/"+outputHistDir
+if not runQuiet: print "Making the following histogram:"
 if not runQuiet: 
     for p in plotList: print "%s,"%p,
 if not runQuiet: print
@@ -896,6 +894,12 @@ if not os.path.exists(outputhistName):
 
 outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
 print "%s/%s.root"%(outputhistName,sample)
+
+#-------------------------------
+outputFile.mkdir(signalOrCR+"/"+outputHistDir)
+outputFile.cd(signalOrCR+"/"+outputHistDir)
+#-------------------------------
+
 for h in histograms:
     outputFile.Delete("%s;*"%h.GetName())
     if onlyAddPlots:

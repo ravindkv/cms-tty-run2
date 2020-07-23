@@ -5,13 +5,12 @@ SampleListMu= ["TTGamma", "TTbar" ,"TGJets" ,"WJets", "ZJets" ,"WGamma" ,"ZGamma
 systematics = ["PU","MuEff","PhoEff","BTagSF_b","BTagSF_l","EleEff","Q2","Pdf","isr","fsr"]
 
 for syst in systematics:
-	myfile = open('condor_makeHistograms_%s.jdl'%syst,'w')
+	myfile = open('jdl/makeHisto_%s.jdl'%syst,'w')
 	common_command = \
-'Executable =  makeHistograms_condor_syst.sh \n\
+'Executable =  makeHist_syst.sh \n\
 Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
-Transfer_Input_Files = myHistograms.tar, makeHistograms_condor_syst.sh\n\
 use_x509userproxy = true\n\
 Output = condor_Dec5/log$(cluster)_$(process).stdout\n\
 Error  = condor_Dec5/log$(cluster)_$(process).stderr\n\
