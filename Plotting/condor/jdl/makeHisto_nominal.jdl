@@ -7,9 +7,36 @@ Output = condor_Dec5/log$(cluster)_$(process).stdout
 Error  = condor_Dec5/log$(cluster)_$(process).stderr
 Log    = condor_Dec5/log$(cluster)_$(process).condor
 
+TOOL_DEBUG = D_ALL
+SUBMIT_DEBUG = D_ALL
+
 arguments  = Ele 2016 tight 
 queue 1
 
 arguments  = Mu 2016 tight 
 queue 1
 
+07/23/2020 12:15:05 PM DEBUG: Remote pool to query is set to: cmssrv268.fnal.gov, cmssrv605.fnal.gov
+07/23/2020 12:15:05 PM DEBUG: Attempting to query collector: cmssrv268.fnal.gov
+07/23/2020 12:15:05 PM DEBUG: Schedd ads received: [[ MaxJobsRunning = 10000; MyAddress = "<131.225.188.55:9618?addrs=131.225.188.55-9618&noUDP&sock=2504_1d3c_3>"; Name = "lpcschedd1.fnal.gov"; RecentDaemonCoreDutyCycle = 2.647213355249385E-01; ShadowsRunning = 2916; TotalIdleJobs = 68007 ], [ MaxJobsRunning = 10000; MyAddress = "<131.225.188.57:9618?addrs=131.225.188.57-9618&noUDP&sock=2523_2589_3>"; Name = "lpcschedd2.fnal.gov"; RecentDaemonCoreDutyCycle = 1.618498586627685E-01; ShadowsRunning = 936; TotalIdleJobs = 71176 ], [ MaxJobsRunning = 10000; MyAddress = "<131.225.188.235:9618?addrs=131.225.188.235-9618&noUDP&sock=3007_215f_3>"; Name = "lpcschedd3.fnal.gov"; RecentDaemonCoreDutyCycle = 1.770199595617898E-01; ShadowsRunning = 395; TotalIdleJobs = 70586 ]]
+07/23/2020 12:15:05 PM DEBUG: Going over the schedd list and calculating weight
+07/23/2020 12:15:05 PM DEBUG: Looking at schedd: lpcschedd1.fnal.gov
+07/23/2020 12:15:05 PM DEBUG: DutyCyle: 26.4721335525
+07/23/2020 12:15:05 PM DEBUG: Running percentage: 0
+07/23/2020 12:15:05 PM DEBUG: Idle jobs: 68007
+07/23/2020 12:15:05 PM DEBUG: Total weight calculated: 6819.23049349
+07/23/2020 12:15:05 PM DEBUG: Looking at schedd: lpcschedd2.fnal.gov
+07/23/2020 12:15:05 PM DEBUG: DutyCyle: 16.1849858663
+07/23/2020 12:15:05 PM DEBUG: Running percentage: 0
+07/23/2020 12:15:05 PM DEBUG: Idle jobs: 71176
+07/23/2020 12:15:05 PM DEBUG: Total weight calculated: 7128.92949011
+07/23/2020 12:15:05 PM DEBUG: Looking at schedd: lpcschedd3.fnal.gov
+07/23/2020 12:15:05 PM DEBUG: DutyCyle: 17.7019959562
+07/23/2020 12:15:05 PM DEBUG: Running percentage: 0
+07/23/2020 12:15:05 PM DEBUG: Idle jobs: 70586
+07/23/2020 12:15:05 PM DEBUG: Total weight calculated: 7070.99139717
+07/23/2020 12:15:05 PM DEBUG: Sorting schedds per their weight (lower the better)
+07/23/2020 12:15:05 PM DEBUG: Sorted list of schedd per their weight: [('lpcschedd1.fnal.gov', 6819.230493486746), ('lpcschedd3.fnal.gov', 7070.991397169326), ('lpcschedd2.fnal.gov', 7128.929490106394)]
+07/23/2020 12:15:05 PM DEBUG: Attempting to put SCHEDD_HOST into file: /storage/local/data1/condor/config.d/rverma.config
+07/23/2020 12:15:05 PM DEBUG: Successfully updated /storage/local/data1/condor/config.d/rverma.config
+07/23/2020 12:15:05 PM DEBUG: Final command to execute: /usr/bin/original_condor_submit use_x509userproxy=True
