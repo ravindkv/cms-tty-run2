@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir -p log
 condor_submit jdl/makeHisto_nominal.jdl
 #condor_submit jdl/makeHisto_PU.jdl
 #condor_submit jdl/makeHisto_MuEff.jdl

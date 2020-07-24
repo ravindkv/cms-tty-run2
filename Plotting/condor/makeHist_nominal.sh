@@ -21,7 +21,8 @@ else
     echo "Running In Batch"
     echo ${_CONDOR_SCRATCH_DIR}
     source /cvmfs/cms.cern.ch/cmsset_default.sh
-    cd /uscms/home/rverma/work/ttgamma/CMSSW_10_2_5/src/TTGamma/Plotting/
+    #cd /uscms/home/rverma/work/ttgamma/CMSSW_10_2_5/src/TTGamma/Plotting/
+    cd /home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/Plotting/
     eval `scramv1 runtime -sh`
 fi
 
@@ -35,8 +36,8 @@ declare -a  SampleListMu=("TTGamma" "TTbar" "TGJets" "SingleTop" "WJets" "ZJets"
 
 for mysample in ${SampleList[@]}; do
 	#python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsMEG
-	python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsForSF 
-	#python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --plot presel_Njet
+	#python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsForSF 
+	python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --plot presel_Njet
 done
 printf "Done Histogramming at ";/bin/date
 

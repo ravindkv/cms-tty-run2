@@ -12,9 +12,9 @@ Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
 use_x509userproxy = true\n\
-Output = condor_Dec5/log$(cluster)_$(process).stdout\n\
-Error  = condor_Dec5/log$(cluster)_$(process).stderr\n\
-Log    = condor_Dec5/log$(cluster)_$(process).condor\n\n'
+Output = log/log$(cluster)_$(process).stdout\n\
+Error  = log/log$(cluster)_$(process).stderr\n\
+Log    = log/log$(cluster)_$(process).condor\n\n'
 
 	myfile.write(common_command)
 

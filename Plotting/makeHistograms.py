@@ -4,7 +4,12 @@ from sampleInformation import *
 import os
 from optparse import OptionParser
 
+#-----------------------------------------
+#INPUT Command Line Arguments 
+#----------------------------------------
 parser = OptionParser()
+parser.add_option("-y", "--year", dest="year", default="2016",type='str',
+                     help="Specifyi the year of the data taking" )
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("-s", "--sample", dest="sample", default="",type='str',
@@ -62,18 +67,8 @@ parser.add_option("--fwdjets","--fwdjets", dest="FwdJets",action="store_true",de
 
 (options, args) = parser.parse_args()
 level =options.level
-syst = options.systematic
-if syst=="":
-	runsystematic = False
-else:
-	runsystematic = True
-
-
-
-gROOT.SetBatch(True)
-
-
 Dilepmass=options.Dilepmass
+year = options.year
 finalState = options.channel
 sample = options.sample
 testoneplot=options.testoneplot
@@ -98,8 +93,36 @@ makeJetsplots = options.makeJetsplots
 makegenPlots=options.makegenPlots
 runQuiet = options.quiet
 
+#-----------------------------------------
+#INPUT AnalysisNtuples Directory
+#----------------------------------------
+ntupleDirBase = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/%s/"%year
+ntupleDirSyst = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/Systematics/%s/"%year
+ntupleDirBaseCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion/%s/"%year
+ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion/Systematics/%s/"%year
+
+#-----------------------------------------
+#OUTPUT Histogram Directory
+#----------------------------------------
+#FNAL
+#outputPath = "/eos/uscms/store/user/rverma"
+#TIFR
+outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV" 
 if not runQuiet: print runsystematic
 #exit()
+
+
+syst = options.systematic
+if syst=="":
+	runsystematic = False
+else:
+	runsystematic = True
+
+
+
+gROOT.SetBatch(True)
+
+
 
 dir2=""
 if FwdJets:
@@ -145,8 +168,8 @@ if finalState=="Mu":
         sample = "DataMu"
     if sample=="QCD":
         sample = "QCDMu"
-    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/2016/"
-    outputhistName = "/eos/uscms/store/user/rverma/histograms/mu/%s"%outputFileName
+    analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/%s/"%year
+    outputhistName = outputPath+"/histograms/%s/mu/%s"%(year,outputFileName)
     if runsystematic:
 
 	if syst=="PU":
@@ -268,7 +291,7 @@ elif finalState=="Ele":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/electrons/V08_00_26_07/"
-    outputhistName = "/eos/uscms/store/user/rverma/histograms/ele/%s"%outputFileName
+    outputhistName = outputPath+"/histograms/ele/%s"%outputFileName
     if runsystematic:
 	 if 'PU' in syst:
                 if level=="up":
@@ -396,7 +419,7 @@ elif finalState=="DiMu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/dimuons/V08_00_26_07/Dilep_"
-    outputhistName = "/eos/uscms/store/user/rverma/histograms/mu/dilep%s"%outputFileName
+    outputhistName = outputPath+"/rverma/histograms/%s/mu/dilep%s"%(year, outputFileName)
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
@@ -438,7 +461,7 @@ elif finalState=="DiEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/dielectrons/V08_00_26_07/Dilep_"
-    outputhistName = "/eos/uscms/store/user/rverma/histograms/ele/dilep%s"%outputFileName
+    outputhistName = outputPath+"/rverma/histograms/%s/ele/dilep%s"%(year, outputFileName)
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
@@ -476,7 +499,7 @@ elif finalState=="QCDMu":
     isQCD = True
 
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/qcdmuons/V08_00_26_07/QCDcr_"
-    outputhistName = "histograms/mu/qcd%sCR"%(outputFileName)
+    outputhistName = "histograms/%s/mu/qcd%sCR"%(year, outputFileName)
 
     nBJets = 0
 
@@ -522,7 +545,7 @@ elif finalState=="QCDMu2":
     isQCD = True
 
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/qcdmuons/V08_00_26_07/QCDcr_"
-    outputhistName = "histograms/mu/qcd%sCR2"%(outputFileName)
+    outputhistName = "histograms/%s/mu/qcd%sCR2"%(year, outputFileName)
 
     nBJets = 0
 
@@ -549,7 +572,7 @@ elif finalState=="QCDEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma/13TeV_AnalysisNtuples_2019/qcdelectrons/V08_00_26_07/QCDcr_"
-    outputhistName = "histograms/ele/qcd%sCR"%(outputFileName)
+    outputhistName = "histograms/%s/ele/qcd%sCR"%(year, outputFileName)
     print outputhistName
 
     isQCD = True
