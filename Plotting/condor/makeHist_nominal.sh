@@ -35,9 +35,9 @@ declare -a  SampleListMu=("TTGamma" "TTbar" "TGJets" "SingleTop" "WJets" "ZJets"
 #declare -a SampleListMu=("TTbar")
 
 for mysample in ${SampleList[@]}; do
-	#python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsMEG
-	#python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsForSF 
-	python makeHistograms.py -c $channel -y $year --$controlRegion -s $mysample --plot presel_Njet
+	#python makeHistograms13TeV.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsMEG
+	#python makeHistograms13TeV.py -c $channel -y $year --$controlRegion -s $mysample --makePlotsForSF 
+	python makeHistograms13TeV.py -c $channel -y $year --$controlRegion -s $mysample --plot presel_Njet
 done
 printf "Done Histogramming at ";/bin/date
 

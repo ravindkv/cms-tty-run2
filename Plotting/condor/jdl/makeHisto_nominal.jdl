@@ -7,12 +7,8 @@ Output = log/log$(cluster)_$(process).stdout
 Error  = log/log$(cluster)_$(process).stderr
 Log    = log/log$(cluster)_$(process).condor
 
+arguments  = Ele 2016 tight 
+queue 1
+
 arguments  = Mu 2016 tight 
 queue 1
-
-arguments  = Mu 2016 looseCRge2e0 
-queue 1
-
-arguments  = Mu 2016 looseCRge2ge0 
-queue 1
-
