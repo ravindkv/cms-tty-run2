@@ -14,9 +14,9 @@ parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("-s", "--sample", dest="sample", default="",type='str',
                      help="Specify which sample to run on" )
-parser.add_option("--lev", "--level", dest="level", default="",type='str',
+parser.add_option("--level", "--level", dest="level", default="",type='str',
                      help="Specify up/down of systematic")
-parser.add_option("--syst", "--systematic", dest="systematic", default="",type='str',
+parser.add_option("--syst", "--systematic", dest="systematic", default="Base",type='str',
 		     help="Specify which systematic to run on")
 parser.add_option("--Tight","--tight", dest="isTightSelection", default=False,action="store_true",
                      help="Use 4j1t selection" )
@@ -36,8 +36,6 @@ parser.add_option("--LooseCRe3g1","--looseCRe3g1", dest="isLooseCRe3g1Selection"
 		  help="Use exactly 3j >= 1t control region selection" )
 parser.add_option("--addPlots","--addOnly", dest="onlyAddPlots", default=False,action="store_true",
                      help="Use only if you want to add a couple of plots to the file, does not remove other plots" )
-parser.add_option("--histDir", dest="outputHistDir", default="base",
-		help="dir inside the root file where histograms will be stored"),
 parser.add_option("--plot", dest="plotList",action="append",
                      help="Add plots" )
 parser.add_option("--multiPlots", "--multiplots", dest="multiPlotList",action="append",
@@ -80,7 +78,6 @@ isLooseCR3g0Selection=options.isLooseCR3g0Selection
 isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
 isLooseCRe3g1Selection = options.isLooseCRe3g1Selection
 onlyAddPlots = options.onlyAddPlots
-outputHistDir = options.outputHistDir
 FwdJets=options.FwdJets
 makedRPlots=options.makedRPlots
 makeAllPlots = options.makeAllPlots
@@ -102,10 +99,8 @@ ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/An
 #-----------------------------------------
 #OUTPUT Histogram Directory
 #----------------------------------------
-#FNAL
-#outputPath = "/eos/uscms/store/user/rverma"
-#TIFR
-outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/Plotting" 
+#outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/Plotting" 
+outputPath = "."
 
 #-----------------------------------------
 #----------------------------------------
@@ -129,6 +124,7 @@ btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])
 ttbarDecayMode = "SemiLep"
 if testPlot:
 	ttbarDecayMode="Test"
+outputHistDir = "Base"
 
 #-----------------------------------------
 #For Systematics
@@ -138,7 +134,8 @@ if (syst=="isr" or syst=="fsr") and sample=="TTbar":
 		samples={"TTbar"     : [["TTbarPowheg_AnalysisNtuple.root"],
                           kRed+1,"t#bar{t}",isMC],
 			}
-if not syst=="":
+if not syst=="Base":
+    outputHistDir = "%s_%s"%(syst,level) 
     if syst=="PU":
     	print "is here" 
         if level=="up":
@@ -718,7 +715,10 @@ if not "QCD_DD" in sample:
     tree = TChain("AnalysisTree")
     fileList = samples[sample][0]
     for fileName in fileList:
-	
+ 	if year=="2017":
+		fileName = fileName.replace("2016", "2017")
+ 	if year=="2018":
+		fileName = fileName.replace("2016", "2018")
         tree.Add("%s%s"%(analysisNtupleLocation,fileName))
  #   	print "%s%s"%(analysisNtupleLocation,fileName)
     #print sample

@@ -1,0 +1,246 @@
+Executable =  runSyst.sh 
+Universe   = vanilla
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+use_x509userproxy = true
+Output = log/log$(cluster)_$(process).stdout
+Error  = log/log$(cluster)_$(process).stderr
+Log    = log/log$(cluster)_$(process).condor
+
+arguments  = 2016 Ele TTGamma isr up tight 
+queue 1
+
+arguments  = 2016 Ele TTGamma isr down tight 
+queue 1
+
+arguments  = 2016 Ele TTbar isr up tight 
+queue 1
+
+arguments  = 2016 Ele TTbar isr down tight 
+queue 1
+
+arguments  = 2016 Ele TGJets isr up tight 
+queue 1
+
+arguments  = 2016 Ele TGJets isr down tight 
+queue 1
+
+arguments  = 2016 Ele WJets isr up tight 
+queue 1
+
+arguments  = 2016 Ele WJets isr down tight 
+queue 1
+
+arguments  = 2016 Ele ZJets isr up tight 
+queue 1
+
+arguments  = 2016 Ele ZJets isr down tight 
+queue 1
+
+arguments  = 2016 Ele WGamma isr up tight 
+queue 1
+
+arguments  = 2016 Ele WGamma isr down tight 
+queue 1
+
+arguments  = 2016 Ele ZGamma isr up tight 
+queue 1
+
+arguments  = 2016 Ele ZGamma isr down tight 
+queue 1
+
+arguments  = 2016 Ele Diboson isr up tight 
+queue 1
+
+arguments  = 2016 Ele Diboson isr down tight 
+queue 1
+
+arguments  = 2016 Ele SingleTop isr up tight 
+queue 1
+
+arguments  = 2016 Ele SingleTop isr down tight 
+queue 1
+
+arguments  = 2016 Ele TTV isr up tight 
+queue 1
+
+arguments  = 2016 Ele TTV isr down tight 
+queue 1
+
+arguments  = 2016 Ele GJets isr up tight 
+queue 1
+
+arguments  = 2016 Ele GJets isr down tight 
+queue 1
+
+arguments  = 2016 Ele QCDEle isr up tight 
+queue 1
+
+arguments  = 2016 Ele QCDEle isr down tight 
+queue 1
+
+arguments  = 2016 Ele DataEle isr up tight 
+queue 1
+
+arguments  = 2016 Ele DataEle isr down tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma isr up tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma isr down tight 
+queue 1
+
+arguments  = 2017 Ele TTbar isr up tight 
+queue 1
+
+arguments  = 2017 Ele TTbar isr down tight 
+queue 1
+
+arguments  = 2017 Ele TGJets isr up tight 
+queue 1
+
+arguments  = 2017 Ele TGJets isr down tight 
+queue 1
+
+arguments  = 2017 Ele WJets isr up tight 
+queue 1
+
+arguments  = 2017 Ele WJets isr down tight 
+queue 1
+
+arguments  = 2017 Ele ZJets isr up tight 
+queue 1
+
+arguments  = 2017 Ele ZJets isr down tight 
+queue 1
+
+arguments  = 2017 Ele WGamma isr up tight 
+queue 1
+
+arguments  = 2017 Ele WGamma isr down tight 
+queue 1
+
+arguments  = 2017 Ele ZGamma isr up tight 
+queue 1
+
+arguments  = 2017 Ele ZGamma isr down tight 
+queue 1
+
+arguments  = 2017 Ele Diboson isr up tight 
+queue 1
+
+arguments  = 2017 Ele Diboson isr down tight 
+queue 1
+
+arguments  = 2017 Ele SingleTop isr up tight 
+queue 1
+
+arguments  = 2017 Ele SingleTop isr down tight 
+queue 1
+
+arguments  = 2017 Ele TTV isr up tight 
+queue 1
+
+arguments  = 2017 Ele TTV isr down tight 
+queue 1
+
+arguments  = 2017 Ele GJets isr up tight 
+queue 1
+
+arguments  = 2017 Ele GJets isr down tight 
+queue 1
+
+arguments  = 2017 Ele QCDEle isr up tight 
+queue 1
+
+arguments  = 2017 Ele QCDEle isr down tight 
+queue 1
+
+arguments  = 2017 Ele DataEle isr up tight 
+queue 1
+
+arguments  = 2017 Ele DataEle isr down tight 
+queue 1
+
+arguments  = 2018 Ele TTGamma isr up tight 
+queue 1
+
+arguments  = 2018 Ele TTGamma isr down tight 
+queue 1
+
+arguments  = 2018 Ele TTbar isr up tight 
+queue 1
+
+arguments  = 2018 Ele TTbar isr down tight 
+queue 1
+
+arguments  = 2018 Ele TGJets isr up tight 
+queue 1
+
+arguments  = 2018 Ele TGJets isr down tight 
+queue 1
+
+arguments  = 2018 Ele WJets isr up tight 
+queue 1
+
+arguments  = 2018 Ele WJets isr down tight 
+queue 1
+
+arguments  = 2018 Ele ZJets isr up tight 
+queue 1
+
+arguments  = 2018 Ele ZJets isr down tight 
+queue 1
+
+arguments  = 2018 Ele WGamma isr up tight 
+queue 1
+
+arguments  = 2018 Ele WGamma isr down tight 
+queue 1
+
+arguments  = 2018 Ele ZGamma isr up tight 
+queue 1
+
+arguments  = 2018 Ele ZGamma isr down tight 
+queue 1
+
+arguments  = 2018 Ele Diboson isr up tight 
+queue 1
+
+arguments  = 2018 Ele Diboson isr down tight 
+queue 1
+
+arguments  = 2018 Ele SingleTop isr up tight 
+queue 1
+
+arguments  = 2018 Ele SingleTop isr down tight 
+queue 1
+
+arguments  = 2018 Ele TTV isr up tight 
+queue 1
+
+arguments  = 2018 Ele TTV isr down tight 
+queue 1
+
+arguments  = 2018 Ele GJets isr up tight 
+queue 1
+
+arguments  = 2018 Ele GJets isr down tight 
+queue 1
+
+arguments  = 2018 Ele QCDEle isr up tight 
+queue 1
+
+arguments  = 2018 Ele QCDEle isr down tight 
+queue 1
+
+arguments  = 2018 Ele DataEle isr up tight 
+queue 1
+
+arguments  = 2018 Ele DataEle isr down tight 
+queue 1
+
+arguments  = 2016 Mu TTGamma isr up tight 
+queue 1
+
