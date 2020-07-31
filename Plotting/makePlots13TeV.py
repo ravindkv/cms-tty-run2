@@ -78,13 +78,16 @@ print parser.parse_args()
 #Input & ouput directories
 #----------------------------------------
 print "Running on the %s channel"%(finalState)
+signalOrCR = "SignalRegion"
+
+#signalOrCR = "ControlRegion/Tight"
 ttbarDecayMode = "SemiLep"
 regionText = ", N_{j}#geq3, N_{b}#geq1"
 if "Di" in finalState: 
     ttbarDecayMode = "DiLep"
     regionText = ", N_{j}#geq4, N_{b}#geq1"
-inputDir = "../hists/%/%/%"(year, finalState, ttbarDecayMode)
-outputDir = "./plots/%/%/%"(year, finalState, ttbarDecayMode)
+inputDir = "../Histogramming/hists/%s/%s/%s"%(year, ttbarDecayMode, finalState)
+outputDir = "./plots/%s/%s/%s"%(year, ttbarDecayMode, finalState)
 channel = finalState
 if useQCDCR:
     inputDir = inputDir+"/CR" 
@@ -115,7 +118,7 @@ if isLooseCRe3g0Selection:
     outputDir = outputDir+ "/LooseCRe3g0"
     regionText = ", N_{j}=3, N_{b}=0"
 if not os.path.exists(outputDir):
-	os.mkdir(outputDir)
+	os.makedirs(outputDir)
 
 #-----------------------------------------
 #Hists to be stacked/plotted
@@ -412,9 +415,11 @@ if useQCDCR:
 	stackList.remove("QCD_DD")
 print isLooseCRe3g0Selection
 if finalState=="Mu":
-        systematics = ["JER","JECTotal","phosmear","phoscale","BTagSF","Q2","Pdf","PU","MuEff","PhoEff","isr","fsr"]
+        #systematics = ["JER","JECTotal","phosmear","phoscale","BTagSF","Q2","Pdf","PU","MuEff","PhoEff","isr","fsr"]
+        systematics = ["PU"]
 else:
         systematics = ["JER","JECTotal","phosmear","phoscale","BTagSF","Q2","Pdf","PU","EleEff","PhoEff","elesmear","elescale","isr","fsr"]
+ZJetsSF=1.0
 if finalState=="Mu" or "DiMu":
 	if isTightSelection:
         	ZJetsSF=1.17252 
@@ -441,37 +446,30 @@ if finalState=="Mu":
 else:
 	channel="ele"
 
-_file_sys = TFile("Combine_withDDTemplateData_v6_%s_tight_binned_PDF.root"%(channel),"read")
-_filesys_up={}
-_filesys_down={}
 for sample in stackList:
-	_filesys_up[sample]={}
-	_filesys_down[sample]={}
-	_file[sample] = TFile("%s/%s.root"%(_fileDir,sample),"read")
+	_file[sample] = TFile("%s/%s.root"%(inputDir,sample),"read")
 	for sys in systematics:
 		if sys=="isr" or sys=="fsr":
 			if sample not in ["TTGamma" ,"TTbar"]:continue
-		_filesys_up[sample][sys]=TFile("histograms/%s/hists%s_up%s/%s.root"%(channel,sys,dir_,sample),"read")
-		_filesys_down[sample][sys]=TFile("histograms/%s/hists%s_down%s/%s.root"%(channel,sys,dir_,sample),"read")
 if 'Ele'in finalState:
 	sample = "DataEle"
-	_file[sample] = TFile("%s/%s.root"%(_fileDir,sample),"read")
+	_file[sample] = TFile("%s/%s.root"%(inputDir,sample),"read")
 	
 if 'Mu'in finalState:
 	sample = "DataMu"
-	_file[sample] = TFile("%s/%s.root"%(_fileDir,sample),"read")
+	_file[sample] = TFile("%s/%s.root"%(inputDir,sample),"read")
 
 histName = plotList[0]
 #print "%s_DataMu"%(histName)
+histBase = "%s/Base/%s"%(signalOrCR,histName)
 if finalState=='Ele':
-    print _file["DataEle"], "%s_DataEle"%(histName)
-    dataHist = _file["DataEle"].Get("%s_DataEle"%(histName))
+    dataHist = _file["DataEle"].Get(histBase)
 elif finalState=='Mu':
-    dataHist = _file["DataMu"].Get("%s_DataMu"%(histName))
+    dataHist = _file["DataMu"].Get(histBase)
 if finalState=='DiEle':
-    dataHist = _file["DataEle"].Get("%s_DataEle"%(histName))
+    dataHist = _file["DataEle"].Get(histBase)
 elif finalState=='DiMu':
-    dataHist = _file["DataMu"].Get("%s_DataMu"%(histName))
+    dataHist = _file["DataMu"].Get(histBase)
 legend.AddEntry(dataHist, "Data", 'pe')
 legendR.AddEntry(dataHist, "Data", 'pe')
 #legList.remove("QCD_DD")
@@ -488,8 +486,9 @@ for sample in legList:
     elif isTight0bSelection:
 	hist = _file[sample].Get("phosel_Njet_barrel_%s"%(sample))
     else:
-    	hist = _file[sample].Get("%s_%s"%(histName,sample))
+    	hist = _file[sample].Get(histBase)
         #print  _file[sample], "%s_%s"%(histName,sample)
+    print "histname = ", hist.GetName()
     hist.SetFillColor(samples[sample][1])
     hist.SetLineColor(samples[sample][1])
     legend.AddEntry(hist,samples[sample][2],'f')
@@ -500,7 +499,7 @@ for sample in legList:
 X = int(len(legList)/2)
 sample = legList[X]
 #print histName, _file[sample], "%s_%s"%(histName,sample)
-hist = _file[sample].Get("%s_%s"%(histName,sample))
+hist = _file[sample].Get(histBase)
 hist.SetFillColor(samples[sample][1])
 hist.SetLineColor(samples[sample][1])
 legendR.AddEntry(hist,samples[sample][2],'f')
@@ -510,7 +509,7 @@ for i in range(X):
 	
 	sample = legList[i]
         if "phosel_PhotonCategory_barrel" in histName and "QCD" in sample:continue
-	hist = _file[sample].Get("%s_%s"%(histName,sample))
+	hist = _file[sample].Get(histBase)
 #	print histName,sample
 	hist.SetFillColor(samples[sample][1])
 	hist.SetLineColor(samples[sample][1])
@@ -520,7 +519,7 @@ for i in range(X):
 		if histName=="phosel_PhotonCategory_barrel" and "QCD" in sample:continue		 
 		sample = legList[i+X+1]
 		#print histName,sample
-		hist = _file[sample].Get("%s_%s"%(histName,sample))
+		hist = _file[sample].Get(histBase)
 		hist.SetFillColor(samples[sample][1])
 		hist.SetLineColor(samples[sample][1])
 		legendR.AddEntry(hist,samples[sample][2],'f')
@@ -610,7 +609,7 @@ def drawHist(histName,plotInfo, outputDir, _file):
 	elif 'presel_nVtx' in histName and sample=="QCD_DD":
                 hist = _file["QCD_DD"].Get("presel_nVtx_QCD_DD")
 	else:
-        	hist = _file[sample].Get("%s_%s"%(histName,sample))
+        	hist = _file[sample].Get(histBase)
 	if sample=="ZJets":
 		hist.Scale(ZJetsSF)
 	#else:
@@ -672,9 +671,9 @@ def drawHist(histName,plotInfo, outputDir, _file):
 		    dataHist = _file["DataMu"].Get("phosel_nVtxNoPU_barel_DataMu")
 		    qcdHist = _file["QCD_DD"].Get("phosel_nVtxNoPU_barrel_QCD_DD")
 	    else:
-		    dataHist = _file["DataMu"].Get("%s_DataMu"%(histName))
+		    dataHist = _file["DataMu"].Get(histBase)
 		    if not Dilepmass:
-		    	qcdHist = _file["QCD_DD"].Get("%s_QCD_DD"%(histName))
+		    	qcdHist = _file["QCD_DD"].Get(histBase)
 
 
     noData = False
@@ -768,29 +767,32 @@ def drawHist(histName,plotInfo, outputDir, _file):
                 elif finalState=="Ele" and "mu" in histName:continue
 		elif finalState=="Mu" and "MassEGamma" in histName:continue
 		#print sample,sys
+		sysHistUp = "%s/%sUp/%s"%(signalOrCR, sys, histName)
+		sysHistDown = "%s/%sDown/%s"%(signalOrCR, sys, histName)
+		print '---------------'
+		print sample, sys, sysHistUp
+		print '---------------'
 		if sample=="QCD_DD": 
 			h1_up[sample][sys]=qcdHist.Clone("%s_%s_up"%(sys,sample))
 			h1_do[sample][sys]=qcdHist.Clone("%s_%s_do"%(sys,sample))
 		
 		elif sample=="TTGamma" and (sys=="Pdf" or sys=="Q2"):
 			#print sample,sys
-			h1_up[sample][sys]=_filesys_up[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_up"%(sys,sample))
-			h1_do[sample][sys]=_filesys_down[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_do"%(sys,sample))	
-			total=_file[sample].Get("%s_%s"%(histName,sample)).Integral()
+			h1_up[sample][sys]=_file[sample].Get(sysHistUp).Clone(sysHistUp)
+			h1_do[sample][sys]=_file[sample].Get(sysHistDown).Clone(sysHistDown)	
+			total=_file[sample].Get(histBase).Integral()
 			h1_up[sample][sys].Scale(total/h1_up[sample][sys].Integral())
 			h1_do[sample][sys].Scale(total/h1_do[sample][sys].Integral())
 		elif sample=="TTbar" and sys=="Q2":
-		        #print sample, sys, _filesys_up[sample][sys], _filesys_down[sample][sys], "%s_%s"%(histName,sample) 	
-			h1_up[sample][sys]=_filesys_up[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_up"%(sys,sample))
-                        h1_do[sample][sys]=_filesys_down[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_do"%(sys,sample))     
-                        total=_file[sample].Get("%s_%s"%(histName,sample)).Integral()
+			h1_up[sample][sys]=_file[sample].Get(sysHistUp).Clone(sysHistUp)
+			h1_do[sample][sys]=_file[sample].Get(sysHistDown).Clone(sysHistDown)	
+			total=_file[sample].Get(histBase).Integral()
                         h1_up[sample][sys].Scale(total/h1_up[sample][sys].Integral())
                         h1_do[sample][sys].Scale(total/h1_do[sample][sys].Integral())
-			
 		else:
 		#	print sample, sys, _filesys_down[sample][sys], histName
-			h1_up[sample][sys]=_filesys_up[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_up"%(sys,sample))
-			h1_do[sample][sys]=_filesys_down[sample][sys].Get("%s_%s"%(histName,sample)).Clone("%s_%s_do"%(sys,sample))
+			h1_up[sample][sys]=_file[sample].Get(sysHistUp).Clone(sysHistUp)
+			h1_do[sample][sys]=_file[sample].Get(sysHistDown).Clone(sysHistDown)	
 
 		if type(plotInfo[2]) is type(list()):
 			

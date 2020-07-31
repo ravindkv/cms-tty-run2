@@ -1,4 +1,4 @@
-from ROOT import TH1F, TFile, TChain, TCanvas
+from ROOT import TH1F, TFile, TChain, TCanvas, gDirectory 
 import sys
 from sampleInformation import *
 import os
@@ -147,7 +147,7 @@ if level in ["up", "UP", "uP", "Up"]:
 else:
 	level = "Down"
 if not syst=="Base":
-    outputHistDir = "%s_%s"%(syst,level) 
+    outputHistDir = "%s%s"%(syst,level) 
     toPrint("Running for systematics", syst+level)
     if syst=="PU":
         if levelUp:
@@ -187,11 +187,16 @@ if not syst=="Base":
        else:
            PhoEff = "phoEffWeight_Do"
            loosePhoEff = "loosePhoEffWeight_Do"
-    elif 'BTagSF' in syst:
+    elif 'BTagSF_b' in syst:
         if levelUp:
-            btagWeightCategory = ["1","(1-btagWeight_Up[0])","(btagWeight_Up[2])","(btagWeight_Up[1])"]
+            btagWeightCategory = ["1","(1-btagWeight_b_Up[0])","(btagWeight_b_Up[2])","(btagWeight_b_Up[1])"]
         else:
-            btagWeightCategory = ["1","(1-btagWeight_Do[0])","(btagWeight_Do[2])","(btagWeight_Do[1])"]
+            btagWeightCategory = ["1","(1-btagWeight_b_Do[0])","(btagWeight_b_Do[2])","(btagWeight_b_Do[1])"]
+    elif 'BTagSF_l' in syst:
+        if levelUp:
+            btagWeightCategory = ["1","(1-btagWeight_l_Up[0])","(btagWeight_l_Up[2])","(btagWeight_l_Up[1])"]
+        else:
+            btagWeightCategory = ["1","(1-btagWeight_l_Do[0])","(btagWeight_l_Do[2])","(btagWeight_l_Do[1])"]
     else:
     	if  levelUp:
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
@@ -721,7 +726,7 @@ if not "QCD_DD" in sample:
  	if year=="2018":
 		fileName = fileName.replace("2016", "2018")
         tree.Add("%s%s"%(analysisNtupleLocation,fileName))
- #   	print "%s%s"%(analysisNtupleLocation,fileName)
+ 	print "%s%s"%(analysisNtupleLocation,fileName)
     #print sample
 
     #print "Number of events:", tree.GetEntries()
@@ -761,7 +766,7 @@ if not "QCD_DD" in sample:
                 evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
 	#print "%s>>%s_%s"%(h_Info[0],h_Info[1],sample),evtWeight
      #   print "evtweight is:", evtWeight	
-        tree.Draw("%s>>%s_%s"%(h_Info[0],h_Info[1],sample),evtWeight)
+        tree.Draw("%s>>%s"%(h_Info[0],h_Info[1]),evtWeight)
 
 if not os.path.exists(outputhistName):
     os.makedirs(outputhistName)
@@ -775,9 +780,8 @@ outputFile.cd(histDestination)
 
 for h in histograms:
     toPrint("Integral of Histogram %s = "%h.GetName(), h.Integral())
-    outputFile.Delete("%s;*"%h.GetName())
-    if onlyAddPlots:
-        gDirectory.Delete("%s;*"%(h.GetName()))
+    outputFile.cd(histDestination)
+    gDirectory.Delete("%s;*"%(h.GetName()))
     h.Write()
 toPrint("Path of output root file", fullPath)
 outputFile.Close()
