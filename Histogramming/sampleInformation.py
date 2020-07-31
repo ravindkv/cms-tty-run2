@@ -278,4 +278,16 @@ sampleList = ["TTGamma",
               ]
 
 
+#----------------------------------------------------------
+#NICE WAY TO PRINT STRINGS
+#----------------------------------------------------------
+def toPrint(string, value):
+    length = (len(string)+len(str(value))+2)
+    line = "-"*length
+    print ""
+    print "* "+ line +                    " *"
+    print "| "+ " "*length +              " |"
+    print "| "+ string+ ": "+ str(value)+ " |"
+    print "| "+ " "*length +              " |"
+    print "* "+ line +                    " *"
 

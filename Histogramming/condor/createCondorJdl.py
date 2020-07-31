@@ -1,4 +1,5 @@
 import itertools
+import os
 Year 	      =	["2016", "2017", "2018"]
 SampleList    =	["TTGamma", "TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets"]
 SampleListEle = SampleList + ["QCDEle", "DataEle"]
@@ -20,8 +21,10 @@ Log    = log/log$(cluster)_$(process).condor\n\n'
 #----------------------------------------
 #Create jdl file for base
 #----------------------------------------
+if not os.path.exists("jdl"):
+    os.makedirs("jdl")
 fileBase = open('jdl/submitBase.jdl','w')
-fileBase.write('Executable =  runBase.sh \n')
+fileBase.write('Executable =  remoteRunBase.sh \n')
 fileBase.write(common_command)
 for year, sample, cr in itertools.product(Year, SampleListEle, ControlRegion):
 	run_commandEle =  \
@@ -40,7 +43,7 @@ fileBase.close()
 #----------------------------------------
 for syst in Systematics:
 	fileSyst = open('jdl/submitSyst_%s.jdl'%syst,'w')
-	fileSyst.write('Executable =  runSyst.sh \n')
+	fileSyst.write('Executable =  remoteRunSyst.sh \n')
 	fileSyst.write(common_command)
 	for year, sample, level, cr in itertools.product(Year, SampleListEle, SystLevel, ControlRegion):
 		run_commandEle =  \

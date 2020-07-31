@@ -86,6 +86,8 @@ makeEGammaPlots = options.makeEGammaPlots
 makeJetsplots = options.makeJetsplots
 makegenPlots=options.makegenPlots
 runQuiet = options.quiet
+toPrint("Runing for Year, Channel, Sample", "%s, %s, %s"%(year, finalState, sample))
+print parser.parse_args()
 
 #-----------------------------------------
 #INPUT AnalysisNtuples Directory
@@ -131,26 +133,36 @@ outputHistDir = "Base"
 #----------------------------------------
 syst = options.systematic
 if (syst=="isr" or syst=="fsr") and sample=="TTbar":
-		samples={"TTbar"     : [["TTbarPowheg_AnalysisNtuple.root"],
+		samples={"TTbar"     : [["TTbarPowheg_Semilept_2016_AnalysisNtuple_1of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_2of5.root",
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_3of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_4of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"],
                           kRed+1,"t#bar{t}",isMC],
 			}
+levelUp = False
+if level in ["up", "UP", "uP", "Up"]: 
+	levelUp = True
+	level= "Up"
+else:
+	level = "Down"
 if not syst=="Base":
     outputHistDir = "%s_%s"%(syst,level) 
+    toPrint("Running for systematics", syst+level)
     if syst=="PU":
-    	print "is here" 
-        if level=="up":
+        if levelUp:
                 Pileup = "PUweight_Up"
         else:
                     Pileup = "PUweight_Do"
     elif 'Q2' in syst:
-        if level=="up":
+        if levelUp:
                 Q2="q2weight_Up"
         else:
                 Q2="q2weight_Do"
     elif 'Pdf' in syst:
     	if syst=="Pdf":
 
-    	    if level=="up":
+    	    if levelUp:
     	    	Pdf="pdfweight_Up"
     	    else:
     	    	Pdf="pdfweight_Do"
@@ -159,31 +171,31 @@ if not syst=="Base":
     	    	pdfNumber = eval(syst[3:])
     	    	Pdf="pdfSystWeight[%i]/pdfWeight"%(pdfNumber-1)
     elif 'MuEff' in syst:
-        if level=="up":
+        if levelUp:
             MuEff = "muEffWeight_Up"
         else:
             MuEff = "muEffWeight_Do"
     elif 'EleEff' in syst:
-        if level=="up":
+        if levelUp:
             EleEff = "eleEffWeight_Up"
         else:
             EleEff = "eleEffWeight_Do"
     elif 'PhoEff' in syst:
-       if level=="up":
+       if levelUp:
            PhoEff = "phoEffWeight_Up"
            loosePhoEff = "loosePhoEffWeight_Up"
        else:
            PhoEff = "phoEffWeight_Do"
            loosePhoEff = "loosePhoEffWeight_Do"
     elif 'BTagSF' in syst:
-        if level=="up":
+        if levelUp:
             btagWeightCategory = ["1","(1-btagWeight_Up[0])","(btagWeight_Up[2])","(btagWeight_Up[1])"]
         else:
             btagWeightCategory = ["1","(1-btagWeight_Do[0])","(btagWeight_Do[2])","(btagWeight_Do[1])"]
     else:
-    	if  level=="up":
+    	if  levelUp:
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
-    	if level=="down":
+    	else:
             analysisNtupleLocation = ntupleDirSyst+"/%s_down_"%(syst)
 
 if finalState=="Mu":
@@ -194,7 +206,7 @@ if finalState=="Mu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBase
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Mu"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -231,7 +243,7 @@ elif finalState=="Ele":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBase 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Ele"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -274,7 +286,7 @@ elif finalState=="DiMu":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBaseDiLep
     ttbarDecayMode = "DiLep"
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Mu"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
@@ -316,7 +328,7 @@ elif finalState=="DiEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseDiLep 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Ele"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
@@ -352,7 +364,7 @@ elif finalState=="QCDMu":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR/"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Mu/CR/"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
@@ -395,7 +407,7 @@ elif finalState=="QCDMu2":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR2"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/hists/%s/%s/Mu/CR2"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=3 && nBJet==0)*"
@@ -421,8 +433,8 @@ elif finalState=="QCDEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele/CR"%(year,ttbarDecayMode)
-    print outputhistName
+    outputhistName = outputPath+"/hists/%s/%s/Ele/CR"%(year,ttbarDecayMode)
+    toPrint("Full Path of Hist", outputhistName)
 
     isQCD = True
 
@@ -467,7 +479,7 @@ else:
 btagWeight = btagWeightCategory[nBJets]
 signalOrCR = "SignalRegion"
 if isTightSelection:
-    if not runQuiet: print "Tight Select"
+    if not runQuiet: toPrint("Control Region", "Tight")
     nJets = 4
     nBJets = 1
     btagWeight = btagWeightCategory[nBJets]
@@ -478,7 +490,7 @@ if isTightSelection:
     dir_="_tight"
 
 if isVeryTightSelection:
-    if not runQuiet: print "Very Tight Select"
+    if not runQuiet: toPrint("Control Region", "Very Tight")
     nJets = 4
     nBJets = 2
     btagWeight = btagWeightCategory[nBJets]
@@ -491,7 +503,7 @@ if isVeryTightSelection:
 
 
 if isTightSelection0b:
-    if not runQuiet: print "Tight Select"
+    if not runQuiet: toPrint("Control Region", "Very Tight")
     nJets = 4
     nBJets = 0
     btagWeight = btagWeightCategory[nBJets]
@@ -559,18 +571,13 @@ if "QCD" in finalState:
 	nBJets = 0
         btagWeight="btagWeight[0]"
 weights = "%s*%s*%s*%s*%s*%s*%s"%(evtWeight,Pileup,MuEff,EleEff,Q2,Pdf,btagWeight)
-print extraCuts
-print extraPhotonCuts
-print "using weights", weights
-if not runQuiet: print " the output folder is:", outputhistName
-
+toPrint("Extra cuts ", extraCuts)
+toPrint("Extra photon cuts ", extraPhotonCuts)
+toPrint("Final event weight ", weights)
 
 from HistogramListDict import *
 histogramInfo = GetHistogramInfo(extraCuts,extraPhotonCuts,nBJets)
-
-
 multiPlotList = options.multiPlotList
-
 plotList = options.plotList
 if plotList is None:
     if makeAllPlots:
@@ -630,17 +637,11 @@ if plotList is None:
 	if not runQuiet: print "Making only plots for simultaneous fits"
 
 plotList.sort()
-if not runQuiet: print '-----'
-if not runQuiet: print "The histogram directory inside the root file is:"
-if not runQuiet: print histDestination
-if not runQuiet: print "Making the following histogram:"
+if not runQuiet: toPrint ("The histogram directory inside the root file is", histDestination) 
+if not runQuiet: toPrint( "Making the following histogram(s)", "")
 if not runQuiet: 
     for p in plotList: print "%s,"%p,
-if not runQuiet: print
-if not runQuiet: print '-----'
-
 histogramsToMake = plotList
-
 allHistsDefined = True
 for hist in histogramsToMake:
     if not hist in histogramInfo:
@@ -657,11 +658,11 @@ canvas = TCanvas()
 if sample =="QCD_DD":
     if finalState=="Mu":
         
-        qcd_File    = TFile("Histograms/%s/%s/Mu/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
-        qcd_TF_File = TFile("Histograms/%s/%s/Mu/qcdTransferFactors.root","read")%year
+        qcd_File    = TFile("hists/%s/%s/Mu/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
+        qcd_TF_File = TFile("hists/%s/%s/Mu/qcdTransferFactors.root","read")%year
     if finalState=="Ele":
-        qcd_File    = TFile("Histograms/%s/%s/Ele/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
-        qcd_TF_File = TFile("Histograms/%s/%s/Ele/qcdTransferFactors.root","read")%year
+        qcd_File    = TFile("hists/%s/%s/Ele/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
+        qcd_TF_File = TFile("hists/%s/%s/Ele/qcdTransferFactors.root","read")%year
     print  qcd_File
 
     #Calculate the transfer Factor for the QCD events from the QCDcr to the signal region being used, based on jet/bjet multiplicities
@@ -731,10 +732,10 @@ if not "QCD_DD" in sample:
         # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
         if ('Data' in sample or isQCD) and not h_Info[5]: continue
 
-        if not runQuiet: print "filling", h_Info[1], sample
+        if not runQuiet: toPrint("Filling the histogram", h_Info[1])
         evtWeight = ""
 #	print TH1F("%s_%s"%(h_Info[1],sample),"%s_%s"%(h_Info[1],sample),h_Info[2][0],h_Info[2][1],h_Info[2][2])
-        histograms.append(TH1F("%s_%s"%(h_Info[1],sample),"%s_%s"%(h_Info[1],sample),h_Info[2][0],h_Info[2][1],h_Info[2][2]))
+        histograms.append(TH1F("%s"%(h_Info[1]),"%s"%(h_Info[1]),h_Info[2][0],h_Info[2][1],h_Info[2][2]))
         if h_Info[4]=="":
             evtWeight = "%s%s"%(h_Info[3],weights)
         else:
@@ -766,16 +767,17 @@ if not os.path.exists(outputhistName):
     os.makedirs(outputhistName)
 
 outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
-print "%s/%s.root"%(outputhistName,sample)
+fullPath = "%s/%s.root"%(outputhistName,sample)
 
 if not outputFile.GetDirectory(histDestination):
     outputFile.mkdir(histDestination)
 outputFile.cd(histDestination)
 
 for h in histograms:
+    toPrint("Integral of Histogram %s = "%h.GetName(), h.Integral())
     outputFile.Delete("%s;*"%h.GetName())
     if onlyAddPlots:
         gDirectory.Delete("%s;*"%(h.GetName()))
     h.Write()
-
+toPrint("Path of output root file", fullPath)
 outputFile.Close()
