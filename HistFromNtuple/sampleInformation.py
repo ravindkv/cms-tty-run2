@@ -291,3 +291,6 @@ def toPrint(string, value):
     print "| "+ " "*length +              " |"
     print "* "+ line +                    " *"
 
+def getQCDTransFact():
+
+

@@ -659,57 +659,13 @@ transferFactor = 1.
 
 histograms=[]
 canvas = TCanvas()
-#sample = sys.argv[-1]
 if sample =="QCD_DD":
-    if finalState=="Mu":
-        
-        qcd_File    = TFile("hists/%s/%s/Mu/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
-        qcd_TF_File = TFile("hists/%s/%s/Mu/qcdTransferFactors.root","read")%year
-    if finalState=="Ele":
-        qcd_File    = TFile("hists/%s/%s/Ele/CR/QCD_DD.root"%(year, ttbarDecayMode,dir_),"read")
-        qcd_TF_File = TFile("hists/%s/%s/Ele/qcdTransferFactors.root","read")%year
-    print  qcd_File
-
-    #Calculate the transfer Factor for the QCD events from the QCDcr to the signal region being used, based on jet/bjet multiplicities
-    histNjet_QCDcr = qcd_TF_File.Get("histNjet_QCDcr")
-    histNjet_0b = qcd_TF_File.Get("histNjet_0b")
-    histNjet_1b = qcd_TF_File.Get("histNjet_1b")
-    histNjet_2b = qcd_TF_File.Get("histNjet_2b")
-   
-    print "doing QCD using :", nBJets
-
-    if nBJets==0:
-        histNjet_2b.Add(histNjet_1b)
-        histNjet_2b.Add(histNjet_0b)
-    #    transferFactor_old = histNjet_0b.Integral(nJets+1,-1)/histNjet_QCDcr.Integral(nJets+1,-1)
-#	print histNjet_0b.Integral(nJets+1,-1), histNjet_QCDcr.Integral(nJets+1,-1)
-	transferFactor =  qcd_TF_File.Get("TransferFactors").GetBinContent(1)
-	
-    if nBJets==1:
-	#print "doing bjets:",nBJets
-        histNjet_2b.Add(histNjet_1b)
-        transferFactor = histNjet_2b.Integral(nJets+1,-1)/histNjet_QCDcr.Integral(-1,-1)
-
-    #	transferFactor = histNjet_2b.Integral(nJets+1,-1)/histNjet_QCDcr.Integral(nJets+1,-1)
-# 	transferFactor =  qcd_TF_File.Get("TransferFactors").GetBinContent(2)
-    if nBJets==1:
-	#print "doing bjets
-	transferFactor = histNjet_2b.Integral(nJets+1,-1)/histNjet_QCDcr.Integral(-1,-1)
-    if isLooseCR2e1Selection:
-	transferFactor = qcd_TF_File.Get("TransferFactors").GetBinContent(2) 
-	print transferFactor, histNjet_1b.Integral(nJets+1,-1), histNjet_QCDcr.Integral(-1,-1)
+	transferFactor = getQCDTransFact()
     for hist in histogramsToMake:
-
         if not histogramInfo[hist][5]: continue
-        if not runQuiet: print "filling", histogramInfo[hist][1], sample
-
-        histograms.append(qcd_File.Get("%s_QCD_DD"%(histogramInfo[hist][1])))
-	#print "old value:", transferFactor_old
-	print transferFactor, qcd_File, histogramInfo[hist][1]
-        #if "Photon" in histogramInfo[hist][1]:continue
-	#if "MisIDEle" in histogramInfo[hist][1]:continue
-	#if "Fake" in histogramInfo[hist][1]:continue
-#	if "Wtrans" in histogramInfo[hist][1]:continue	
+		dataMinusOtherBkg = getShapeFromCR(histogramInfo[hist])
+        histograms.append(dataMinusOtherBkg)
+		print transferFactor histogramInfo[hist][1]
         histograms[-1].Scale(transferFactor)
 
 if not "QCD_DD" in sample:
