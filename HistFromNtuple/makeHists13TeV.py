@@ -481,11 +481,12 @@ else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
+'''
 if not os.path.exists(outputhistName):
     os.makedirs(outputhistName)
 outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
 fullPath = "%s/%s.root"%(outputhistName,sample)
-
+'''
 
 btagWeight = btagWeightCategory[nBJets]
 signalOrCR = "SignalRegion"
@@ -981,6 +982,11 @@ if not "QCD_DD" in sample:
 	#print "%s>>%s_%s"%(hInfo[0],hInfo[1],sample),evtWeight
      #   print "evtweight is:", evtWeight	
         tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight)
+
+if not os.path.exists(outputhistName):
+    os.makedirs(outputhistName)
+outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
+fullPath = "%s/%s.root"%(outputhistName,sample)
 
 histDirInFile = histDirInFile+"/"+signalOrCR
 if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 
