@@ -5,9 +5,9 @@ import sys
 from optparse import OptionParser
 from numpy import log10
 from array import array
-from sampleInformation import *
-import CMS_lumi
-from Style import *
+from SampleInfo_cff import *
+import CMSLumi_cff
+from Style_cff import *
 
 padRatio = 0.25
 padOverlap = 0.15

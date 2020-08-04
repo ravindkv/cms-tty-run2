@@ -42,32 +42,7 @@ samples = {"TTGamma"   : [["TTGamma_SingleLept_2016_AnalysisNtuple.root",
                           "W+jets",
                           isMC
                           ],
-           "WJetsInclusive"     : [["WjetsInclusive1_AnalysisNtuple.root",
-                                    "WjetsInclusive2_AnalysisNtuple.root",
-                                    "WjetsInclusive3_AnalysisNtuple.root",
-                                    "WjetsInclusive4_AnalysisNtuple.root",
-                                    "WjetsInclusive5_AnalysisNtuple.root",
-                                    "WjetsInclusive6_AnalysisNtuple.root",
-                           ],
-                          kCyan-3,
-                          "W+jets",
-                          isMC
-                          ],
            "ZJets"     : [["DYjetsM10to50_2016_AnalysisNtuple.root",#"DYjetsM10to50_MLM_AnalysisNtuple.root",
-                           "DYjetsM50_2016_AnalysisNtuple_1of5.root",
-                           "DYjetsM50_2016_AnalysisNtuple_2of5.root",
-                           "DYjetsM50_2016_AnalysisNtuple_3of5.root",
-                           "DYjetsM50_2016_AnalysisNtuple_4of5.root",
-                           "DYjetsM50_2016_AnalysisNtuple_5of5.root",
-                           ],
-                          kCyan-5,
-                          "Z+jets",
-                          isMC
-                          ],
-
-
-
-	   "ZJets_NLO" : [["DYjetsM10to50_2016_AnalysisNtuple.root",#"DYjetsM10to50_MLM_AnalysisNtuple.root",
                            "DYjetsM50_2016_AnalysisNtuple_1of5.root",
                            "DYjetsM50_2016_AnalysisNtuple_2of5.root",
                            "DYjetsM50_2016_AnalysisNtuple_3of5.root",
@@ -109,26 +84,6 @@ samples = {"TTGamma"   : [["TTGamma_SingleLept_2016_AnalysisNtuple.root",
                           "Single top",
                           isMC
                           ],
-           "ST-tch" : [["ST_t-channel_2016_AnalysisNtuple.root",
-                        "ST_tbar-channel_2016_AnalysisNtuple.root",
-                        ],
-                       kOrange-3,
-                       "Single top (t-ch.)",
-                       isMC
-                       ],
-           "ST-sch" : [["ST_s-channel_2016_AnalysisNtuple.root",
-                        ],
-                       kOrange-4,
-                       "Single top (s-ch.)",
-                       isMC
-                       ],
-           "ST-tW" : [["ST_tW-channel_2016_AnalysisNtuple.root",
-                        "ST_tbarW-channel_2016_AnalysisNtuple.root",
-                        ],
-                       kOrange-5,
-                       "Single top (tW)",
-                       isMC
-                       ],
            "TTV"       : [["TTWtoQQ_2016_AnalysisNtuple.root",
                            "TTWtoLNu_2016_AnalysisNtuple.root",
                            "TTZtoLL_2016_AnalysisNtuple.root",
@@ -290,7 +245,4 @@ def toPrint(string, value):
     print "| "+ string+ ": "+ str(value)+ " |"
     print "| "+ " "*length +              " |"
     print "* "+ line +                    " *"
-
-def getQCDTransFact():
-
 
