@@ -3,7 +3,7 @@ import sys
 import os
 from optparse import OptionParser
 from SampleInfo_cff import *
-from HistListDict_cff import *
+from HistsInfo_cff import *
 
 #-----------------------------------------
 #INPUT Command Line Arguments 
@@ -18,30 +18,16 @@ parser.add_option("-s", "--sample", dest="sample", default="",type='str',
 parser.add_option("--level", "--level", dest="level", default="",type='str',
                      help="Specify up/down of systematic")
 parser.add_option("--syst", "--systematic", dest="systematic", default="Base",type='str',
-		     help="Specify which systematic to run on")
-parser.add_option("--Tight","--tight", dest="isTightSelection", default=False,action="store_true",
-                     help="Use 4j1t selection" )
-parser.add_option("--VeryTight","--verytight", dest="isVeryTightSelection", default=False,action="store_true",
-                     help="Use 4j2t selection" )
-parser.add_option("--Tight0b","--tight0b", dest="isTightSelection0b", default=False,action="store_true",
-                     help="Use 4j0t selection" )
-parser.add_option("--LooseCR2e1","--looseCR2e1", dest="isLooseCR2e1Selection",default=False,action="store_true",
-		  help="Use 2j exactly 1t control region selection" )
-parser.add_option("--LooseCRe2g1","--looseCRe2g1", dest="isLooseCRe2g1Selection",default=False,action="store_true",
-                  help="Use exactly 2j >= 1t control region selection" )
-parser.add_option("--LooseCR3g0","--looseCR3g0", dest="isLooseCR3g0Selection",default=False,action="store_true",
-		  help="Use >=3j and 0btag control region selection" )
-parser.add_option("--LooseCR2g1","--looseCR2g1", dest="isLooseCR2g1Selection",default=False,action="store_true",
-                  help="Use 2j at least 1t control region selection")
-parser.add_option("--LooseCRe3g1","--looseCRe3g1", dest="isLooseCRe3g1Selection",default=False,action="store_true",
-		  help="Use exactly 3j >= 1t control region selection" )
+                     help="Specify which systematic to run on")
+parser.add_option("--cr", "--controlRegion", dest="controlRegion", default="",type='str', 
+                     help="which control selection and region such as Tight, VeryTight, Tight0b, looseCR2e1, looseCRe2g1")
 parser.add_option("--addPlots","--addOnly", dest="onlyAddPlots", default=False,action="store_true",
                      help="Use only if you want to add a couple of plots to the file, does not remove other plots" )
 parser.add_option("--plot", dest="plotList",action="append",
                      help="Add plots" )
 parser.add_option("--multiPlots", "--multiplots", dest="multiPlotList",action="append",
                      help="Add plots" )
-parser.add_option("--testPlot", "--testPlot", dest="testPlot",action="store_true",default=False,
+parser.add_option("--runLocal", "--runLocal", dest="runLocal",action="store_true",default=False,
                      help="test one plot without replacing it in the original one" )
 parser.add_option("--allPlots","--AllPlots", dest="makeAllPlots",action="store_true",default=False,
                      help="Make full list of plots in histogramDict" )
@@ -68,16 +54,8 @@ Dilepmass=options.Dilepmass
 year = options.year
 channel = options.channel
 sample = options.sample
-testPlot=options.testPlot
-isVeryTightSelection=options.isVeryTightSelection
-isTightSelection = options.isTightSelection
-isTightSelection0b = options.isTightSelection0b
-#isLooseCRe2g1Selection=options.isLooseCRe2g1Selection
-isLooseCR2e1Selection = options.isLooseCR2e1Selection
-isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
-isLooseCR3g0Selection=options.isLooseCR3g0Selection
-isLooseCRe2g1Selection = options.isLooseCRe2g1Selection
-isLooseCRe3g1Selection = options.isLooseCRe3g1Selection
+runLocal=options.runLocal
+controlRegion = options.controlRegion
 onlyAddPlots = options.onlyAddPlots
 FwdJets=options.FwdJets
 makedRPlots=options.makedRPlots
@@ -102,8 +80,9 @@ ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/An
 #-----------------------------------------
 #OUTPUT Histogram Directory
 #----------------------------------------
-#outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/Plotting" 
-outputPath = "."
+outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV"
+if runLocal:
+	outputPath = ".local"
 
 #-----------------------------------------
 #----------------------------------------
@@ -125,8 +104,6 @@ loosePhoEff= "loosePhoEffWeight"
 evtWeight ="evtWeight"
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
 ttbarDecayMode = "SemiLep"
-if testPlot:
-	ttbarDecayMode="Test"
 histDirInFile = "Base"
 
 #-----------------------------------------
@@ -212,7 +189,7 @@ if channel=="Mu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBase
-    outputhistName = outputPath+"/hists/%s/%s/Mu"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -249,7 +226,7 @@ elif channel=="Ele":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBase 
-    outputhistName = outputPath+"/hists/%s/%s/Ele"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -292,7 +269,7 @@ elif channel=="DiMu":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBaseDiLep
     ttbarDecayMode = "DiLep"
-    outputhistName = outputPath+"/hists/%s/%s/Mu"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
@@ -334,7 +311,7 @@ elif channel=="DiEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseDiLep 
-    outputhistName = outputPath+"/hists/%s/%s/Ele"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
@@ -370,7 +347,7 @@ elif channel=="QCDMu":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/hists/%s/%s/Mu/CR/"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR/"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
@@ -413,7 +390,7 @@ elif channel=="QCDMu2":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR
-    outputhistName = outputPath+"/hists/%s/%s/Mu/CR2"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR2"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=3 && nBJet==0)*"
@@ -439,7 +416,7 @@ elif channel=="QCDEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/hists/%s/%s/Ele/CR"%(year,ttbarDecayMode)
+    outputhistName = outputPath+"/Histograms/%s/%s/Ele/CR"%(year,ttbarDecayMode)
     toPrint("Full Path of Hist", outputhistName)
 
     isQCD = True
@@ -490,7 +467,7 @@ fullPath = "%s/%s.root"%(outputhistName,sample)
 
 btagWeight = btagWeightCategory[nBJets]
 signalOrCR = "SignalRegion"
-if isTightSelection:
+if controlRegion in ["Tight", "tight"]:
     if not runQuiet: toPrint("Control Region", "Tight")
     nJets = 4
     nBJets = 1
@@ -501,20 +478,17 @@ if isTightSelection:
     signalOrCR = "ControlRegion/Tight"
     dir_="_tight"
 
-if isVeryTightSelection:
+if controlRegion in ["veryTight", "VeryTight", "verytight"]:
     if not runQuiet: toPrint("Control Region", "Very Tight")
     nJets = 4
     nBJets = 2
     btagWeight = btagWeightCategory[nBJets]
-   
     extraCuts = extraCutsVeryTight
     extraPhotonCuts = extraPhotonCutsVeryTight
     signalOrCR = "ControlRegion/VerytTight"
     dir_=""
 
-
-
-if isTightSelection0b:
+if controlRegion in ["Tight0b", "tight0b"]:
     if not runQuiet: toPrint("Control Region", "Very Tight")
     nJets = 4
     nBJets = 0
@@ -525,8 +499,7 @@ if isTightSelection0b:
     signalOrCR = "ControlRegion/Tight0b"
     dir_="_tight0b"
 
-
-if isLooseCR2e1Selection:
+if controlRegion in ["LooseCR2e1", "looseCR2e1"]:
     if not runQuiet: print "Loose Control Region Select"
     nJets = 2
     nBJets = 1
@@ -537,7 +510,7 @@ if isLooseCR2e1Selection:
     signalOrCR = "ControlRegion/LooseCR2e1"
     dir_="_looseCR2e1"
 
-if isLooseCRe2g1Selection:
+if controlRegion in ["LooseCRe2g1", "looseCRe2g1"]:
     if not runQuiet: print "Loose Control Region1 Select"
     nJets = 2
     nBJets = 1
@@ -552,7 +525,7 @@ if isLooseCRe2g1Selection:
     signalOrCR = "ControlRegion/LooseCR2g1"
     dir_="_looseCRe2g1"
 
-if isLooseCR3g0Selection:
+if controlRegion in ["LooseCR3g0", "looseCR3g0"]:
     if not runQuiet: print "Loose Control Region for EGamma"
     nJets = 3
     nBJets = 0
@@ -564,10 +537,7 @@ if isLooseCR3g0Selection:
     signalOrCR = "ControlRegion/LooseCRe3g0"
     dir_="_looseCRe3g0"
 
-
-
-
-if isLooseCRe3g1Selection:
+if controlRegion in ["LooseCRe3g1", "looseCRe3g1"]:
     if not runQuiet: print "Loose Control Region Select"
     nJets = 3
     nBJets = 1
@@ -596,19 +566,17 @@ if plotList is None:
     elif makeJetsplots:
 	plotList = ["presel_jet2Pt","presel_jet3Pt", "presel_jet4Pt"]
     elif makeMorePlots:
-        plotList = ["presel_Njet","phosel_SIEIE_barrel","phosel_SIEIE_GenuinePhoton_barrel","phosel_SIEIE_MisIDEle_barrel","phosel_SIEIE_NonPrompt_barrel","phosel_R9_barrel","phosel_elePt_barrel","phosel_elePt_GenuinePhoton_barrel","phosel_elePt_MisIDEle_barrel","phosel_elePt_NonPrompt_barrel","presel_elePt","phosel_muPt_barrel","phosel_muPt_GenuinePhoton_barrel","phosel_muPt_MisIDEle_barrel","phosel_muPt_NonPrompt_barrel","presel_muPt","phosel_eleSCEta_barrel","phosel_eleSCEta_GenuinePhoton_barrel","phosel_eleSCEta_MisIDEle_barrel","phosel_eleSCEta_NonPrompt_barrel","presel_eleSCEta","phosel_muEta_barrel","phosel_muEta_GenuinePhoton_barrel","phosel_muEta_MisIDEle_barrel","phosel_muEta_NonPrompt_barrel","presel_muEta","phosel_PhotonCategory_barrel","phosel_Njet_barrel","phosel_Njet_GenuinePhoton_barrel","phosel_Njet_MisIDEle_barrel","phosel_Njet_NonPrompt_barrel","presel_jet1Pt","phosel_jet1Pt_barrel","phosel_jet1Pt_GenuinePhoton_barrel","phosel_jet1Pt_MisIDEle_barrel","phosel_jet1Pt_NonPrompt_barrel","phosel_LeadingPhotonEt_barrel","phosel_LeadingPhotonEt_GenuinePhoton_barrel","phosel_LeadingPhotonEt_MisIDEle_barrel","phosel_LeadingPhotonEt_NonPrompt_barrel","phosel_LeadingPhotonEta_barrel","presel_M3_control","phosel_noCut_ChIso_barrel","phosel_noCut_SIEIE_barrel","phosel_noCut_SIEIE_GenuinePhoton_barrel","phosel_noCut_SIEIE_MisIDEle_barrel","phosel_noCut_SIEIE_NonPrompt_barrel","presel_nVtx","phosel_nVtx_barrel","presel_nVtxdo","presel_nVtxup","phosel_nVtxdo_barrel","phosel_nVtxup_barrel","presel_nVtxNoPU","phosel_nVtxNoPU_barrel","phosel_ChIso_barrel","phosel_ChIso_GenuinePhoton_barrel","phosel_ChIso_MisIDEle_barrel","phosel_ChIso_NonPrompt_barrel","phosel_NeuIso_barrel","phosel_NeuIso_GenuinePhoton_barrel","phosel_NeuIso_MisIDEle_barrel","phosel_NeuIso_NonPrompt_barrel","phosel_PhoIso_barrel","phosel_PhoIso_GenuinePhoton_barrel","phosel_PhoIso_MisIDEle_barrel","phosel_PhoIso_NonPrompt_barrel","phosel_HoverE_barrel","phosel_Nphotons_barrel","phosel_Nphotons_GenuinePhoton_barrel","phosel_Nphotons_MisIDEle_barrel","phosel_Nphotons_NonPrompt_barrel","phosel_LeadingPhotonSCEta_barrel", "phosel_LeadingPhotonSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonSCEta_MisIDEle_barrel","phosel_LeadingPhotonSCEta_NonPrompt_barrel","phosel_noCut_SIEIE_noChIso_barrel","phosel_noCut_SIEIE_noChIso_GenuinePhoton_barrel","phosel_noCut_SIEIE_noChIso_MisIDEle_barrel","phosel_noCut_SIEIE_noChIso_NonPrompt_barrel","presel_HT","phosel_HT_barrel","phosel_HT_GenuinePhoton_barrel","phosel_HT_MisIDEle_barrel","phosel_HT_NonPrompt_barrel","presel_M3","phosel_noCut_ChIso_GenuinePhoton_barrel","phosel_noCut_ChIso_MisIDEle_barrel","phosel_noCut_ChIso_HadronicPhoton_barrel","phosel_noCut_ChIso_HadronicFake_barrel","phosel_M3","phosel_M3_barrel","phosel_M3_GenuinePhoton_barrel","phosel_M3_MisIDEle_barrel","phosel_M3_HadronicPhoton_barrel","phosel_M3_HadronicFake_barrel","phosel_M3_NonPrompt_barrel","phosel_AntiSIEIE_ChIso",
-			"phosel_AntiSIEIE_ChIso_barrel","phosel_AntiSIEIE_ChIso_GenuinePhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicPhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicFake_barrel","phosel_AntiSIEIE_ChIso_MisIDEle_barrel","phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_NonPrompt_barrel","phosel_MassEGamma_GenuinePhoton_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel", "phosel_LeadingPhotonabsSCEta_barrel", "phosel_LeadingPhotonabsSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonabsSCEta_MisIDEle_barrel","phosel_LeadingPhotonabsSCEta_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_GenuinePhoton_barrel", "phosel_dRLeadingPhotonLepton_MisIDEle_barrel", "phosel_dRLeadingPhotonLepton_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_barrel","phosel_dRLeadingPhotonJet_GenuinePhoton_barrel", "phosel_dRLeadingPhotonJet_MisIDEle_barrel", "phosel_dRLeadingPhotonJet_NonPrompt_barrel", "phosel_dRLeadingPhotonJet_barrel"]
         if not runQuiet: print "Making subset of kinematic plots"
+        plotList = allPlotList
     elif makeEGammaPlots:
-        plotList = ["phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel"]
+        plotList = eGammaPlotList 
         if not runQuiet: print "Making only plots for e-gamma fits"
     elif makedRPlots:
-	 plotList=["phosel_dRLeadingPhotonLepton_GenuinePhoton_barrel", "phosel_dRLeadingPhotonLepton_MisIDEle_barrel", "phosel_dRLeadingPhotonLepton_NonPrompt_barrel", "phosel_dRLeadingPhotonLepton_barrel","phosel_dRLeadingPhotonJet_GenuinePhoton_barrel", "phosel_dRLeadingPhotonJet_MisIDEle_barrel", "phosel_dRLeadingPhotonJet_NonPrompt_barrel", "phosel_dRLeadingPhotonJet_barrel"]
-    
-	 if not runQuiet: print "Making only dR photon plots"
+	plotList= dRPlotList
+	if not runQuiet: print "Making only dR photon plots"
     elif makegenPlots:
-	 plotList=["phosel_LeadingPhotonabsSCEta_barrel", "phosel_LeadingPhotonabsSCEta_GenuinePhoton_barrel","phosel_LeadingPhotonabsSCEta_MisIDEle_barrel","phosel_LeadingPhotonabsSCEta_NonPrompt_barrel","phosel_LeadingPhotonEt_barrel","phosel_LeadingPhotonEt_GenuinePhoton_barrel","phosel_LeadingPhotonEt_MisIDEle_barrel","phosel_LeadingPhotonEt_NonPrompt_barrel", "phosel_GenPhoPt","phosel_GenPhoEta"]
-         if not runQuiet: print "Making only 2D photon plots"
+	plotList=genPlotList
+        if not runQuiet: print "Making only 2D photon plots"
     elif Dilepmass:
 	plotList = ["presel_DilepMass"]
         if not runQuiet: print "Making only plots for ZJetsSF fits"
@@ -625,25 +593,10 @@ if plotList is None:
                 print '  Found the following plots matching the name key %s'%plotNameTemplate
                 print '    ',thisPlotList
             plotList += thisPlotList
-
         #take the set to avoid duplicates (if multiple plot name templates are used, and match the same plot)
         plotList = list(set(plotList))
-
-
     else:
-        # plotList = ["presel_M3_control","phosel_noCut_ChIso","phosel_noCut_ChIso_GenuinePhoton","phosel_noCut_ChIso_MisIDEle","phosel_noCut_ChIso_HadronicPhoton","phosel_noCut_ChIso_HadronicFake","phosel_M3","phosel_M3_GenuinePhoton","phosel_M3_MisIDEle","phosel_M3_HadronicPhoton","phosel_M3_HadronicFake","phosel_AntiSIEIE_ChIso","phosel_AntiSIEIE_ChIso_barrel","phosel_AntiSIEIE_ChIso_endcap","phosel_PhotonCategory"]
-        plotList = ["presel_M3_control","presel_M3","phosel_noCut_ChIso","phosel_noCut_ChIso_barrel","phosel_noCut_ChIso_endcap","phosel_noCut_ChIso_GenuinePhoton","phosel_noCut_ChIso_MisIDEle","phosel_noCut_ChIso_HadronicPhoton","phosel_noCut_ChIso_HadronicFake","phosel_noCut_ChIso_GenuinePhoton_barrel","phosel_noCut_ChIso_GenuinePhoton_endcap","phosel_noCut_ChIso_MisIDEle_barrel","phosel_noCut_ChIso_MisIDEle_endcap","phosel_noCut_ChIso_HadronicPhoton_barrel","phosel_noCut_ChIso_HadronicPhoton_endcap","phosel_noCut_ChIso_HadronicFake_barrel","phosel_noCut_ChIso_HadronicFake_endcap","phosel_M3","phosel_M3_GenuinePhoton","phosel_M3_MisIDEle","phosel_M3_HadronicPhoton","phosel_M3_HadronicFake","phosel_M3_barrel","phosel_M3_endcap","phosel_M3_GenuinePhoton_barrel","phosel_M3_GenuinePhoton_endcap","phosel_M3_MisIDEle_barrel","phosel_M3_MisIDEle_endcap","phosel_M3_HadronicPhoton_barrel","phosel_M3_HadronicPhoton_endcap","phosel_M3_HadronicFake_barrel","phosel_M3_HadronicFake_endcap","phosel_AntiSIEIE_ChIso","phosel_AntiSIEIE_ChIso_barrel","phosel_AntiSIEIE_ChIso_endcap","phosel_AntiSIEIE_ChIso_GenuinePhoton_barrel","phosel_AntiSIEIE_ChIso_GenuinePhoton_endcap","phosel_AntiSIEIE_ChIso_HadronicPhoton_barrel","phosel_AntiSIEIE_ChIso_HadronicPhoton_endcap","phosel_AntiSIEIE_ChIso_HadronicFake_barrel","phosel_AntiSIEIE_ChIso_HadronicFake_endcap","phosel_AntiSIEIE_ChIso_MisIDEle_barrel","phosel_AntiSIEIE_ChIso_MisIDEle_endcap","phosel_MassEGamma","phosel_MassEGammaMisIDEle","phosel_MassEGammaOthers","phosel_MassEGamma_barrel","phosel_MassEGamma_MisIDEle_barrel","phosel_MassEGammaOthers_barrel","phosel_MassEGamma_endcap","phosel_MassEGammaMisIDEle_endcap","phosel_MassEGammaOthers_endcap"]
-	'''
-        if isLooseCR2g1Selection or isLooseCR2e1Selection:
-		plotList.append("presel_WtransMass")
-		plotList.append("phosel_WtransMass_barrel")
-		plotList.append("phosel_WtransMass_GenuinePhoton_barrel")
-		plotList.append("phosel_WtransMass_HadronicPhoton_barrel")
-		plotList.append("phosel_WtransMass_MisIDEle_barrel")
-		plotList.append("phosel_WtransMass_HadronicFake_barrel")
-	elif isTightSelection0b:
-		plotList=["phosel_Njet", "phosel_Njet_barrel","phosel_Njet_GenuinePhoton_barrel", "phosel_Njet_MisIDEle_barrel","phosel_Njet_HadronicPhoton_barrel","phosel_Njet_HadronicFake_barrel"]
-	'''
+        plotList = morePlotList 
 	if not runQuiet: print "Making only plots for simultaneous fits"
 
 plotList.sort()
@@ -985,8 +938,10 @@ if not "QCD_DD" in sample:
 
 if not os.path.exists(outputhistName):
     os.makedirs(outputhistName)
-outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
-fullPath = "%s/%s.root"%(outputhistName,sample)
+outputFile = TFile("%s/%s_%s_%s.root"%(outputhistName, sample, histDirInFile, signalOrCR),"update")
+#outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
+#fullPath = "%s/%s.root"%(outputhistName,sample)
+fullPath = "%s/%s_%s_%s.root"%(outputhistName, sample, histDirInFile, signalOrCR) 
 
 histDirInFile = histDirInFile+"/"+signalOrCR
 if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 

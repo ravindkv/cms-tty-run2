@@ -1,0 +1,147 @@
+Executable =  remoteRun.sh 
+Universe   = vanilla
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+use_x509userproxy = true
+Output = log/log_$(cluster)_$(process).stdout
+Error  = log/log_$(cluster)_$(process).stderr
+Log    = log/log_$(cluster)_$(process).condor
+
+arguments  = 2017 Ele TTGamma 
+queue 1
+
+arguments  = 2017 Ele TTbar 
+queue 1
+
+arguments  = 2017 Ele QCDMu 
+queue 1
+
+arguments  = 2017 Ele DataMu 
+queue 1
+
+arguments  = 2017 Ele QCD_DD 
+queue 1
+
+arguments  = 2017 Ele TTGamma tight 
+queue 1
+
+arguments  = 2017 Ele TTbar tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu tight 
+queue 1
+
+arguments  = 2017 Ele DataMu tight 
+queue 1
+
+arguments  = 2017 Ele QCD_DD tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma PU up 
+queue 1
+
+arguments  = 2017 Ele TTGamma PU down 
+queue 1
+
+arguments  = 2017 Ele TTGamma MuEff up 
+queue 1
+
+arguments  = 2017 Ele TTGamma MuEff down 
+queue 1
+
+arguments  = 2017 Ele TTGamma PhoEff up 
+queue 1
+
+arguments  = 2017 Ele TTGamma PhoEff down 
+queue 1
+
+arguments  = 2017 Ele TTbar PU up 
+queue 1
+
+arguments  = 2017 Ele TTbar PU down 
+queue 1
+
+arguments  = 2017 Ele TTbar MuEff up 
+queue 1
+
+arguments  = 2017 Ele TTbar MuEff down 
+queue 1
+
+arguments  = 2017 Ele TTbar PhoEff up 
+queue 1
+
+arguments  = 2017 Ele TTbar PhoEff down 
+queue 1
+
+arguments  = 2017 Ele QCDMu PU up 
+queue 1
+
+arguments  = 2017 Ele QCDMu PU down 
+queue 1
+
+arguments  = 2017 Ele QCDMu MuEff up 
+queue 1
+
+arguments  = 2017 Ele QCDMu MuEff down 
+queue 1
+
+arguments  = 2017 Ele QCDMu PhoEff up 
+queue 1
+
+arguments  = 2017 Ele QCDMu PhoEff down 
+queue 1
+
+arguments  = 2017 Ele TTGamma PU up tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma PU down tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma MuEff up tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma MuEff down tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma PhoEff up tight 
+queue 1
+
+arguments  = 2017 Ele TTGamma PhoEff down tight 
+queue 1
+
+arguments  = 2017 Ele TTbar PU up tight 
+queue 1
+
+arguments  = 2017 Ele TTbar PU down tight 
+queue 1
+
+arguments  = 2017 Ele TTbar MuEff up tight 
+queue 1
+
+arguments  = 2017 Ele TTbar MuEff down tight 
+queue 1
+
+arguments  = 2017 Ele TTbar PhoEff up tight 
+queue 1
+
+arguments  = 2017 Ele TTbar PhoEff down tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu PU up tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu PU down tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu MuEff up tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu MuEff down tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu PhoEff up tight 
+queue 1
+
+arguments  = 2017 Ele QCDMu PhoEff down tight 
+queue 1
+
