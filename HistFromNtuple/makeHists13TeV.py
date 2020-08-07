@@ -80,20 +80,16 @@ ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/An
 #-----------------------------------------
 #OUTPUT Histogram Directory
 #----------------------------------------
-outputPath = "/home/rverma/t3store/TTGammaSemiLep13TeV"
+outFileMainDir = "/home/rverma/t3store/TTGammaSemiLep13TeV"
 if runLocal:
-	outputPath = ".local"
+	outFileMainDir = ".local"
 
 #-----------------------------------------
 #----------------------------------------
 gROOT.SetBatch(True)
-dir2=""
-if FwdJets:
-	dir2="_fwd"
 nJets = 3
 nBJets = 1
 isQCD = False
-dir_=""
 Q2 = 1.
 Pdf = 1.
 Pileup ="PUweight"
@@ -189,7 +185,7 @@ if channel=="Mu":
     if sample=="QCD":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBase
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -226,7 +222,7 @@ elif channel=="Ele":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBase 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
 
@@ -269,7 +265,7 @@ elif channel=="DiMu":
         sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBaseDiLep
     ttbarDecayMode = "DiLep"
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
@@ -311,7 +307,7 @@ elif channel=="DiEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseDiLep 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
 
     extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
     extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
@@ -347,7 +343,7 @@ elif channel=="QCDMu":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR/"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
@@ -390,7 +386,7 @@ elif channel=="QCDMu2":
         sample = "QCDMu"
     isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR
-    outputhistName = outputPath+"/Histograms/%s/%s/Mu/CR2"%(year,ttbarDecayMode)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
 
     nBJets = 0
     extraCuts            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=3 && nBJet==0)*"
@@ -416,8 +412,8 @@ elif channel=="QCDEle":
     if sample=="QCD":
         sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseCR 
-    outputhistName = outputPath+"/Histograms/%s/%s/Ele/CR"%(year,ttbarDecayMode)
-    toPrint("Full Path of Hist", outputhistName)
+    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
+    toPrint("Full Path of Hist", outFileFullDir)
 
     isQCD = True
 
@@ -458,15 +454,7 @@ else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
-'''
-if not os.path.exists(outputhistName):
-    os.makedirs(outputhistName)
-outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
-fullPath = "%s/%s.root"%(outputhistName,sample)
-'''
-
 btagWeight = btagWeightCategory[nBJets]
-signalOrCR = "SignalRegion"
 if controlRegion in ["Tight", "tight"]:
     if not runQuiet: toPrint("Control Region", "Tight")
     nJets = 4
@@ -475,8 +463,6 @@ if controlRegion in ["Tight", "tight"]:
     # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
     extraCuts = extraCutsTight 
     extraPhotonCuts = extraPhotonCutsTight 
-    signalOrCR = "ControlRegion/Tight"
-    dir_="_tight"
 
 if controlRegion in ["veryTight", "VeryTight", "verytight"]:
     if not runQuiet: toPrint("Control Region", "Very Tight")
@@ -485,8 +471,6 @@ if controlRegion in ["veryTight", "VeryTight", "verytight"]:
     btagWeight = btagWeightCategory[nBJets]
     extraCuts = extraCutsVeryTight
     extraPhotonCuts = extraPhotonCutsVeryTight
-    signalOrCR = "ControlRegion/VerytTight"
-    dir_=""
 
 if controlRegion in ["Tight0b", "tight0b"]:
     if not runQuiet: toPrint("Control Region", "Very Tight")
@@ -496,8 +480,6 @@ if controlRegion in ["Tight0b", "tight0b"]:
     # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
     extraCuts = extraCutsTight0b
     extraPhotonCuts = extraPhotonCutsTight0b
-    signalOrCR = "ControlRegion/Tight0b"
-    dir_="_tight0b"
 
 if controlRegion in ["LooseCR2e1", "looseCR2e1"]:
     if not runQuiet: print "Loose Control Region Select"
@@ -507,8 +489,6 @@ if controlRegion in ["LooseCR2e1", "looseCR2e1"]:
     #    weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[1]"
     extraCuts = extraCutsLooseCR2e1
     extraPhotonCuts = extraPhotonCutsLooseCR2e1
-    signalOrCR = "ControlRegion/LooseCR2e1"
-    dir_="_looseCR2e1"
 
 if controlRegion in ["LooseCRe2g1", "looseCRe2g1"]:
     if not runQuiet: print "Loose Control Region1 Select"
@@ -522,8 +502,6 @@ if controlRegion in ["LooseCRe2g1", "looseCRe2g1"]:
     #     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight"
     extraCuts = extraCutsLooseCR2g1
     extraPhotonCuts = extraPhotonCutsLooseCR2g1    
-    signalOrCR = "ControlRegion/LooseCR2g1"
-    dir_="_looseCRe2g1"
 
 if controlRegion in ["LooseCR3g0", "looseCR3g0"]:
     if not runQuiet: print "Loose Control Region for EGamma"
@@ -534,8 +512,6 @@ if controlRegion in ["LooseCR3g0", "looseCR3g0"]:
        	btagWeight="1"
     extraCuts = extraCutsLooseCRe3g0
     extraPhotonCuts = extraPhotonCutsLooseCRe3g0
-    signalOrCR = "ControlRegion/LooseCRe3g0"
-    dir_="_looseCRe3g0"
 
 if controlRegion in ["LooseCRe3g1", "looseCRe3g1"]:
     if not runQuiet: print "Loose Control Region Select"
@@ -545,8 +521,6 @@ if controlRegion in ["LooseCRe3g1", "looseCRe3g1"]:
     #weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*(btagWeight[0])"
     extraCuts = extraCutsLooseCRe3g1
     extraPhotonCuts = extraPhotonCutsLooseCRe3g1
-    signalOrCR = "ControlRegion/LooseCRe3g1"
-    dir_="_looseCRe3g1"
 
 if "QCD" in channel:
 	nBJets = 0
@@ -612,7 +586,89 @@ for hist in histogramsToMake:
 if not allHistsDefined:
     sys.exit()
 
-#-----------------------------------
+histograms=[]
+#-----------------------------------------
+# Use MC QCD in the SR
+#----------------------------------------
+if not "QCD_DD" in sample:
+    if not sample in samples:
+        print "Sample isn't in list"
+        print samples.keys()
+        sys.exit()
+
+    tree = TChain("AnalysisTree")
+    fileList = samples[sample][0]
+    for fileName in fileList:
+ 	if year=="2017":
+		fileName = fileName.replace("2016", "2017")
+ 	if year=="2018":
+		fileName = fileName.replace("2016", "2018")
+        tree.Add("%s%s"%(analysisNtupleLocation,fileName))
+ 	#print "%s%s"%(analysisNtupleLocation,fileName)
+    #print "Number of events:", tree.GetEntries()
+    
+    for hist in histogramsToMake:
+        hInfo = histogramInfo[hist]
+        # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
+        if ('Data' in sample or isQCD) and not hInfo[5]: continue
+
+        if not runQuiet: toPrint("Filling the histogram", hInfo[1])
+        evtWeight = ""
+#	print TH1F("%s_%s"%(hInfo[1],sample),"%s_%s"%(hInfo[1],sample),hInfo[2][0],hInfo[2][1],hInfo[2][2])
+        histograms.append(TH1F("%s"%(hInfo[1]),"%s"%(hInfo[1]),hInfo[2][0],hInfo[2][1],hInfo[2][2]))
+        if hInfo[4]=="":
+            evtWeight = "%s%s"%(hInfo[3],weights)
+        else:
+            evtWeight = hInfo[4]
+
+        if "Data" in sample:
+            evtWeight = "%s%s"%(hInfo[3],weights)
+
+        if evtWeight[-1]=="*":
+            evtWeight= evtWeight[:-1]
+
+
+        ### Correctly add the photon weights to the plots
+        if 'phosel' in hInfo[1]:
+	    	    
+            if hInfo[0][:8]=="loosePho":
+                evtWeight = "%s*%s"%(evtWeight,loosePhoEff)
+            elif hInfo[0][:3]=="pho":
+#		print hInfo[0][:3], "%s*%s"%(evtWeight,PhoEff)
+                evtWeight = "%s*%s"%(evtWeight,PhoEff)
+            else:
+#		print hInfo[0], "%s*%s[0]"%(evtWeight,PhoEff)
+                evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
+	#print "%s>>%s_%s"%(hInfo[0],hInfo[1],sample),evtWeight
+     #   print "evtweight is:", evtWeight	
+        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight)
+
+
+#-----------------------------------------
+#Final output Linux and ROOT directories
+#----------------------------------------
+outFileFullPath = "%s/%s_%s_SignalRegion.root"%(outFileFullDir, sample, histDirInFile)
+if not controlRegion =="":
+    outFileFullPath = "%s/%s_%s_ControlRegion_%s.root"%(outFileFullDir, sample, histDirInFile, controlRegion)
+outputFile = TFile(outFileFullPath,"update")
+
+if not controlRegion =="":
+    histDirInFile  = "%s/ControlRegion/%s"%(histDirInFile,  controlRegion)
+else:
+    histDirInFile  = "%s/SignalRegion"%histDirInFile 
+
+if not os.path.exists(outFileFullDir):
+    os.makedirs(outFileFullDir)
+
+if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 
+if not outputFile.GetDirectory(histDirInFile):
+    outputFile.mkdir(histDirInFile)
+outputFile.cd(histDirInFile)
+
+
+#-----------------------------------------
+# Estimate QCD from Data
+#----------------------------------------
 '''
 The QCD transfer scale factors (TF)
 are determined from MC QCD background.
@@ -620,8 +676,7 @@ The TF is ratio of event yields from
 high isolation and a different number
 of b jet control regions.
 '''
-#-----------------------------------
-def getQCDTransFact(channel, outputFile):
+def getQCDTransFact(channel, outputFile_):
     if channel in ["Mu","mu"]:
     	sample = "QCDMu"
     	preselCut = "passPresel_Mu"
@@ -648,7 +703,7 @@ def getQCDTransFact(channel, outputFile):
     histCRPho = TH1F("Njet_HighIso_0b_1Photon","Njet_HighIso_0b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_HighIso_0b",extraCuts+weights)
     tree.Draw("nJet>>Njet_HighIso_0b_1Photon",extraCutsPhoton+weights)
-    outputFile.cd()
+    outputFile_.cd()
     histCR.Write()
     
     #-----------------------------------------
@@ -671,7 +726,7 @@ def getQCDTransFact(channel, outputFile):
     hist0Pho = TH1F("Njet_LowIso_0b_1Photon","Njet_LowIso_0b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_0b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_0b_1Photon",extraCutsPhoton+weights)
-    outputFile.cd()
+    outputFile_.cd()
     hist0.Write()
     
     #-----------------------------------------
@@ -687,7 +742,7 @@ def getQCDTransFact(channel, outputFile):
     hist1Pho = TH1F("Njet_LowIso_1b_1Photon","Njet_LowIso_1b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_1b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_1b_1Photon",extraCutsPhoton+weights)
-    outputFile.cd()
+    outputFile_.cd()
     hist1.Write()
     
     #-----------------------------------------
@@ -703,7 +758,7 @@ def getQCDTransFact(channel, outputFile):
     hist2Pho = TH1F("Njet_LowIso_2b_1Photon","Njet_LowIso_2b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_2b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_2b_1Photon",extraCutsPhoton+weights)
-    outputFile.cd()
+    outputFile_.cd()
     hist2.Write()
     histCRPho.Write()
     hist0Pho.Write()
@@ -865,7 +920,6 @@ def getShapeFromCR(channel, hInfo):
 # QCD in SR = TF * (data - nonQCDBkg from CR)
 #----------------------------------------
 transferFactor = 1.0
-histograms=[]
 canvas = TCanvas()
 if sample =="QCD_DD":
 	transferFactor = getQCDTransFact(channel, outputFile)
@@ -877,82 +931,14 @@ if sample =="QCD_DD":
 	    print histogramInfo[hist][1]
             histograms[-1].Scale(transferFactor)
 
-#-----------------------------------------
-# Use MC QCD in the SR, instead 
-#----------------------------------------
-if not "QCD_DD" in sample:
-    if not sample in samples:
-        print "Sample isn't in list"
-        print samples.keys()
-        sys.exit()
 
-    tree = TChain("AnalysisTree")
-    fileList = samples[sample][0]
-    for fileName in fileList:
- 	if year=="2017":
-		fileName = fileName.replace("2016", "2017")
- 	if year=="2018":
-		fileName = fileName.replace("2016", "2018")
-        tree.Add("%s%s"%(analysisNtupleLocation,fileName))
- 	print "%s%s"%(analysisNtupleLocation,fileName)
-    #print sample
-
-    #print "Number of events:", tree.GetEntries()
-    
-    for hist in histogramsToMake:
-        hInfo = histogramInfo[hist]
-#	print hist
-        # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
-        if ('Data' in sample or isQCD) and not hInfo[5]: continue
-
-        if not runQuiet: toPrint("Filling the histogram", hInfo[1])
-        evtWeight = ""
-#	print TH1F("%s_%s"%(hInfo[1],sample),"%s_%s"%(hInfo[1],sample),hInfo[2][0],hInfo[2][1],hInfo[2][2])
-        histograms.append(TH1F("%s"%(hInfo[1]),"%s"%(hInfo[1]),hInfo[2][0],hInfo[2][1],hInfo[2][2]))
-        if hInfo[4]=="":
-            evtWeight = "%s%s"%(hInfo[3],weights)
-        else:
-            evtWeight = hInfo[4]
-
-        if "Data" in sample:
-            evtWeight = "%s%s"%(hInfo[3],weights)
-
-        if evtWeight[-1]=="*":
-            evtWeight= evtWeight[:-1]
-
-
-        ### Correctly add the photon weights to the plots
-        if 'phosel' in hInfo[1]:
-	    	    
-            if hInfo[0][:8]=="loosePho":
-                evtWeight = "%s*%s"%(evtWeight,loosePhoEff)
-            elif hInfo[0][:3]=="pho":
-#		print hInfo[0][:3], "%s*%s"%(evtWeight,PhoEff)
-                evtWeight = "%s*%s"%(evtWeight,PhoEff)
-            else:
-#		print hInfo[0], "%s*%s[0]"%(evtWeight,PhoEff)
-                evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
-	#print "%s>>%s_%s"%(hInfo[0],hInfo[1],sample),evtWeight
-     #   print "evtweight is:", evtWeight	
-        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight)
-
-if not os.path.exists(outputhistName):
-    os.makedirs(outputhistName)
-outputFile = TFile("%s/%s_%s_%s.root"%(outputhistName, sample, histDirInFile, signalOrCR),"update")
-#outputFile = TFile("%s/%s.root"%(outputhistName,sample),"update")
-#fullPath = "%s/%s.root"%(outputhistName,sample)
-fullPath = "%s/%s_%s_%s.root"%(outputhistName, sample, histDirInFile, signalOrCR) 
-
-histDirInFile = histDirInFile+"/"+signalOrCR
-if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 
-if not outputFile.GetDirectory(histDirInFile):
-    outputFile.mkdir(histDirInFile)
-outputFile.cd(histDirInFile)
-
+#-----------------------------------
+# Write final histograms in the file
+#-----------------------------------
 for h in histograms:
     toPrint("Integral of Histogram %s = "%h.GetName(), h.Integral())
     outputFile.cd(histDirInFile)
     gDirectory.Delete("%s;*"%(h.GetName()))
     h.Write()
-toPrint("Path of output root file", fullPath)
+toPrint("Path of output root file", outFileFullPath)
 outputFile.Close()
