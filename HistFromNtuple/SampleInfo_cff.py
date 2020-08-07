@@ -246,3 +246,35 @@ def toPrint(string, value):
     print "| "+ " "*length +              " |"
     print "* "+ line +                    " *"
 
+#----------------------------------------------------------
+#Get jet multiplicity cuts in a different control regions
+#----------------------------------------------------------
+def getJetMultiCut(controlRegion="tight_a4j_e0b", isQCDMC=False):
+	nBJets, finalCuts=1, "nJet>=3 && nBJet>=1"
+	if isQCDMC: 
+		finalCuts="nJet>=3 && nBJet==0"
+	if not controlRegion=="":
+		splitCR = controlRegion.split("_")
+		jetCut  = splitCR[1].strip()
+		bJetCut = splitCR[2].strip()
+		#For total jets 
+		operationJet, numberJet = jetCut[0].strip(), jetCut[1].strip()
+		expresssionJet = "=="
+		if operationJet=="a": 
+			expresssionJet=">="
+		newJetCut = "nJet%s%s"%(expresssionJet, numberJet)
+		#For b jets
+		operationBJet, numberBJet = bJetCut[0].strip(), bJetCut[1].strip()
+		expresssionBJet = "=="
+		if(operationBJet=="a"): 
+			expresssionBJet=">="
+		newBJetCut = "nBJet%s%s"%(expresssionBJet, numberBJet)
+		#Combine the two selection
+       	        finalCuts = "%s && %s"%(newJetCut, newBJetCut) 
+		nBJets = int(numberBJet)
+		if isQCDMC: 
+		    	finalCuts = "%s && %s"%(newJetCut, "nBJet==0") 
+			nBJets = 0
+	print nBJets, finalCuts
+	return nBJets, finalCuts
+

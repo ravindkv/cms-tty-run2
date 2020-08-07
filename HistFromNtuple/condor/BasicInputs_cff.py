@@ -8,4 +8,6 @@ SampleListMu  = SampleList + ["QCDMu", "DataMu", "QCD_DD"]
 Systematics   =	["PU","MuEff","PhoEff"]
 SystLevel     = ["up", "down"]
 ControlRegion = ["tight"]
-#ControlRegion=["tight", "veryTight", "tight0b", "looseCRge2e0", "looseCRge2ge0", "looseCRe3ge2", "looseCRge4e0", "looseCRe3e0", "looseCRe2e1", "looseCRe2e0", "looseCRe2e2", "looseCRe3e1" ]
+
+#Jet selection naming: a3j_e2b = atleast 3 jet, out of which 2 are b jets: nJet >= 3, nBJet ==2
+#ControlRegion=["tight_a4j_a1b", "veryTight_a4j_a2b", "tight_a4j_e0b", "looseCR_a2j_e1b", "looseCR_a2j_a0b", "looseCR_a2j_e0b", "looseCR_e3j_a2b", "looseCR_e3j_e0b", "looseCR_e2j_e1b", "looseCR_e2j_e0j", "looseCR_e2j_e2b", "looseCR_e3j_e1b"]

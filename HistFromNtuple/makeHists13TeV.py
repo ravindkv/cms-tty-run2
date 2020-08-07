@@ -82,13 +82,12 @@ ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/An
 #----------------------------------------
 outFileMainDir = "/home/rverma/t3store/TTGammaSemiLep13TeV"
 if runLocal:
-	outFileMainDir = ".local"
+	outFileMainDir = "./local"
 
 #-----------------------------------------
 #----------------------------------------
 gROOT.SetBatch(True)
 nJets = 3
-nBJets = 1
 isQCD = False
 Q2 = 1.
 Pdf = 1.
@@ -101,19 +100,12 @@ evtWeight ="evtWeight"
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
 ttbarDecayMode = "SemiLep"
 histDirInFile = "Base"
+nBJets, jetMultiCut = getJetMultiCut(controlRegion, False)
 
 #-----------------------------------------
 #For Systematics
 #----------------------------------------
 syst = options.systematic
-if (syst=="isr" or syst=="fsr") and sample=="TTbar":
-		samples={"TTbar"     : [["TTbarPowheg_Semilept_2016_AnalysisNtuple_1of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_2of5.root",
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_3of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_4of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"],
-                          kRed+1,"t#bar{t}",isMC],
-			}
 levelUp = False
 if level in ["up", "UP", "uP", "Up"]: 
 	levelUp = True
@@ -176,360 +168,90 @@ if not syst=="Base":
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
     	else:
             analysisNtupleLocation = ntupleDirSyst+"/%s_down_"%(syst)
+if (syst=="isr" or syst=="fsr") and sample=="TTbar":
+		samples={"TTbar"     : [["TTbarPowheg_Semilept_2016_AnalysisNtuple_1of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_2of5.root",
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_3of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_4of5.root", 
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"],
+                          kRed+1,"t#bar{t}",isMC],
+			}
+
+#-----------------------------------------
+#Select channels
+#----------------------------------------
+if sample=="Data":
+    sample = "DataMu"
+if sample=="QCD":
+    sample = "QCDMu"
 
 if channel=="Mu":
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-    if sample=="Data":
-        sample = "DataMu"
-    if sample=="QCD":
-        sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBase
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
-    extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
-    extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
-
-    extraCutsTight       = "(passPresel_Mu && nJet>=4 && nBJet>=1)*"
-    extraPhotonCutsTight = "(passPresel_Mu && nJet>=4 && nBJet>=1 && %s)*"
-    
-    extraCutsVeryTight       = "(passPresel_Mu && nJet>=4 && nBJet>=2)*"
-    extraPhotonCutsVeryTight = "(passPresel_Mu && nJet>=4 && nBJet>=2 && %s)*"
-    
-    extraCutsTight0b       = "(passPresel_Mu && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b = "(passPresel_Mu && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e1       = "(passPresel_Mu && nJet>=2 && nBJet==1)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Mu && nJet>=2 && nBJet==1 && %s)*"
-
-    extraCutsLooseCR2g1       = "(passPresel_Mu && nJet==2 && nBJet>=1)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Mu && nJet==2 && nBJet>=1 && %s)*"
-
-    extraCutsLooseCR2e0       = "(passPresel_Mu && nJet>=2)*"
-    extraPhotonCutsLooseCR2e0 = "(passPresel_Mu && nJet>=2 && %s)*"
-
-    extraCutsLooseCRe3g1       = "(passPresel_Mu && nJet==3 && nBJet>=1)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && nJet==3 && nBJet>=1 && %s)*"
-
-
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
+    extraCuts            = "(passPresel_Mu && %s)*"%(jetMultiCut)
+    extraPhotonCuts      = "(passPresel_Mu && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="Ele":
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    if sample=="Data":
-        sample = "DataEle"
-    if sample=="QCD":
-        sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBase 
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
-    extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
-    extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
-
-    extraCutsTight       = "(passPresel_Ele && nJet>=4 && nBJet>=1)*"
-    extraPhotonCutsTight = "(passPresel_Ele && nJet>=4 && nBJet>=1 && %s)*"
-    
-    extraCutsVeryTight       = "(passPresel_Ele && nJet>=4 && nBJet>=2)*"
-    extraPhotonCutsVeryTight = "(passPresel_Ele && nJet>=4 && nBJet>=2 && %s)*"
-
-    
-    extraCutsTight0b       = "(passPresel_Ele && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b = "(passPresel_Ele && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e1       = "(passPresel_Ele && nJet>=2 && nBJet==1)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Ele && nJet>=2 && nBJet==1 && %s)*"
-
-    extraCutsLooseCR2g0       = "(passPresel_Ele && nJet==2)*"
-    extraPhotonCutsLooseCR2g0 = "(passPresel_Ele && nJet==2 && %s)*"
-
-    extraCutsLooseCR2g1       = "(passPresel_Ele && nJet==2 && nBJet>=1)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Ele && nJet==2 && nBJet>=1 && %s)*"
-
-    extraCutsLooseCR2e0       = "(passPresel_Ele && nJet>=2)*"
-    extraPhotonCutsLooseCR2e0 = "(passPresel_Ele && nJet>=2 && %s)*"
-
-    extraCutsLooseCRe3g1       = "(passPresel_Ele && nJet==3 && nBJet>=1)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && nJet==3 && nBJet>=1 && %s)*"
-
-    
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+    extraCuts            = "(passPresel_Ele && %s)*"%(jetMultiCut)
+    extraPhotonCuts      = "(passPresel_Ele && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="DiMu":
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-
-    if sample=="Data":
-        sample = "DataMu"
-    if sample=="QCD":
-        sample = "QCDMu"
     analysisNtupleLocation = ntupleDirBaseDiLep
     ttbarDecayMode = "DiLep"
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
+    extraCuts            = "(passPresel_Mu && %s)*"%(jetMultiCut)
+    extraPhotonCuts      = "(passPresel_Mu && %s && %s)*"%(jetMultiCut, "%s")
 
-    extraCuts            = "(passPresel_Mu && nJet>=3 && nBJet>=1)*"
-    extraPhotonCuts      = "(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*"
-
-    extraCutsTight       = "(passPresel_Mu && nJet>=4 && nBJet>=1)*"
-    extraPhotonCutsTight = "(passPresel_Mu && nJet>=4 && nBJet>=1 && %s)*"
-
-    extraCutsTight0b       = "(passPresel_Mu && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b = "(passPresel_Mu && nJet>=4 && nBJet==0 && %s)*"
-
-
-    extraCutsLooseCR2e1       = "(passPresel_Mu && nJet>=2 && nBJet==1)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Mu && nJet>=2 && nBJet==1 && %s)*"
-
-    extraCutsLooseCR2e0       = "(passPresel_Mu && nJet==2)*"
-    extraPhotonCutsLooseCR2e0 = "(passPresel_Mu && nJet==2 && %s)*"
-
-    extraCutsLooseCR2g0       = "(passPresel_Mu && nJet>=2)*"
-    extraPhotonCutsLooseCR2g0 = "(passPresel_Mu && nJet>=2 && %s)*"
-
-    extraCutsLooseCR2g1       = "(passPresel_Mu && nJet==2 && nBJet>=1)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Mu && nJet==2 && nBJet>=1 && %s)*"
-
-    extraCutsLooseCR3g0       = "(passPresel_Mu && nJet>=3 && nBJet>=0)*"
-    extraPhotonCutsLooseCR3g0 = "(passPresel_Mu && nJet>=3 && nBJet>=0 && %s)*"
- 
-    extraCutsLooseCRe3g1       = "(passPresel_Mu && nJet==3 && nBJet>=1)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && nJet==3 && nBJet>=1 && %s)*"
-
-
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && nJet>=3 && nBJet==0 && %s)*"
 
 elif channel=="DiEle":
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    if sample=="Data":
-        sample = "DataEle"
-    if sample=="QCD":
-        sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseDiLep 
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
-
-    extraCuts            = "(passPresel_Ele && nJet>=3 && nBJet>=1)*"
-    extraPhotonCuts      = "(passPresel_Ele && nJet>=3 && nBJet>=1 && %s)*"
-
-    extraCutsTight       = "(passPresel_Ele && nJet>=4 && nBJet>=1)*"
-    extraPhotonCutsTight = "(passPresel_Ele && nJet>=4 && nBJet>=1 && %s)*"
-
-    extraCutsTight0b       = "(passPresel_Ele && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b = "(passPresel_Ele && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e1       = "(passPresel_Ele && nJet>=2 && nBJet==1)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Ele && nJet>=2 && nBJet==1 &&%s)*"
-
-    extraCutsLooseCR2g1       = "(passPresel_Ele && nJet==2 && nBJet>=1)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Ele && nJet==2 && nBJet>=1 && %s)*"
-
-    extraCutsLooseCR2g0       = "(passPresel_Ele && nJet>=2)*"
-    extraPhotonCutsLooseCR2g0 = "(passPresel_Ele && nJet>=2 && %s)*"
-
-    extraCutsLooseCRe3g1       = "(passPresel_Ele && nJet==3 && nBJet>=1)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && nJet==3 && nBJet>=1 && %s)*"
-
-
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && nJet>=3 && nBJet==0 && %s)*"
+    extraCuts            = "(passPresel_Ele && %s)*"%(jetMultiCut)
+    extraPhotonCuts      = "(passPresel_Ele && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="QCDMu":
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-    if sample=="Data":
-        sample = "DataMu"
-    if sample=="QCD":
-        sample = "QCDMu"
-    isQCD = True
     analysisNtupleLocation = ntupleDirBaseCR 
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
-
-    nBJets = 0
-    extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
-    extraPhotonCuts      = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0 && %s)*"
-
-    extraCutsTight            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight      = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsVeryTight       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsVeryTight = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsTight0b            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b      = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e1       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2e0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2g0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2g0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=2 && nBJet==0 && %s)*"
-    
-    extraCutsLooseCR2g1       = "(passPresel_Mu && muPFRelIso<0.3 && nJet==2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Mu && muPFRelIso<0.3 && nJet==2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCRe3g1       = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Mu && muPFRelIso<0.3 && nJet==3 && nBJet==0 && %s)*"
-
-    extraCutsLooseCRe3g0       = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && nBJet==0 && %s)*"
-
-
-elif channel=="QCDMu2":
-    sampleList[-1] = "DataMu"
-    sampleList[-2] = "QCDMu"
-    if sample=="Data":
-        sample = "DataMu"
-    if sample=="QCD":
-        sample = "QCDMu"
-    isQCD = True
-    analysisNtupleLocation = ntupleDirBaseCR
-    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
-
-    nBJets = 0
-    extraCuts            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=3 && nBJet==0)*"
-    extraPhotonCuts      = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=3 && nBJet==0 && %s)*"
-
-    extraCutsTight            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight      = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsTight0b            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b      = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLoose            = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLoose      = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR          = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR    = "(passPresel_Mu && muPFRelIso>0.3 && nJet>=2 && nBJet==0 && %s)*"
+    nBJets, jetMultiCut = getJetMultiCut(controlRegion, True)
+    extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && %s)*"%(jetMultiCut)
+    extraPhotonCuts      = "(passPresel_Mu && muPFRelIso<0.3 && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="QCDEle":
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    if sample=="Data":
-        sample = "DataEle"
-    if sample=="QCD":
-        sample = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseCR 
+    nBJets, jetMultiCut = getJetMultiCut(controlRegion, True)
     outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
     toPrint("Full Path of Hist", outFileFullDir)
-
-    isQCD = True
-
-    nBJets = 0
-
-    extraCuts                 = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0)*"
-    extraPhotonCuts           = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0 && %s)*"
-
-    extraCutsTight            = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight      = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsVeryTight       = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsVeryTight = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsTight0b            = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0)*"
-    extraPhotonCutsTight0b      = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=4 && nBJet==0 && %s)*"
-
-    extraCutsLoose            = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLoose      = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2e1       = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2e1 = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR2g1       = "(passPresel_Ele && elePFRelIso>0.01 && nJet==2 && nBJet==0)*"
-    extraPhotonCutsLooseCR2g1 = "(passPresel_Ele && elePFRelIso>0.01 && nJet==2 && nBJet==0 && %s)*"
-
-    extraCutsLooseCR          = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0)*"
-    extraPhotonCutsLooseCR    = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=2 && nBJet==0 && %s)*"
-
-
-    extraCutsLooseCRe3g1       = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g1 = "(passPresel_Ele && elePFRelIso>0.01 && nJet==3 && nBJet==0 && %s)*"
-
-    extraCutsLooseCRe3g0       = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0)*"
-    extraPhotonCutsLooseCRe3g0 = "(passPresel_Ele && elePFRelIso>0.01 && nJet>=3 && nBJet==0 && %s)*"
-
+    extraCuts                 = "(passPresel_Ele && elePFRelIso>0.01 && %s)*"%(jetMultiCut)
+    extraPhotonCuts           = "(passPresel_Ele && elePFRelIso>0.01 && %s && %s)*"%(jetMultiCut, "%s")
 else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
 btagWeight = btagWeightCategory[nBJets]
-if controlRegion in ["Tight", "tight"]:
-    if not runQuiet: toPrint("Control Region", "Tight")
-    nJets = 4
-    nBJets = 1
-    btagWeight = btagWeightCategory[nBJets]
-    # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
-    extraCuts = extraCutsTight 
-    extraPhotonCuts = extraPhotonCutsTight 
-
-if controlRegion in ["veryTight", "VeryTight", "verytight"]:
-    if not runQuiet: toPrint("Control Region", "Very Tight")
-    nJets = 4
-    nBJets = 2
-    btagWeight = btagWeightCategory[nBJets]
-    extraCuts = extraCutsVeryTight
-    extraPhotonCuts = extraPhotonCutsVeryTight
-
-if controlRegion in ["Tight0b", "tight0b"]:
-    if not runQuiet: toPrint("Control Region", "Very Tight")
-    nJets = 4
-    nBJets = 0
-    btagWeight = btagWeightCategory[nBJets]
-    # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[2]"
-    extraCuts = extraCutsTight0b
-    extraPhotonCuts = extraPhotonCutsTight0b
-
-if controlRegion in ["LooseCR2e1", "looseCR2e1"]:
-    if not runQuiet: print "Loose Control Region Select"
-    nJets = 2
-    nBJets = 1
-    btagWeight = "(btagWeight[1])"
-    #    weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[1]"
-    extraCuts = extraCutsLooseCR2e1
-    extraPhotonCuts = extraPhotonCutsLooseCR2e1
-
-if controlRegion in ["LooseCRe2g1", "looseCRe2g1"]:
-    if not runQuiet: print "Loose Control Region1 Select"
-    nJets = 2
-    nBJets = 1
-    btagWeight = btagWeightCategory[nBJets]
-    if 'QCD' in channel:
-        btagWeight="1"
-    # weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*(1-btagWeight[0])"
-    # if 'QCD' in channel:
-    #     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight"
-    extraCuts = extraCutsLooseCR2g1
-    extraPhotonCuts = extraPhotonCutsLooseCR2g1    
-
-if controlRegion in ["LooseCR3g0", "looseCR3g0"]:
-    if not runQuiet: print "Loose Control Region for EGamma"
-    nJets = 3
-    nBJets = 0
-    btagWeight = "btagWeight[0]" 
-    if 'QCD' in channel:
-       	btagWeight="1"
-    extraCuts = extraCutsLooseCRe3g0
-    extraPhotonCuts = extraPhotonCutsLooseCRe3g0
-
-if controlRegion in ["LooseCRe3g1", "looseCRe3g1"]:
-    if not runQuiet: print "Loose Control Region Select"
-    nJets = 3
-    nBJets = 1
-    btagWeight = btagWeightCategory[nBJets]
-    #weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*(btagWeight[0])"
-    extraCuts = extraCutsLooseCRe3g1
-    extraPhotonCuts = extraPhotonCutsLooseCRe3g1
-
 if "QCD" in channel:
-	nBJets = 0
         btagWeight="btagWeight[0]"
 weights = "%s*%s*%s*%s*%s*%s*%s"%(evtWeight,Pileup,MuEff,EleEff,Q2,Pdf,btagWeight)
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)
 
+#-----------------------------------------
+#Get list of empty histograms
+#----------------------------------------
 histogramInfo = GetHistogramInfo(extraCuts,extraPhotonCuts,nBJets)
 multiPlotList = options.multiPlotList
 plotList = options.plotList
@@ -586,16 +308,15 @@ for hist in histogramsToMake:
 if not allHistsDefined:
     sys.exit()
 
-histograms=[]
 #-----------------------------------------
-# Use MC QCD in the SR
+# Fill histograms
 #----------------------------------------
+histograms=[]
 if not "QCD_DD" in sample:
     if not sample in samples:
         print "Sample isn't in list"
         print samples.keys()
         sys.exit()
-
     tree = TChain("AnalysisTree")
     fileList = samples[sample][0]
     for fileName in fileList:
@@ -606,13 +327,11 @@ if not "QCD_DD" in sample:
         tree.Add("%s%s"%(analysisNtupleLocation,fileName))
  	#print "%s%s"%(analysisNtupleLocation,fileName)
     #print "Number of events:", tree.GetEntries()
-    
-    for hist in histogramsToMake:
+    for index, hist in enumerate(histogramsToMake, start=1):
         hInfo = histogramInfo[hist]
         # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
         if ('Data' in sample or isQCD) and not hInfo[5]: continue
-
-        if not runQuiet: toPrint("Filling the histogram", hInfo[1])
+	if not runQuiet: toPrint("%s/%s: Filling the histogram"%(index, len(histogramsToMake)), hInfo[1])
         evtWeight = ""
 #	print TH1F("%s_%s"%(hInfo[1],sample),"%s_%s"%(hInfo[1],sample),hInfo[2][0],hInfo[2][1],hInfo[2][2])
         histograms.append(TH1F("%s"%(hInfo[1]),"%s"%(hInfo[1]),hInfo[2][0],hInfo[2][1],hInfo[2][2]))
@@ -620,17 +339,12 @@ if not "QCD_DD" in sample:
             evtWeight = "%s%s"%(hInfo[3],weights)
         else:
             evtWeight = hInfo[4]
-
         if "Data" in sample:
             evtWeight = "%s%s"%(hInfo[3],weights)
-
         if evtWeight[-1]=="*":
             evtWeight= evtWeight[:-1]
-
-
         ### Correctly add the photon weights to the plots
         if 'phosel' in hInfo[1]:
-	    	    
             if hInfo[0][:8]=="loosePho":
                 evtWeight = "%s*%s"%(evtWeight,loosePhoEff)
             elif hInfo[0][:3]=="pho":
@@ -647,19 +361,16 @@ if not "QCD_DD" in sample:
 #-----------------------------------------
 #Final output Linux and ROOT directories
 #----------------------------------------
+if not os.path.exists(outFileFullDir):
+    os.makedirs(outFileFullDir)
 outFileFullPath = "%s/%s_%s_SignalRegion.root"%(outFileFullDir, sample, histDirInFile)
 if not controlRegion =="":
     outFileFullPath = "%s/%s_%s_ControlRegion_%s.root"%(outFileFullDir, sample, histDirInFile, controlRegion)
 outputFile = TFile(outFileFullPath,"update")
-
 if not controlRegion =="":
     histDirInFile  = "%s/ControlRegion/%s"%(histDirInFile,  controlRegion)
 else:
     histDirInFile  = "%s/SignalRegion"%histDirInFile 
-
-if not os.path.exists(outFileFullDir):
-    os.makedirs(outFileFullDir)
-
 if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 
 if not outputFile.GetDirectory(histDirInFile):
     outputFile.mkdir(histDirInFile)
@@ -676,7 +387,9 @@ The TF is ratio of event yields from
 high isolation and a different number
 of b jet control regions.
 '''
+qcdTFDirInFile = "%s/TF"%histDirInFile
 def getQCDTransFact(channel, outputFile_):
+    allHistsForTF = []
     if channel in ["Mu","mu"]:
     	sample = "QCDMu"
     	preselCut = "passPresel_Mu"
@@ -694,17 +407,14 @@ def getQCDTransFact(channel, outputFile_):
     fileList = samples[sample][0]
     for fileName in fileList:
     	tree.Add("%s/QCDcr_%s"%(ntupleDirBaseCR,fileName))
-    nJets  = 2
-    nBJets = 0
-    extraCuts       = "(%s && %s nJet>=%i && nBJet==%i)*"%(preselCut, qcdRelIsoCut, nJets, nBJets)
-    extraCutsPhoton = "(%s && %s nJet>=%i && nBJet==%i && phoMediumID)*"%(preselCut, qcdRelIsoCut, nJets, nBJets)
+    extraCuts       = "(%s && %s nJet>=2 && nBJet==0)*"%(preselCut, qcdRelIsoCut)
+    extraCutsPhoton = "(%s && %s nJet>=2 && nBJet==0 && phoMediumID)*"%(preselCut, qcdRelIsoCut)
     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[%i]"%nBJets
     histCR    = TH1F("Njet_HighIso_0b","Njet_HighIso_0b",15,0,15)
     histCRPho = TH1F("Njet_HighIso_0b_1Photon","Njet_HighIso_0b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_HighIso_0b",extraCuts+weights)
     tree.Draw("nJet>>Njet_HighIso_0b_1Photon",extraCutsPhoton+weights)
-    outputFile_.cd()
-    histCR.Write()
+    allHistsForTF.append(histCR)
     
     #-----------------------------------------
     #QCD histogram from: 
@@ -717,53 +427,44 @@ def getQCDTransFact(channel, outputFile_):
     fileList = samples["GJets"][0]
     for fileName in fileList:
     	tree.Add("%s/%s"%(ntupleDirBase,fileName))
-    nJets  = 2
-    nBJets = 0
-    extraCuts       = "(%s && nJet>=%i && nBJet==%i)*"%(preselCut, nJets, nBJets)
-    extraCutsPhoton = "(%s && nJet>=%i && nBJet==%i && phoMediumID)*"%(preselCut, nJets, nBJets)
+    extraCuts       = "(%s && nJet>=2 && nBJet==0)*"%(preselCut)
+    extraCutsPhoton = "(%s && nJet>=2 && nBJet==0 && phoMediumID)*"%(preselCut)
     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[%i]"%nBJets
     hist0 = TH1F("Njet_LowIso_0b","Njet_LowIso_0b",15,0,15)
     hist0Pho = TH1F("Njet_LowIso_0b_1Photon","Njet_LowIso_0b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_0b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_0b_1Photon",extraCutsPhoton+weights)
-    outputFile_.cd()
-    hist0.Write()
+    allHistsForTF.append(hist0)
     
     #-----------------------------------------
     #QCD histogram from: 
     #low rel iso, nJets ==2, nBJets = 1
     #----------------------------------------
-    nJets  = 2
-    nBJets = 1
-    extraCuts       = "(%s && nJet>=%i && nBJet==%i)*"%(preselCut, nJets, nBJets)
-    extraCutsPhoton = "(%s && nJet>=%i && nBJet==%i && phoMediumID)*"%(preselCut, nJets, nBJets)
+    extraCuts       = "(%s && nJet>=2 && nBJet==1)*"%(preselCut)
+    extraCutsPhoton = "(%s && nJet>=2 && nBJet==1 && phoMediumID)*"%(preselCut)
     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[%i]"%nBJets
     hist1 = TH1F("Njet_LowIso_1b","Njet_LowIso_1b",15,0,15)
     hist1Pho = TH1F("Njet_LowIso_1b_1Photon","Njet_LowIso_1b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_1b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_1b_1Photon",extraCutsPhoton+weights)
-    outputFile_.cd()
-    hist1.Write()
+    allHistsForTF.append(hist1)
     
     #-----------------------------------------
     #QCD histogram from: 
     #low rel iso, nJets ==2, nBJets = 2
     #----------------------------------------
-    nJets  = 2
-    nBJets = 2
-    extraCuts       = "(%s && nJet>=%i && nBJet>=%i)*"%(preselCut, nJets, nBJets)
-    extraCutsPhoton = "(%s && nJet>=%i && nBJet>=%i && phoMediumID)*"%(preselCut, nJets, nBJets)
+    extraCuts       = "(%s && nJet>=2 && nBJet>=2)*"%(preselCut)
+    extraCutsPhoton = "(%s && nJet>=2 && nBJet>=2 && phoMediumID)*"%(preselCut)
     weights = "evtWeight*PUweight*muEffWeight*eleEffWeight*btagWeight[%i]"%nBJets
     hist2 = TH1F("Njet_LowIso_2b","Njet_LowIso_2b",15,0,15)
     hist2Pho = TH1F("Njet_LowIso_2b_1Photon","Njet_LowIso_2b_1Photon",15,0,15)
     tree.Draw("nJet>>Njet_LowIso_2b",extraCuts+weights)
     tree.Draw("nJet>>Njet_LowIso_2b_1Photon",extraCutsPhoton+weights)
-    outputFile_.cd()
-    hist2.Write()
-    histCRPho.Write()
-    hist0Pho.Write()
-    hist1Pho.Write()
-    hist2Pho.Write()
+    allHistsForTF.append(hist2)
+    allHistsForTF.append(histCRPho)
+    allHistsForTF.append(hist0Pho)
+    allHistsForTF.append(hist1Pho)
+    allHistsForTF.append(hist2Pho)
     
     #-----------------------------------------
     # Determine the TF (nb/CR) in each bin
@@ -777,9 +478,9 @@ def getQCDTransFact(channel, outputFile_):
     hist2_TF = hist2.Clone("TF_BinByBin_2b")
     hist2_TF.SetNameTitle("TF_BinByBin_2b","TF_BinByBin_2b")
     hist2_TF.Divide(histCR)
-    hist0_TF.Write()
-    hist1_TF.Write()
-    hist2_TF.Write()
+    allHistsForTF.append(hist0_TF)
+    allHistsForTF.append(hist1_TF)
+    allHistsForTF.append(hist2_TF)
     
     hist0Pho_TF = hist0Pho.Clone("TF_BinByBin_0b_1Photon")
     hist0Pho_TF.SetNameTitle("TF_BinByBin_0b_1Photon","TF_BinByBin_0b_1Photon")
@@ -790,9 +491,9 @@ def getQCDTransFact(channel, outputFile_):
     hist2Pho_TF = hist2Pho.Clone("TF_BinByBin_2b_1Photon")
     hist2Pho_TF.SetNameTitle("TF_BinByBin_2b_1Photon","TF_BinByBin_2b_1Photon")
     hist2Pho_TF.Divide(histCR)
-    hist0Pho_TF.Write()
-    hist1Pho_TF.Write()
-    hist2Pho_TF.Write()
+    allHistsForTF.append(hist0Pho_TF)
+    allHistsForTF.append(hist1Pho_TF)
+    allHistsForTF.append(hist2Pho_TF)
     
     #-----------------------------------------
     # Determine the TF (nb/CR) in total yield
@@ -816,7 +517,7 @@ def getQCDTransFact(channel, outputFile_):
     hist_TFCR.SetBinContent(3,histCR.GetBinContent(1))
     hist_TFCR.SetBinError(3,histCR.GetBinError(1))
     hist_TF.Divide(hist_TFCR)
-    hist_TF.Write()
+    allHistsForTF.append(hist_TF)
     
     hist_TFPho = TH1F("TF_TotalYield_012b_1Photon","TF_TotalYield_012b_1Photon",3,0,3)
     hist_TFCRPho = TH1F("TF_TotalYield_012bCRPho","TF_TotalYield_012bCRPho",3,0,3)
@@ -837,7 +538,7 @@ def getQCDTransFact(channel, outputFile_):
     hist_TFCRPho.SetBinContent(3,histCRPho.GetBinContent(1))
     hist_TFCRPho.SetBinError(3,histCRPho.GetBinError(1))
     hist_TFPho.Divide(hist_TFCRPho)
-    hist_TFPho.Write()
+    allHistsForTF.append(hist_TFPho)
     if nBJets==0:
     	hist2.Add(hist1)
     hist2.Add(hist0)
@@ -847,8 +548,13 @@ def getQCDTransFact(channel, outputFile_):
         transFact = hist2.Integral(nJets+1,-1)/histCR.Integral(-1,-1)
     if nBJets==1:
     	transFact = hist2.Integral(nJets+1,-1)/histCR.Integral(-1,-1)
-    if isLooseCR2e1Selection:
-   		transFact = hist_TF.GetBinContent(2) 
+    #Write allHistsForTF in the ouput root file
+    if not outputFile.GetDirectory(qcdTFDirInFile):
+        outputFile.mkdir(qcdTFDirInFile)
+    for histTF in allHistsForTF:
+    	outputFile.cd(qcdTFDirInFile)
+        gDirectory.Delete("%s;*"%(histTF.GetName()))
+        histTF.Write()
     return transFact
 
 #-----------------------------------------
@@ -862,7 +568,7 @@ def getShapeFromCR(channel, hInfo):
     	sampleList[-2] = "QCDMu"
     	extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3)*"
     	extraPhotonCuts      = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=3 && %s)*"
-    	if isTightSelection:
+    	if controlRegion in ["Tight", "tight"]:
     		extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4)*"
     		extraPhotonCuts      = "(passPresel_Mu && muPFRelIso<0.3 && nJet>=4 && %s)*"
     	#if isLooseSelection or isLooseCRSelection:
@@ -874,7 +580,7 @@ def getShapeFromCR(channel, hInfo):
     	sampleList[-2] = "QCDEle"
     	extraCuts            = "(passPresel_Ele && muPFRelIso<0.3 && nJet>=3)*"
     	extraPhotonCuts      = "(passPresel_Ele && muPFRelIso<0.3 && nJet>=3 && %s)*"
-    	if isTightSelection:
+    	if controlRegion in ["Tight", "tight"]:
     		extraCuts            = "(passPresel_Ele && muPFRelIso<0.3 && nJet>=4)*"
     		extraPhotonCuts      = "(passPresel_Ele && muPFRelIso<0.3 && nJet>=4 && %s)*"
     	#if isLooseSelection or isLooseCRSelection:
