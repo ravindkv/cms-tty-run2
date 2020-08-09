@@ -11,6 +11,8 @@ from HistsInfo_cff import *
 parser = OptionParser()
 parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specifyi the year of the data taking" )
+parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="SemiLep",type='str',
+                     help="Specify which decay moded of ttbar SemiLep or DiLep? default is SemiLep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("-s", "--sample", dest="sample", default="",type='str',
@@ -27,8 +29,6 @@ parser.add_option("--plot", dest="plotList",action="append",
                      help="Add plots" )
 parser.add_option("--multiPlots", "--multiplots", dest="multiPlotList",action="append",
                      help="Add plots" )
-parser.add_option("--runLocal", "--runLocal", dest="runLocal",action="store_true",default=False,
-                     help="test one plot without replacing it in the original one" )
 parser.add_option("--allPlots","--AllPlots", dest="makeAllPlots",action="store_true",default=False,
                      help="Make full list of plots in histogramDict" )
 parser.add_option("--morePlots","--MorePlots","--makeMorePlots", dest="makeMorePlots",action="store_true",default=False,
@@ -53,8 +53,8 @@ level =options.level
 Dilepmass=options.Dilepmass
 year = options.year
 channel = options.channel
+ttbarDecayMode = options.ttbarDecayMode
 sample = options.sample
-runLocal=options.runLocal
 controlRegion = options.controlRegion
 onlyAddPlots = options.onlyAddPlots
 FwdJets=options.FwdJets
@@ -65,7 +65,7 @@ makeEGammaPlots = options.makeEGammaPlots
 makeJetsplots = options.makeJetsplots
 makegenPlots=options.makegenPlots
 runQuiet = options.quiet
-toPrint("Runing for Year, Channel, Sample", "%s, %s, %s"%(year, channel, sample))
+toPrint("Running for Year, Channel, Sample", "%s, %s, %s"%(year, channel, sample))
 print parser.parse_args()
 
 #-----------------------------------------
@@ -80,12 +80,8 @@ ntupleDirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/An
 #-----------------------------------------
 #OUTPUT Histogram Directory
 #----------------------------------------
-outFileMainDir = "/home/rverma/t3store/TTGammaSemiLep13TeV"
-if runLocal:
-	outFileMainDir = "./local"
+outFileMainDir = "./hists"
 
-#-----------------------------------------
-#----------------------------------------
 gROOT.SetBatch(True)
 nJets = 3
 isQCD = False
@@ -98,7 +94,6 @@ PhoEff= "phoEffWeight"
 loosePhoEff= "loosePhoEffWeight"
 evtWeight ="evtWeight"
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
-ttbarDecayMode = "SemiLep"
 histDirInFile = "Base"
 nBJets, jetMultiCut = getJetMultiCut(controlRegion, False)
 
@@ -180,12 +175,11 @@ if (syst=="isr" or syst=="fsr") and sample=="TTbar":
 #-----------------------------------------
 #Select channels
 #----------------------------------------
-if sample=="Data":
-    sample = "DataMu"
-if sample=="QCD":
-    sample = "QCDMu"
-
 if channel=="Mu":
+    if sample=="Data":
+        sample = "DataMu"
+    if sample=="QCD":
+        sample = "QCDMu"
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
     analysisNtupleLocation = ntupleDirBase
@@ -194,6 +188,10 @@ if channel=="Mu":
     extraPhotonCuts      = "(passPresel_Mu && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="Ele":
+    if sample=="Data":
+        sample = "DataEle"
+    if sample=="QCD":
+        sample = "QCDEle"
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
     analysisNtupleLocation = ntupleDirBase 
@@ -201,25 +199,11 @@ elif channel=="Ele":
     extraCuts            = "(passPresel_Ele && %s)*"%(jetMultiCut)
     extraPhotonCuts      = "(passPresel_Ele && %s && %s)*"%(jetMultiCut, "%s")
 
-elif channel=="DiMu":
-    sampleList[-1] = "DataMu"
-    sampleList[-2] = "QCDMu"
-    analysisNtupleLocation = ntupleDirBaseDiLep
-    ttbarDecayMode = "DiLep"
-    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Mu"%(year,ttbarDecayMode)
-    extraCuts            = "(passPresel_Mu && %s)*"%(jetMultiCut)
-    extraPhotonCuts      = "(passPresel_Mu && %s && %s)*"%(jetMultiCut, "%s")
-
-
-elif channel=="DiEle":
-    sampleList[-1] = "DataEle"
-    sampleList[-2] = "QCDEle"
-    analysisNtupleLocation = ntupleDirBaseDiLep 
-    outFileFullDir = outFileMainDir+"/Histograms/%s/%s/Ele"%(year,ttbarDecayMode)
-    extraCuts            = "(passPresel_Ele && %s)*"%(jetMultiCut)
-    extraPhotonCuts      = "(passPresel_Ele && %s && %s)*"%(jetMultiCut, "%s")
-
 elif channel=="QCDMu":
+    if sample=="Data":
+        sample = "DataMu"
+    if sample=="QCD":
+        sample = "QCDMu"
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
     analysisNtupleLocation = ntupleDirBaseCR 
@@ -229,6 +213,10 @@ elif channel=="QCDMu":
     extraPhotonCuts      = "(passPresel_Mu && muPFRelIso<0.3 && %s && %s)*"%(jetMultiCut, "%s")
 
 elif channel=="QCDEle":
+    if sample=="Data":
+        sample = "DataEle"
+    if sample=="QCD":
+        sample = "QCDEle"
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
     analysisNtupleLocation = ntupleDirBaseCR 
@@ -389,6 +377,8 @@ of b jet control regions.
 '''
 qcdTFDirInFile = "%s/TF"%histDirInFile
 def getQCDTransFact(channel, outputFile_):
+    nBJets= 2
+    nJets = 2
     allHistsForTF = []
     if channel in ["Mu","mu"]:
     	sample = "QCDMu"

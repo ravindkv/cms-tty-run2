@@ -2,6 +2,7 @@ isMC=999
 isData=1
 
 from ROOT import *
+import sys
 
 samples = {"TTGamma"   : [["TTGamma_SingleLept_2016_AnalysisNtuple.root",
                            "TTGamma_Dilepton_2016_AnalysisNtuple.root",
@@ -249,7 +250,11 @@ def toPrint(string, value):
 #----------------------------------------------------------
 #Get jet multiplicity cuts in a different control regions
 #----------------------------------------------------------
+#Jet selection naming: a3j_e2b = atleast 3 jet, out of which 2 are b jets: nJet >= 3, nBJet ==2
 def getJetMultiCut(controlRegion="tight_a4j_e0b", isQCDMC=False):
+        if not len(controlRegion.split("_"))==3 and not controlRegion=="":
+    	        print "Please provide control region in NAME_ExpNumJet_ExpNumBJet formate such as tight_a4j_e0b"
+                sys.exit()
 	nBJets, finalCuts=1, "nJet>=3 && nBJet>=1"
 	if isQCDMC: 
 		finalCuts="nJet>=3 && nBJet==0"

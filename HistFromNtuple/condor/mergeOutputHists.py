@@ -7,7 +7,7 @@
 
 import os
 from optparse import OptionParser
-from BasicInputs import *
+from BasicInputs_cff import *
 
 #-----------------------------------------
 #INPUT Command Line Arguments 
@@ -17,18 +17,20 @@ parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specifyi the year of the data taking" )
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
+parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="SemiLep",type='str',
+                     help="Specify which decay moded of ttbar SemiLep or DiLep? default is SemiLep")
 (options, args) = parser.parse_args()
 year = options.year
 channel = options.channel
+decay   = options.ttbarDecayMode
 
 #-----------------------------------------
 #Path of the I/O histrograms
 #----------------------------------------
-histMainDir = "/home/rverma/t3store/TTGammaSemiLep13TeV"
-inHistSubDir = "Histograms/%s/SemiLep/%s"%(year, channel)
-inHistFullDir = "%s/%s"%(histMainDir, inHistSubDir)
-outHistSubDir = "Histograms/%s/SemiLep/%s/Merged"%(year, channel)
-outHistFullDir = "%s/%s"%(histMainDir, outHistSubDir)
+inHistSubDir = "Hists/%s/%s/%s"%(year, decay, channel)
+inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
+outHistSubDir = "Hists/%s/%s/%s/Merged"%(year, decay, channel)
+outHistFullDir = "%s/%s"%(condorHistDir, outHistSubDir)
 if not os.path.exists(outHistFullDir):
     os.makedirs(outHistFullDir)
 

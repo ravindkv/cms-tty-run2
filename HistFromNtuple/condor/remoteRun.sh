@@ -6,7 +6,6 @@ myArray=( "$@" )
 
 printf "Start Running Histogramming at ";/bin/date
 printf "Worker node hostname ";/bin/hostname
-echo "---------------------------------------------"
 
 if [ -z ${_CONDOR_SCRATCH_DIR} ] ; then 
     echo "Running Interactively" ; 
@@ -14,40 +13,54 @@ else
     echo "Running In Batch"
     echo ${_CONDOR_SCRATCH_DIR}
     source /cvmfs/cms.cern.ch/cmsset_default.sh
-    cd /home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/
+    scramv1 project CMSSW CMSSW_10_2_5
+    cd CMSSW_10_2_5/src
+    eval `scramv1 runtime -sh`
+    #-------------------
+    #For TIFR
+    #-------------------
+    cp -rf /home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/ .
     #-------------------
     #For LPC
     #-------------------
-    #cmsrel CMSSW_10_2_5
-    #cd CMSSW_10_2_5/src
-    #eval `scramv1 runtime -sh`
-    #cp -r /home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/ .
-    #cd HistFromNtuple
+    #xrdcp -f root://cmseos.fnal.gov//store/user/npoudyal/CMSSW_10_2_14.tgz .
+    cd HistFromNtuple
 fi
 
 #Run for Base, Signal region
-echo $@
-if [ $# -eq 3 ] 
+echo "All arguements: "$@
+echo "Number of arguements: "$#
+if [ $# -eq 4 ] 
 then
-    python makeHists13TeV.py -y $1 -c $2 -s $3 --plot presel_Njet
+    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --plot presel_Njet
 
 #Run for Base, Control region
-elif [ $# -eq 4 ] 
-then
-    python makeHists13TeV.py -y $1 -c $2 -s $3 -cr $4 --plot presel_Njet
-
-#Run for Syst, Signal region
 elif [ $# -eq 5 ] 
 then
-    python makeHists13TeV.py -y $1 -c $2 -s $3 --syst $4 --level $5 --plot presel_Njet
+    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --cr $5 --plot presel_Njet
 
-#Run for Syst, Control region
+#Run for Syst, Signal region
 elif [ $# -eq 6 ] 
 then
-    python makeHists13TeV.py -y $1 -c $2 -s $3 --syst $4 --level $5 --cr $6 --plot presel_Njet
+    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --plot presel_Njet
+
+#Run for Syst, Control region
+elif [ $# -eq 7 ] 
+then
+    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --cr $7 --plot presel_Njet
 
 #For over/under flow of arguments
 else
-    echo "The number of command line areguments should be >=3 and <=6"
+    echo "The number of command line areguments should be >=4 and <=7"
 fi
 printf "Done Histogramming at ";/bin/date
+
+#---------------------------------------------
+#Copy the ouput root files
+#---------------------------------------------
+printf "Copying output files ..."
+condorOutDir=/home/rverma/t3store/TTGammaSemiLep13TeV
+cp -rf hists/$1/$2/$3/* $condorOutDir/Hists/$1/$2/$3/ 
+printf "Done ";/bin/date
+cd ${_CONDOR_SCRATCH_DIR}
+rm -rf CMSSW_10_2_5
