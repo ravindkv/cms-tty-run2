@@ -252,34 +252,35 @@ def toPrint(string, value):
 #----------------------------------------------------------
 #Jet selection naming: a3j_e2b = atleast 3 jet, out of which 2 are b jets: nJet >= 3, nBJet ==2
 def getJetMultiCut(controlRegion="tight_a4j_e0b", isQCDMC=False):
-        if not len(controlRegion.split("_"))==3 and not controlRegion=="":
-    	        print "Please provide control region in NAME_ExpNumJet_ExpNumBJet formate such as tight_a4j_e0b"
-                sys.exit()
-	nBJets, finalCuts=1, "nJet>=3 && nBJet>=1"
-	if isQCDMC: 
-		finalCuts="nJet>=3 && nBJet==0"
-	if not controlRegion=="":
-		splitCR = controlRegion.split("_")
-		jetCut  = splitCR[1].strip()
-		bJetCut = splitCR[2].strip()
-		#For total jets 
-		operationJet, numberJet = jetCut[0].strip(), jetCut[1].strip()
-		expresssionJet = "=="
-		if operationJet=="a": 
-			expresssionJet=">="
-		newJetCut = "nJet%s%s"%(expresssionJet, numberJet)
-		#For b jets
-		operationBJet, numberBJet = bJetCut[0].strip(), bJetCut[1].strip()
-		expresssionBJet = "=="
-		if(operationBJet=="a"): 
-			expresssionBJet=">="
-		newBJetCut = "nBJet%s%s"%(expresssionBJet, numberBJet)
-		#Combine the two selection
-       	        finalCuts = "%s && %s"%(newJetCut, newBJetCut) 
-		nBJets = int(numberBJet)
-		if isQCDMC: 
-		    	finalCuts = "%s && %s"%(newJetCut, "nBJet==0") 
-			nBJets = 0
-	print nBJets, finalCuts
-	return nBJets, finalCuts
+    if not len(controlRegion.split("_"))==3 and not controlRegion=="":
+        print "Please provide control region in NAME_ExpNumJet_ExpNumBJet formate such as tight_a4j_e0b"
+        sys.exit()
+    nJets, nBJets, nJetSel, nBJetSel, allJetSel = 3, 1, "nJet>=3", "nBJet>=1", "nJet>=3 && nBJet>=1"
+    if isQCDMC: 
+        nJets, nBJets, nJetSel, nBJetSel, allJetSel = 3, 0, "nJet>=3", "nBJet==0", "nJet>=3 && nBJet==0"
+    if not controlRegion=="":
+    	splitCR = controlRegion.split("_")
+    	jetCut  = splitCR[1].strip()
+    	bJetCut = splitCR[2].strip()
+    	#For total jets 
+    	operationJet, numberJet = jetCut[0].strip(), jetCut[1].strip()
+    	expresssionJet = "=="
+    	if operationJet=="a": 
+    	    expresssionJet=">="
+    	newJetCut = "nJet%s%s"%(expresssionJet, numberJet)
+    	#For b jets
+    	operationBJet, numberBJet = bJetCut[0].strip(), bJetCut[1].strip()
+    	expresssionBJet = "=="
+    	if(operationBJet=="a"): 
+    	    expresssionBJet=">="
+    	newBJetCut = "nBJet%s%s"%(expresssionBJet, numberBJet)
+    	#Combine the two selection
+        nJets_  = int(numberJet)
+    	nBJets_ = int(numberBJet)
+    	if isQCDMC: 
+            nJets, nBJets, nJetSel, nBJetSel, allJetSel = nJets_, 0, newJetCut, "nBJet==0", "%s && nBJet==0"%newJetCut
+        else:
+            nJets, nBJets, nJetSel, nBJetSel, allJetSel = nJets_, nBJets_, newJetCut, newBJetCut, "%s && %s"%(newJetCut, newBJetCut)
+    print "nJets: %s, nBJets: %s, nJetSel: %s, nBJetSel: %s, allJetSel: %s"%(nJets, nBJets, nJetSel, nBJetSel, allJetSel)
+    return nJets, nBJets, nJetSel, nBJetSel, allJetSel
 

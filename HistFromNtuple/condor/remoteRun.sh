@@ -19,7 +19,7 @@ else
     #-------------------
     #For TIFR
     #-------------------
-    cp -rf /home/rverma/t3store/TTGammaSemiLep13TeV/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/ .
+    cp -rf /home/rverma/t3store/TTGammaSemiLep13TeV/Code/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/ .
     #-------------------
     #For LPC
     #-------------------
@@ -59,7 +59,7 @@ printf "Done Histogramming at ";/bin/date
 #Copy the ouput root files
 #---------------------------------------------
 printf "Copying output files ..."
-condorOutDir=/home/rverma/t3store/TTGammaSemiLep13TeV
+condorOutDir=/home/rverma/t3store/TTGammaSemiLep13TeV/Output
 cp -rf hists/$1/$2/$3/* $condorOutDir/Hists/$1/$2/$3/ 
 printf "Done ";/bin/date
 cd ${_CONDOR_SCRATCH_DIR}
