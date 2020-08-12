@@ -1,0 +1,9 @@
+Executable =  remoteRun.sh 
+Universe   = vanilla
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+use_x509userproxy = true
+Output = log/log_$(cluster)_$(process).stdout
+Error  = log/log_$(cluster)_$(process).stderr
+Log    = log/log_$(cluster)_$(process).condor
+

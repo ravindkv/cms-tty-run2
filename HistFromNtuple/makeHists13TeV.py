@@ -551,7 +551,7 @@ def getQCDTransFact(channel, nBJets_, outputFile_):
 #-----------------------------------------
 # Determine data - nonQCDBkg from CR
 #----------------------------------------
-qcdCRDirInFile = "%s/CR"%histDirInFile
+qcdShapeDirInFile = "%s/Shape"%histDirInFile
 def getShapeFromCR(channel, nJetSel, nBJets_, hInfo, outputFile_):
     btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])","(btagWeight[0])"]
     if channel=="Mu":
@@ -596,9 +596,9 @@ def getShapeFromCR(channel, nJetSel, nBJets_, hInfo, outputFile_):
             hData.append(hist_)
         print "Integral = %s"%hist_.Integral()
     hDiffDataBkg = hData[0].Clone(hInfo[1])
-    if not outputFile_.GetDirectory(qcdCRDirInFile):
-        outputFile_.mkdir(qcdCRDirInFile)
-    outputFile_.cd(qcdCRDirInFile)
+    if not outputFile_.GetDirectory(qcdShapeDirInFile):
+        outputFile_.mkdir(qcdShapeDirInFile)
+    outputFile_.cd(qcdShapeDirInFile)
     for hNonQCDBkg in hNonQCDBkgs:
         hDiffDataBkg.Add(hNonQCDBkg, -1)
         gDirectory.Delete("%s;*"%(hNonQCDBkg.GetName()))
@@ -616,7 +616,7 @@ transferFactor = 1.0
 canvas = TCanvas()
 if sample =="QCD_DD":
         toPrint("Determining QCD Transfer factor from CR", "")
-	#transferFactor = getQCDTransFact(channel, nBJets, outputFile)
+	transferFactor = getQCDTransFact(channel, nBJets, outputFile)
 	print "Transfer factor = ", transferFactor
         for hist in histogramsToMake:
             if not histogramInfo[hist][5]: continue
