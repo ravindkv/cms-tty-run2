@@ -1,6 +1,6 @@
 import itertools
 import os
-from BasicHistInputs_cff import *
+from HistInputs_cff import *
 
 if not os.path.exists("jdl"):
     os.makedirs("jdl")

@@ -1,7 +1,7 @@
 import os
 import itertools
 from optparse import OptionParser
-from BasicHistInputs_cff import *
+from HistInputs_cff import *
 
 #----------------------------------------
 #INPUT Command Line Arguments 

@@ -9,7 +9,7 @@ Year 	      =	["2016"]
 Decay 	  =	["SemiLep"]
 Channel 	  =	["Mu"]
 #Systematics   =	["PU","MuEff","PhoEff","BTagSF_b","BTagSF_l","EleEff","Q2","Pdf","isr","fsr"]
-Systematics   =	["PU","MuEff","PhoEff"]
+Systematics   =	["PU","MuEff","PhoEff","BTagSF_b"]
 SystLevel     = ["Up", "Down"]
 ControlRegion = ["tight_a4j_a1b", "looseCR_a2j_e1b",]
 #ControlRegion=["tight_a4j_a1b", "veryTight_a4j_a2b", "tight_a4j_e0b", "looseCR_a2j_e1b", "looseCR_a2j_a0b", "looseCR_a2j_e0b", "looseCR_e3j_a2b", "looseCR_e3j_e0b", "looseCR_e2j_e1b", "looseCR_e2j_e0j", "looseCR_e2j_e2b", "looseCR_e3j_e1b"]
@@ -18,7 +18,7 @@ isData = True
 SamplesSyst    = ["TTGamma", "TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets", "QCD"]
 Samples = {"TTGamma"   : [[""],
                           kOrange,
-                          "t#bar{t}+#gamma",
+                          "t#bar{t} + #gamma",
                           isMC
                           ],
            "TTbar"     : [[""],
@@ -28,37 +28,37 @@ Samples = {"TTGamma"   : [[""],
                           ],
            "TGJets"    :[[""],
                          kGray,
-                         "t+#gamma",
+                         "t + #gamma",
                          isMC
                          ],
            "WJets"     : [[""],
                           kCyan-3,
-                          "W+jets",
+                          "W + jets",
                           isMC
                           ],
            "ZJets"     : [[""],
                           kCyan-5,
-                          "Z+jets",
+                          "Z + jets",
                           isMC
                           ],
            "WGamma"    : [[""],
                           kBlue-4,
-                          "W+#gamma",
+                          "W + #gamma",
                           isMC
                           ],
            "ZGamma"    : [[""],
                           kBlue-2,
-                          "Z+#gamma",
+                          "Z + #gamma",
                           isMC
                           ],
            "Diboson"   : [[""],
                           kCyan-7,
-                          "WW/WZ/ZZ",
+                          "VV",
                           isMC
                           ],
            "SingleTop" : [[""],
                           kOrange-3,
-                          "Single top",
+                          "Single t",
                           isMC
                           ],
            "TTV"       : [[""],
@@ -79,7 +79,7 @@ Samples = {"TTGamma"   : [[""],
 
            "GJets"     : [[""],
                           kGreen+3,
-                          "#gamma+jets",
+                          "#gamma + jets",
                           isMC
                           ],
            "Data"   : [[""],
