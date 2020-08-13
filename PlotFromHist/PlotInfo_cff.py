@@ -1,9 +1,4 @@
-isMC=999
-isData=1
-
-from ROOT import *
-
-regionText = "Thoko"
+regionText = "toBeSpecified"
 NoLog = False
 YesLog = True
 histograms_dilep = {"presel_DilepMass"   : ["m_(lepton,lepton) (GeV)", "<Events/GeV>", [20., 30., 40., 50., 60., 70., 80., 85., 95., 100., 110., 120., 130., 140., 150., 160., 170., 180., 190., 200., 210., 220., 230., 240., 250., 260., 270.], [-1,-1], regionText, NoLog, " "],

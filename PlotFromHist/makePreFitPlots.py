@@ -1,5 +1,4 @@
-#from ROOT import TFile, TLegend, TCanvas, TPad, THStack, TF1, TPaveText, TGaxis, SetOwnership, TObject, gStyle,TH1F, TGraphAsymmErrors
-from ROOT import *
+from ROOT import TFile, TLegend, gPad, gROOT, TCanvas, THStack, TF1, TH1F, TGraphAsymmErrors
 import os
 import sys
 from optparse import OptionParser
@@ -163,8 +162,8 @@ def decoHistRatio(hist, xTit, yTit, color):
     hist.GetXaxis().SetTitleSize(0.11);
     hist.GetXaxis().SetLabelSize(0.10);
     hist.GetXaxis().SetLabelFont(42);
-    hist.GetXaxis().SetLabelColor(kBlack);
-    hist.GetXaxis().SetAxisColor(kBlack);
+    #hist.GetXaxis().SetLabelColor(kBlack);
+    #hist.GetXaxis().SetAxisColor(kBlack);
     hist.GetYaxis().SetRangeUser(0.5, 1.5);
     hist.GetXaxis().SetTitleOffset(1);
     hist.GetXaxis().SetLabelOffset(0.01);
@@ -247,7 +246,7 @@ def getLegend(dataHist, bkgHists, uncGraph):
     legend.SetNColumns(4);
     legend.SetFillStyle(0);
     legend.SetBorderSize(0);
-    legend.SetFillColor(kBlack);
+    #legend.SetFillColor(kBlack);
     legend.SetTextFont(42);
     legend.SetTextAngle(0);
     legend.SetTextSize(0.035);
@@ -366,7 +365,7 @@ def makePlot(hName, CR, isQCDMC, isData, isLog, isRatio):
 
     #Get unc band for the top plot
     uncGraphTop = getUncBand(hSumAllBkg, hDiffUp, hDiffDown,False)
-    uncGraphTop.SetFillColor(kOrange+2);
+    uncGraphTop.SetFillColor(2);
     uncGraphTop.SetFillStyle(3001);
     uncGraphTop.Draw(" E2 same ");
     
@@ -404,11 +403,12 @@ def makePlot(hName, CR, isQCDMC, isData, isLog, isRatio):
         decoHistRatio(hRatio, xTitle, "Obs./Exp.", 1)
         hRatio.Draw()
         uncGraphRatio = getUncBand(hSumAllBkg, hDiffUp, hDiffDown,True)
-        uncGraphRatio.SetFillColor(kOrange+3);
+        uncGraphRatio.SetFillColor(2);
         uncGraphRatio.SetFillStyle(3001);
         uncGraphRatio.Draw("E2same");
         baseLine = TF1("baseLine","1", -100, 2000);
-        baseLine.SetLineColor(kRed+1);
+        #baseLine.SetLineColor(kRed+1);
+        baseLine.SetLineColor(3);
         baseLine.Draw("SAME");
         hRatio.Draw("same")
     canvas.SaveAs("%s/%s.pdf"%(outPlotFullDir, hName))

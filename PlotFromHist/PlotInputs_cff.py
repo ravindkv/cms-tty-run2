@@ -1,4 +1,4 @@
-from ROOT import *
+import ROOT as rt
 #-----------------------------------------------------------------
 condorHistDir = "/home/rverma/t3store/TTGammaSemiLep13TeV/Output"
 #-----------------------------------------------------------------
@@ -17,73 +17,73 @@ isMC = True
 isData = True
 SamplesSyst    = ["TTGamma", "TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets", "QCD"]
 Samples = {"TTGamma"   : [[""],
-                          kOrange,
+                          rt.kOrange,
                           "t#bar{t} + #gamma",
                           isMC
                           ],
            "TTbar"     : [[""],
-                          kRed+1,
+                          rt.kRed+1,
                           "t#bar{t}",
                           isMC
                           ],
            "TGJets"    :[[""],
-                         kGray,
+                         rt.kGray,
                          "t + #gamma",
                          isMC
                          ],
            "WJets"     : [[""],
-                          kCyan-3,
+                          rt.kCyan-3,
                           "W + jets",
                           isMC
                           ],
            "ZJets"     : [[""],
-                          kCyan-5,
+                          rt.kCyan-5,
                           "Z + jets",
                           isMC
                           ],
            "WGamma"    : [[""],
-                          kBlue-4,
+                          rt.kBlue-4,
                           "W + #gamma",
                           isMC
                           ],
            "ZGamma"    : [[""],
-                          kBlue-2,
+                          rt.kBlue-2,
                           "Z + #gamma",
                           isMC
                           ],
            "Diboson"   : [[""],
-                          kCyan-7,
+                          rt.kCyan-7,
                           "VV",
                           isMC
                           ],
            "SingleTop" : [[""],
-                          kOrange-3,
+                          rt.kOrange-3,
                           "Single t",
                           isMC
                           ],
            "TTV"       : [[""],
-                          kRed-7,
+                          rt.kRed-7,
                           "ttV",
                           isMC
                           ],
            "QCD"    : [[""],
-                          kGreen,
+                          rt.kGreen,
                           "QCD MC",
                           isMC
                           ],
            "QCD_DD"    : [[""],
-                          kGreen,
+                          rt.kGreen,
                           "QCD DD",
                           isMC
                           ],
 
            "GJets"     : [[""],
-                          kGreen+3,
+                          rt.kGreen+3,
                           "#gamma + jets",
                           isMC
                           ],
            "Data"   : [[""],
-                          kBlack,
+                          rt.kBlack,
                           "Data",
                           isData
                           ],
