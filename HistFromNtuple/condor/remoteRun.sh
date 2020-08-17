@@ -32,22 +32,22 @@ echo "All arguements: "$@
 echo "Number of arguements: "$#
 if [ $# -eq 4 ] 
 then
-    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --plot presel_Njet
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 
 
 #Run for Base, Control region
 elif [ $# -eq 5 ] 
 then
-    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --cr $5 --plot presel_Njet
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --cr $5 
 
 #Run for Syst, Signal region
 elif [ $# -eq 6 ] 
 then
-    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --plot presel_Njet
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6
 
 #Run for Syst, Control region
 elif [ $# -eq 7 ] 
 then
-    python makeHists13TeV.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --cr $7 --plot presel_Njet
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --cr $7
 
 #For over/under flow of arguments
 else

@@ -1,7 +1,7 @@
 import os
 import itertools
 from optparse import OptionParser
-from HistInputs_cff import *
+from HistInputs import *
 
 #----------------------------------------
 #INPUT Command Line Arguments 
@@ -24,6 +24,7 @@ decay   = options.ttbarDecayMode
 #----------------------------------------
 inHistSubDir = "Hists/%s/%s/%s"%(year, decay, channel)
 inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
+condorLogDir = "%s/Log"%condorHistDir
 
 #----------------------------------------
 #Get all submitted jobs
@@ -91,6 +92,13 @@ for finished in finishedList:
 print "\nFinished but corrupted jobs: %s"%len(corruptedList)
 for corrupted in corruptedList:
     print corrupted
+
+#----------------------------------------
+# Check log fils as well
+#----------------------------------------
+grepName = "grep -rn nan %s -A 6 -B 2 "%condorLogDir
+print "\n Nan/Inf is propgrated for the following jobs\n"
+os.system(grepName)
 
 #----------------------------------------
 #Create jdl file to be resubmitted

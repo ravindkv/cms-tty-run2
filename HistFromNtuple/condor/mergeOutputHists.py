@@ -7,7 +7,7 @@
 
 import os
 from optparse import OptionParser
-from HistInputs_cff import *
+from HistInputs import *
 
 #-----------------------------------------
 #INPUT Command Line Arguments 

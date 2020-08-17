@@ -1,6 +1,4 @@
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
-
-
 def GetHistogramInfo_2Dplot(extraCuts="(passPresel_Mu && nJet>=3 && nBJet>=1)*", extraPhotonCuts="(passPresel_Mu && nJet>=3 && nBJet>=1 && %s)*", nBJets=1):
     histogramInfo = {#"2D_PhotonEt" :["phoEt[0]", "mcPt", "2D_PhotonEt", [300,0,300], [300,0,300],"
 		     "phosel_2DChIsoSIEIE"         : ["loosePhoPFChIso", "loosePhoSIEIE", "phosel_2DChIsoSIEIE", [500,0,0.05], [200,0,20], extraPhotonCuts%("loosePhoMediumIDPassHoverE && loosePhoMediumIDPassNeuIso && loosePhoMediumIDPassPhoIso"), "", True],
