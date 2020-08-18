@@ -97,8 +97,8 @@ for corrupted in corruptedList:
 # Check log fils as well
 #----------------------------------------
 grepName = "grep -rn nan %s -A 6 -B 2 "%condorLogDir
-print "\n Nan/Inf is propgrated for the following jobs\n"
-os.system(grepName)
+#print "\n Nan/Inf is propgrated for the following jobs\n"
+#os.system(grepName)
 
 #----------------------------------------
 #Create jdl file to be resubmitted

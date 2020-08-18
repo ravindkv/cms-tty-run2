@@ -7,3 +7,39 @@ Output = log/log_$(cluster)_$(process).stdout
 Error  = log/log_$(cluster)_$(process).stderr
 Log    = log/log_$(cluster)_$(process).condor
 
+arguments  = 2016 Mu TTbar fsr Down looseCR_a2j_e1b 
+queue 1
+
+arguments  = 2016 Mu TTbar fsr Up looseCR_a2j_e1b 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Down 
+queue 1
+
+arguments  = 2016 Mu TTbar fsr Down tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Down looseCR_a2j_e1b 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Down tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 Mu TTbar fsr Up tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 Mu TTbar fsr Up 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Up 
+queue 1
+
+arguments  = 2016 Mu TTbar fsr Down 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Up tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 Mu TTbar isr Up looseCR_a2j_e1b 
+queue 1
+
