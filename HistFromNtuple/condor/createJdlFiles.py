@@ -7,6 +7,7 @@ if not os.path.exists("jdl"):
 condorLogDir = "%s/Log"%(condorHistDir)
 if not os.path.exists(condorLogDir):
     os.makedirs(condorLogDir)
+os.system("rm %s/*"%condorLogDir)
 
 common_command = \
 'Universe   = vanilla\n\

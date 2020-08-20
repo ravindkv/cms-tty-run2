@@ -33,68 +33,28 @@ isQCDMC        = options.isQCDMC
 #-----------------------------------------
 #Path of the I/O histograms/datacards
 #----------------------------------------
-inFileSubDir = "./Merged"
-#inFileSubDir = "Hists/%s/%s/%s/Merged"%(year, decayMode, channel)
-inFileFullDir = "%s/%s"%(condorHistDir, inFileSubDir)
+inFile = "%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel)
 if CR=="":
-    outFileSubDir   = "Fit/%s/%s/%s/SR"%(year, decayMode, channel)
-    outFileFullDir  = "%s/%s"%(condorHistDir, outFileSubDir)
-    outFileFullPath = "%s/Shapes_%s_%s_%s_%s_SR.root"%(outFileFullDir, year, decayMode, channel, hName)
-    datacardPath    = "%s/datacard_%s_%s_%s_%s_SR.txt"%(outFileFullDir, year, decayMode, channel, hName)
+    inHistDirBase   = "$PROCESS/Base/SR/$BIN"
+    inHistDirSys    = "$PROCESS/$SYSTEMATIC/SR/$BIN"
+    outFileDir  = "%s/Fit/DataCard/Inc/%s/%s/%s/SR"%(condorHistDir, year, decayMode, channel)
 else:
-    outFileSubDir   = "Fit/%s/%s/%s/CR/%s"%(year, decayMode, channel, CR)
-    outFileFullDir  = "%s/%s"%(condorHistDir, outFileSubDir)
-    outFileFullPath = "%s/Shapes_%s_%s_%s_%s_CR_%s.root"%(outFileFullDir, year, decayMode, channel, hName, CR)
-    datacardPath    = "%s/datacard_%s_%s_%s_%s_CR_%s.txt"%(outFileFullDir, year, decayMode, channel, hName, CR)
-if not os.path.exists(outFileFullDir):
-    os.makedirs(outFileFullDir)
+    inHistDirBase   = "$PROCESS/Base/CR/%s/$BIN"%CR
+    inHistDirSys    = "$PROCESS/$SYSTEMATIC/CR/%s/$BIN"%CR
+    outFileDir  = "%s/Fit/DataCard/Inc/%s/%s/%s/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
 
-#-----------------------------------
-# Write final histograms in the file
-#-----------------------------------
-outputFile = TFile(outFileFullPath,"update")
-#For nominal histograms
-for sample in SamplesBase:
-    if CR=="":
-        inHistDir  = "Base/SignalRegion/%s"%hName
-    else:
-        inHistDir  = "Base/ControlRegion/%s/%s"%(CR, hName)
-    rootFile = TFile("%s/%s.root"%(inFileFullDir,sample), "read")
-    h = rootFile.Get(inHistDir).Clone("nominal")
-    if sample=="Data":
-        outHistDir = "%s/data_obs"%hName
-    else:
-        outHistDir = "%s/%s"%(hName,sample)
-    if not outputFile.GetDirectory(outHistDir):
-        outputFile.mkdir(outHistDir)
-    outputFile.cd(outHistDir)
-    gDirectory.Delete("%s;*"%(h.GetName()))
-    print "%s, \t%s, \t%s, \t%s"%(hName, sample, h.GetName(), h.Integral())
-    h.Write()
+outFilePath = "%s/Shapes_%s.root"%(outFileDir, hName)
+datacardPath    = "%s/Datacard_%s.txt"%(outFileDir, hName)
+if not os.path.exists(outFileDir):
+    os.makedirs(outFileDir)
 
-#For syst up/down histograms
-print "\n --------- For Sys -------------"
-for sample, syst, level in itertools.product(SamplesSyst, Systematics, SystLevel):
-    if CR=="":
-        inHistDir  = "%s%s/SignalRegion/%s"%(syst, level, hName)
-    else:
-        inHistDir  = "%s%s/ControlRegion/%s/%s"%(syst, level, CR, hName)
-    rootFile = TFile("%s/%s.root"%(inFileFullDir,sample), "read")
-    hSys = rootFile.Get(inHistDir).Clone("%s%s"%(syst, level))
-    print "%s, \t%s, \t%s, \t%s"%(hName, sample, hSys.GetName(), hSys.Integral())
-    outHistDir = "%s/%s"%(hName,sample)
-    if not outputFile.GetDirectory(outHistDir):
-        outputFile.mkdir(outHistDir)
-    outputFile.cd(outHistDir)
-    gDirectory.Delete("%s;*"%(hSys.GetName()))
-    hSys.Write()
-outputFile.Close()
 #-----------------------------------
 # Make datacard 
 #-----------------------------------
 AllBkgs = ["TTbar", "TGJets", "WGamma", "ZGamma"] 
 #AllBkgs = ["TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets", "QCD"]
 Signal  = ["TTGamma"]
+allMC   = Signal + AllBkgs
 cb = ch.CombineHarvester()
 #------------------
 cb.AddObservations(["*"],["ttgamma"],["13TeV"],[channel],[(-1, hName)])
@@ -102,12 +62,12 @@ cb.AddObservations(["*"],["ttgamma"],["13TeV"],[channel],[(-1, hName)])
 cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],Signal,[(-1, hName)], True)
 cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
 #------------------
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "lumi_$ERA", "lnN",ch.SystMap("era") (["13TeV"], 1.025))
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "BTagSF_b" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "PU"       , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-cb.cp().process(Signal+AllBkgs).AddSyst(cb, "EleEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "lumi_$ERA", "lnN",ch.SystMap("era") (["13TeV"], 1.025))
+cb.cp().process(allMC).AddSyst(cb, "BTagSF_b" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "PU"       , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "EleEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(["TTGamma", "TTbar"]).AddSyst(cb, "Q2" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(["TTGamma"]).AddSyst(cb, "isr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
@@ -119,10 +79,9 @@ cb.cp().GetParameter("SFWG").set_range(1.0, 0.19)
 cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'SFZG', 'rateParam', ch.SystMap()(1.0))
 cb.cp().GetParameter("SFZG").set_range(1.0, 0.21)
 #------------------
-fileName = "Fit/2016/SemiLep/Mu/SR/Shapes_2016_SemiLep_Mu_presel_Njet_SR.root" 
-cb.cp().backgrounds().ExtractShapes(fileName,"$BIN/$PROCESS/nominal","$BIN/$PROCESS/$SYSTEMATIC")
-cb.cp().signals().ExtractShapes(fileName,"$BIN/$PROCESS/nominal","$BIN/$PROCESS/$SYSTEMATIC")
-g=TFile("ttgamma_mu.input.root","recreate")
+cb.cp().backgrounds().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
+cb.cp().signals().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
+g=TFile(outFilePath,"recreate")
 g.Close()
-cb.WriteDatacard("card.txt", "ttgamma_mu.input.root")
+cb.WriteDatacard(datacardPath, outFilePath) 
 print cb.PrintAll()

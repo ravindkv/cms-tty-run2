@@ -34,27 +34,27 @@ if channel=="Mu": Samples = SampleListMu
 else: Samples = SampleListEle
 #Create for Base, Signal region
 for sample in Samples:
-    rootFile = "%s_Base_SignalRegion.root"%sample
-    arguments = "%s %s %s"%(year, channel, sample)
+    rootFile = "%s_Base_SR.root"%sample
+    arguments = "%s %s %s %s"%(year, decay, channel, sample)
     submittedDict[rootFile] = arguments 
 
 #Create for Base, Control region
 for sample, cr in itertools.product(Samples, ControlRegion):
-    rootFile = "%s_Base_ControlRegion_%s.root"%(sample, cr)
-    arguments = "%s %s %s %s"%(year, channel, sample, cr)
+    rootFile = "%s_Base_CR_%s.root"%(sample, cr)
+    arguments = "%s %s %s %s %s"%(year, decay, channel, sample, cr)
     submittedDict[rootFile] = arguments
 
 #Create for Syst, Signal region
 for sample, syst, level in itertools.product(Samples, Systematics, SystLevel):
-    rootFile = "%s_%s%s_SignalRegion.root"%(sample, syst, level)
-    arguments = "%s %s %s %s %s"%(year, channel, sample, syst, level)
+    rootFile = "%s_%s%s_SR.root"%(sample, syst, level)
+    arguments = "%s %s %s %s %s %s"%(year, decay, channel, sample, syst, level)
     if not sample in ["DataMu", "DataEle", "QCD_DD"]:
         submittedDict[rootFile] = arguments
 
 #Create for Syst, Control region
 for sample, syst, level, cr in itertools.product(Samples, Systematics, SystLevel, ControlRegion):
-    rootFile = "%s_%s%s_ControlRegion_%s.root"%(sample, syst, level, cr)
-    arguments = "%s %s %s %s %s %s"%(year, channel, sample, syst, level, cr)
+    rootFile = "%s_%s%s_CR_%s.root"%(sample, syst, level, cr)
+    arguments = "%s %s %s %s %s %s %s"%(year, decay, channel, sample, syst, level, cr)
     if not sample in ["DataMu", "DataEle", "QCD_DD"]:
         submittedDict[rootFile] = arguments
 
@@ -97,7 +97,7 @@ for corrupted in corruptedList:
 # Check log fils as well
 #----------------------------------------
 grepName = "grep -rn nan %s -A 6 -B 2 "%condorLogDir
-#print "\n Nan/Inf is propgrated for the following jobs\n"
+print "\n Nan/Inf is propgrated for the following jobs\n"
 #os.system(grepName)
 
 #----------------------------------------
@@ -105,15 +105,16 @@ grepName = "grep -rn nan %s -A 6 -B 2 "%condorLogDir
 #----------------------------------------
 if not os.path.exists("jdl"):
     os.makedirs("jdl")
-
+condorLogDir = "%s/Log"%(condorHistDir)
 common_command = \
 'Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
 use_x509userproxy = true\n\
-Output = log/log_$(cluster)_$(process).stdout\n\
-Error  = log/log_$(cluster)_$(process).stderr\n\
-Log    = log/log_$(cluster)_$(process).condor\n\n'
+Output = %s/log_$(cluster)_$(process).stdout\n\
+Error  = %s/log_$(cluster)_$(process).stderr\n\
+Log    = %s/log_$(cluster)_$(process).condor\n\n'%(condorLogDir, condorLogDir, condorLogDir)
+
 
 #----------------------------------------
 #Create jdl files
@@ -125,6 +126,7 @@ if len(unFinishedList) ==0 and len(corruptedList)==0:
     print "Noting to be resubmitted"
 else:
     jdlFileName = 'jdl/resubmitJobs_%s%s%s.jdl'%(year, decay, channel)
+    localFileName = open('../runFailedJobs_%s%s%s.sh'%(year, decay, channel), 'w')
     jdlFile = open(jdlFileName,'w')
     jdlFile.write('Executable =  remoteRun.sh \n')
     jdlFile.write(common_command)

@@ -32,22 +32,22 @@ echo "All arguements: "$@
 echo "Number of arguements: "$#
 if [ $# -eq 4 ] 
 then
-    python makeHists.py -y $1 -d $2 -c $3 -s $4 
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --fitHist
 
 #Run for Base, Control region
 elif [ $# -eq 5 ] 
 then
-    python makeHists.py -y $1 -d $2 -c $3 -s $4 --cr $5 
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --cr $5 --fitHist
 
 #Run for Syst, Signal region
 elif [ $# -eq 6 ] 
 then
-    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --fitHist
 
 #Run for Syst, Control region
 elif [ $# -eq 7 ] 
 then
-    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --cr $7
+    python makeHists.py -y $1 -d $2 -c $3 -s $4 --syst $5 --level $6 --cr $7 --fitHist
 
 #For over/under flow of arguments
 else
@@ -60,6 +60,7 @@ printf "Done Histogramming at ";/bin/date
 #---------------------------------------------
 printf "Copying output files ..."
 condorOutDir=/home/rverma/t3store/TTGammaSemiLep13TeV/Output
+mkdir -p $condorOutDir/Hists/$1/$2/$3/
 cp -rf hists/$1/$2/$3/* $condorOutDir/Hists/$1/$2/$3/ 
 printf "Done ";/bin/date
 cd ${_CONDOR_SCRATCH_DIR}

@@ -37,7 +37,7 @@ if not os.path.exists(outHistFullDir):
 #-----------------------------------------
 #Merge histograms using hadd
 #----------------------------------------
-def execme(command):
+def runMe(command):
     print ""
     print "\033[01;32m"+ "Excecuting: "+ "\033[00m",  command
     print ""
@@ -45,12 +45,16 @@ def execme(command):
 
 if channel in ["mu", "Mu", "MU", "mU"]:
     for sampleMu in SampleListMu:
-        execme("hadd -f %s/%s.root %s/%s*.root"%(outHistFullDir, sampleMu, inHistFullDir, sampleMu))
+        runMe("hadd -f %s/%s.root %s/%s*.root"%(outHistFullDir, sampleMu, inHistFullDir, sampleMu))
 else:
     for sampleEle in SampleListEle:
-        execme("hadd -k %s/%s.root %s/%s*.root"%(outHistFullDir, sampleEle, inHistFullDir, sampleEle))
+        runMe("hadd -k %s/%s.root %s/%s*.root"%(outHistFullDir, sampleEle, inHistFullDir, sampleEle))
 
+runMe("mv %s/Data%s.root %s/Data.root"%(outHistFullDir, channel, outHistFullDir))
+runMe("mv %s/QCD%s.root %s/QCD.root"%(outHistFullDir, channel, outHistFullDir))
+runMe("hadd -k %s/AllInc.root %s/*.root "%(outHistFullDir,outHistFullDir))
 print "-------------------------------------"
 print "OUTPUT DIR: ", outHistFullDir
 print "-------------------------------------"
-print execme(("du -h %s/*.root")%outHistFullDir)
+print runMe(("du -h %s/*.root")%outHistFullDir)
+

@@ -40,6 +40,8 @@ parser.add_option("--dRPlots","--dRPlots", dest="makedRPlots",action="store_true
                      help="Make only plots for dR" )
 parser.add_option("--genPlots","--genPlots", dest="makegenPlots",action="store_true",default=False,
                      help="Make only plots for 2D histograms" )
+parser.add_option("--fitHist","--fitHist", dest="makeFitHist",action="store_true",default=False,
+                     help="List of histograms to be used for fitting" )
 parser.add_option("--jetsonly","--jetsonly", dest="makeJetsplots",action="store_true",default=False,
                      help="Extra jets" )
 parser.add_option("--dilepmassPlots","--dilepmassPlots", dest="Dilepmass",action="store_true",default=False,
@@ -65,6 +67,7 @@ makeMorePlots = options.makeMorePlots
 makeEGammaPlots = options.makeEGammaPlots
 makeJetsplots = options.makeJetsplots
 makegenPlots=options.makegenPlots
+makeFitHist = options.makeFitHist
 runQuiet = options.quiet
 toPrint("Running for Year, Channel, Sample", "%s, %s, %s"%(year, channel, sample))
 print parser.parse_args()
@@ -96,7 +99,10 @@ PhoEff= "phoEffWeight"
 loosePhoEff= "loosePhoEffWeight"
 evtWeight ="evtWeight"
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
-histDirInFile = "Base"
+histDirInFile = "%s/Base"%sample
+variation = "Base"
+if "Data" in sample:
+    histDirInFile = "data_obs/Base"
 nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, False)
 
 #-----------------------------------------
@@ -110,7 +116,8 @@ if level in ["up", "UP", "uP", "Up"]:
 else:
 	level = "Down"
 if not syst=="Base":
-    histDirInFile = "%s%s"%(syst,level) 
+    histDirInFile = "%s/%s%s"%(sample,syst,level) 
+    variation = "%s%s"%(syst,level) 
     toPrint("Running for systematics", syst+level)
     if syst=="PU":
         if levelUp:
@@ -170,8 +177,9 @@ if (syst=="isr" or syst=="fsr") and sample=="TTbar":
 			"TTbarPowheg_Semilept_2016_AnalysisNtuple_2of5.root",
 			"TTbarPowheg_Semilept_2016_AnalysisNtuple_3of5.root", 
 			"TTbarPowheg_Semilept_2016_AnalysisNtuple_4of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"],
-                          kRed+1,"t#bar{t}",isMC],
+			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"
+            ],
+            ],
 			}
 
 #-----------------------------------------
@@ -259,6 +267,8 @@ if plotList is None:
         if not runQuiet: print "Making only plots for e-gamma fits"
     elif makedRPlots:
 	plotList= dRPlotList
+    elif makeFitHist:
+	plotList= fitHistList
 	if not runQuiet: print "Making only dR photon plots"
     elif makegenPlots:
 	plotList=genPlotList
@@ -339,7 +349,7 @@ if not "QCD_DD" in sample:
                 evtWeight = "%s*%s"%(evtWeight,PhoEff)
             else:
                 evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
-        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight)
+        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
 
 
 #-----------------------------------------
@@ -347,14 +357,14 @@ if not "QCD_DD" in sample:
 #----------------------------------------
 if not os.path.exists(outFileFullDir):
     os.makedirs(outFileFullDir)
-outFileFullPath = "%s/%s_%s_SignalRegion.root"%(outFileFullDir, sample, histDirInFile)
+outFileFullPath = "%s/%s_%s_SR.root"%(outFileFullDir, sample, variation)
 if not controlRegion =="":
-    outFileFullPath = "%s/%s_%s_ControlRegion_%s.root"%(outFileFullDir, sample, histDirInFile, controlRegion)
+    outFileFullPath = "%s/%s_%s_CR_%s.root"%(outFileFullDir, sample, variation, controlRegion)
 outputFile = TFile(outFileFullPath,"update")
 if not controlRegion =="":
-    histDirInFile  = "%s/ControlRegion/%s"%(histDirInFile,  controlRegion)
+    histDirInFile  = "%s/CR/%s"%(histDirInFile,  controlRegion)
 else:
-    histDirInFile  = "%s/SignalRegion"%histDirInFile 
+    histDirInFile  = "%s/SR"%histDirInFile 
 if not runQuiet: toPrint ("The histogram directory inside the root file is", histDirInFile) 
 
 

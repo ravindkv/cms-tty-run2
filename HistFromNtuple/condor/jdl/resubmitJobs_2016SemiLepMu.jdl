@@ -3,43 +3,61 @@ Universe   = vanilla
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 use_x509userproxy = true
-Output = log/log_$(cluster)_$(process).stdout
-Error  = log/log_$(cluster)_$(process).stderr
-Log    = log/log_$(cluster)_$(process).condor
+Output = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).stdout
+Error  = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).stderr
+Log    = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).condor
 
-arguments  = 2016 Mu TTbar fsr Down looseCR_a2j_e1b 
+arguments  = 2016 SemiLep Mu TTbar MuEff Up tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar fsr Up looseCR_a2j_e1b 
+arguments  = 2016 SemiLep Mu TTbar PU Up tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Down 
+arguments  = 2016 SemiLep Mu TTbar PhoEff Up tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar fsr Down tight_a4j_a1b 
+arguments  = 2016 SemiLep Mu TTbar tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Down looseCR_a2j_e1b 
+arguments  = 2016 SemiLep Mu TTbar PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Down tight_a4j_a1b 
+arguments  = 2016 SemiLep Mu TTbar MuEff Up 
 queue 1
 
-arguments  = 2016 Mu TTbar fsr Up tight_a4j_a1b 
+arguments  = 2016 SemiLep Mu TTbar MuEff Down 
 queue 1
 
-arguments  = 2016 Mu TTbar fsr Up 
+arguments  = 2016 SemiLep Mu TTbar PU Down 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Up 
+arguments  = 2016 SemiLep Mu TTbar PhoEff Up 
 queue 1
 
-arguments  = 2016 Mu TTbar fsr Down 
+arguments  = 2016 SemiLep Mu TTbar PhoEff Down 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Up tight_a4j_a1b 
+arguments  = 2016 SemiLep Mu TTbar MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 Mu TTbar isr Up looseCR_a2j_e1b 
+arguments  = 2016 SemiLep Mu TTbar 
+queue 1
+
+arguments  = 2016 SemiLep Mu TTbar PU Up 
+queue 1
+
+arguments  = 2016 SemiLep Mu TTbar PhoEff Down tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 SemiLep Mu DataMu 
+queue 1
+
+arguments  = 2016 SemiLep Mu QCD_DD 
+queue 1
+
+arguments  = 2016 SemiLep Mu DataMu tight_a4j_a1b 
+queue 1
+
+arguments  = 2016 SemiLep Mu QCD_DD tight_a4j_a1b 
 queue 1
 

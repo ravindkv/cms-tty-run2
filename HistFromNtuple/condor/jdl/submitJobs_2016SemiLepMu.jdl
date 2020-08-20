@@ -52,85 +52,43 @@ queue 1
 arguments  = 2016 SemiLep Mu TTGamma tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTGamma looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTbar tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TGJets tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TGJets looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WJets tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZJets tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZJets looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WGamma tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZGamma tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZGamma looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu Diboson tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu SingleTop tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu SingleTop looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTV tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu GJets tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu GJets looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu DataMu tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu DataMu looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCD_DD tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCD_DD looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTGamma PU Up 
@@ -151,48 +109,6 @@ queue 1
 arguments  = 2016 SemiLep Mu TTGamma PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTbar PU Up 
 queue 1
 
@@ -209,48 +125,6 @@ arguments  = 2016 SemiLep Mu TTbar PhoEff Up
 queue 1
 
 arguments  = 2016 SemiLep Mu TTbar PhoEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Down 
 queue 1
 
 arguments  = 2016 SemiLep Mu TGJets PU Up 
@@ -271,48 +145,6 @@ queue 1
 arguments  = 2016 SemiLep Mu TGJets PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu WJets PU Up 
 queue 1
 
@@ -329,48 +161,6 @@ arguments  = 2016 SemiLep Mu WJets PhoEff Up
 queue 1
 
 arguments  = 2016 SemiLep Mu WJets PhoEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Down 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZJets PU Up 
@@ -391,48 +181,6 @@ queue 1
 arguments  = 2016 SemiLep Mu ZJets PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu WGamma PU Up 
 queue 1
 
@@ -449,48 +197,6 @@ arguments  = 2016 SemiLep Mu WGamma PhoEff Up
 queue 1
 
 arguments  = 2016 SemiLep Mu WGamma PhoEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Down 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZGamma PU Up 
@@ -511,48 +217,6 @@ queue 1
 arguments  = 2016 SemiLep Mu ZGamma PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu Diboson PU Up 
 queue 1
 
@@ -569,48 +233,6 @@ arguments  = 2016 SemiLep Mu Diboson PhoEff Up
 queue 1
 
 arguments  = 2016 SemiLep Mu Diboson PhoEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Down 
 queue 1
 
 arguments  = 2016 SemiLep Mu SingleTop PU Up 
@@ -631,48 +253,6 @@ queue 1
 arguments  = 2016 SemiLep Mu SingleTop PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTV PU Up 
 queue 1
 
@@ -689,48 +269,6 @@ arguments  = 2016 SemiLep Mu TTV PhoEff Up
 queue 1
 
 arguments  = 2016 SemiLep Mu TTV PhoEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Down 
 queue 1
 
 arguments  = 2016 SemiLep Mu GJets PU Up 
@@ -751,48 +289,6 @@ queue 1
 arguments  = 2016 SemiLep Mu GJets PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu PU Up 
 queue 1
 
@@ -811,1485 +307,219 @@ queue 1
 arguments  = 2016 SemiLep Mu QCDMu PhoEff Down 
 queue 1
 
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Down 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Up 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Down 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTGamma PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTGamma PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTGamma PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTGamma MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTGamma MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTGamma MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTGamma PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTGamma PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTGamma PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTGamma fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTbar PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTbar PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTbar PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTbar MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTbar MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTbar MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTbar PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTbar PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTbar PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTbar fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TGJets PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TGJets PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TGJets PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TGJets MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TGJets MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TGJets MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TGJets PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TGJets PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TGJets PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TGJets fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WJets PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WJets PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WJets PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WJets MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WJets MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WJets MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WJets PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WJets PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WJets PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WJets fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZJets PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZJets PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZJets PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZJets MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZJets MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZJets MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZJets PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZJets PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZJets PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZJets fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WGamma PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WGamma PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WGamma PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WGamma MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WGamma MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WGamma MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu WGamma PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu WGamma PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu WGamma PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu WGamma fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZGamma PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZGamma PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZGamma PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZGamma MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZGamma MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZGamma MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu ZGamma PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu ZGamma PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu ZGamma PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu ZGamma fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu Diboson PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu Diboson PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu Diboson PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu Diboson MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu Diboson MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu Diboson MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu Diboson PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu Diboson PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu Diboson PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu Diboson fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu SingleTop PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu SingleTop PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu SingleTop PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu SingleTop MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu SingleTop MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu SingleTop MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu SingleTop PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu SingleTop PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu SingleTop PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu SingleTop fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTV PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTV PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTV PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTV MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTV MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTV MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu TTV PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu TTV PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu TTV PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu TTV fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu GJets PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu GJets PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu GJets PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu GJets MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu GJets MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu GJets MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu GJets PhoEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets PhoEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu GJets PhoEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu GJets PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu GJets fsr Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu PU Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu PU Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu QCDMu PU Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu QCDMu PU Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu MuEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu MuEff Up looseCR_a2j_e1b 
 queue 1
 
 arguments  = 2016 SemiLep Mu QCDMu MuEff Down tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu QCDMu MuEff Down looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu PhoEff Up tight_a4j_a1b 
 queue 1
 
-arguments  = 2016 SemiLep Mu QCDMu PhoEff Up looseCR_a2j_e1b 
-queue 1
-
 arguments  = 2016 SemiLep Mu QCDMu PhoEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu PhoEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_b Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu BTagSF_l Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu EleEff Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Q2 Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu Pdf Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu isr Down looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Up tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Up looseCR_a2j_e1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Down tight_a4j_a1b 
-queue 1
-
-arguments  = 2016 SemiLep Mu QCDMu fsr Down looseCR_a2j_e1b 
 queue 1
 

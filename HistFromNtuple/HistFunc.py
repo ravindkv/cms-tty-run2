@@ -49,8 +49,8 @@ def getQCDTransFact(year, channel, nBJets_, outputFile_, qcdTFDirInFile):
     histCR    = TH1F("Njet_HighIso_0b","Njet_HighIso_0b",15,0,15)
     histCRPho = TH1F("Njet_HighIso_0b_1Photon","Njet_HighIso_0b_1Photon",15,0,15)
     print "Filling histograms for TF: ", histCR.GetName() 
-    tree.Draw("nJet>>Njet_HighIso_0b",extraCuts+weights)
-    tree.Draw("nJet>>Njet_HighIso_0b_1Photon",extraCutsPhoton+weights)
+    tree.Draw("nJet>>Njet_HighIso_0b",extraCuts+weights, "goff")
+    tree.Draw("nJet>>Njet_HighIso_0b_1Photon",extraCutsPhoton+weights, "goff")
     allHistsForTF.append(histCR)
     
     #-----------------------------------------
@@ -73,8 +73,8 @@ def getQCDTransFact(year, channel, nBJets_, outputFile_, qcdTFDirInFile):
     hist0 = TH1F("Njet_LowIso_0b","Njet_LowIso_0b",15,0,15)
     hist0Pho = TH1F("Njet_LowIso_0b_1Photon","Njet_LowIso_0b_1Photon",15,0,15)
     print "Filling histograms for TF: ", hist0.GetName() 
-    tree.Draw("nJet>>Njet_LowIso_0b",extraCuts+weights)
-    tree.Draw("nJet>>Njet_LowIso_0b_1Photon",extraCutsPhoton+weights)
+    tree.Draw("nJet>>Njet_LowIso_0b",extraCuts+weights,"goff")
+    tree.Draw("nJet>>Njet_LowIso_0b_1Photon",extraCutsPhoton+weights,"goff")
     allHistsForTF.append(hist0)
     
     #-----------------------------------------
@@ -86,8 +86,8 @@ def getQCDTransFact(year, channel, nBJets_, outputFile_, qcdTFDirInFile):
     hist1 = TH1F("Njet_LowIso_1b","Njet_LowIso_1b",15,0,15)
     hist1Pho = TH1F("Njet_LowIso_1b_1Photon","Njet_LowIso_1b_1Photon",15,0,15)
     print "Filling histograms for TF: ", hist1.GetName() 
-    tree.Draw("nJet>>Njet_LowIso_1b",extraCuts+weights)
-    tree.Draw("nJet>>Njet_LowIso_1b_1Photon",extraCutsPhoton+weights)
+    tree.Draw("nJet>>Njet_LowIso_1b",extraCuts+weights, "goff")
+    tree.Draw("nJet>>Njet_LowIso_1b_1Photon",extraCutsPhoton+weights, "goff")
     allHistsForTF.append(hist1)
     
     #-----------------------------------------
@@ -99,8 +99,8 @@ def getQCDTransFact(year, channel, nBJets_, outputFile_, qcdTFDirInFile):
     hist2 = TH1F("Njet_LowIso_2b","Njet_LowIso_2b",15,0,15)
     hist2Pho = TH1F("Njet_LowIso_2b_1Photon","Njet_LowIso_2b_1Photon",15,0,15)
     print "Filling histograms for TF: ", hist2.GetName() 
-    tree.Draw("nJet>>Njet_LowIso_2b",extraCuts+weights)
-    tree.Draw("nJet>>Njet_LowIso_2b_1Photon",extraCutsPhoton+weights)
+    tree.Draw("nJet>>Njet_LowIso_2b",extraCuts+weights, "goff")
+    tree.Draw("nJet>>Njet_LowIso_2b_1Photon",extraCutsPhoton+weights, "goff")
     allHistsForTF.append(hist2)
     allHistsForTF.append(histCRPho)
     allHistsForTF.append(hist0Pho)
@@ -228,7 +228,7 @@ def getShapeFromCR(year, channel, nJetSel, nBJets_, hInfo, outputFile_, qcdShape
             fileList = samples[sample_][0]
             for fileName in fileList:
     	        tree.Add("%s/QCDcr_%s"%(ntupleDirBaseCR,fileName))
-            tree.Draw("%s>>%s_%s"%(hInfo[0],hInfo[1],sample_),evtWeight)
+            tree.Draw("%s>>%s_%s"%(hInfo[0],hInfo[1],sample_),evtWeight, "goff")
             hNonQCDBkgs.append(hist_)
         if "Data" in sample_:
             tree = TChain("AnalysisTree")
@@ -238,7 +238,7 @@ def getShapeFromCR(year, channel, nJetSel, nBJets_, hInfo, outputFile_, qcdShape
                 evtWeight= evtWeight[:-1]
             for fileName in fileList:
     	    	tree.Add("%s/QCDcr_%s"%(ntupleDirBaseCR,fileName))
-            tree.Draw("%s>>%s_%s"%(hInfo[0],hInfo[1],sample_),evtWeight)
+            tree.Draw("%s>>%s_%s"%(hInfo[0],hInfo[1],sample_),evtWeight, "goff")
             hData.append(hist_)
         print "Integral = %s"%hist_.Integral()
     hDiffDataBkg = hData[0].Clone(hInfo[1])
