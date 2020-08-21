@@ -78,10 +78,20 @@ cb.cp().GetParameter("SFWG").set_range(1.0, 0.19)
 cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'SFZG', 'rateParam', ch.SystMap()(1.0))
 cb.cp().GetParameter("SFZG").set_range(1.0, 0.21)
 #------------------
+cb.SetGroup("mySyst", ["lumi_13TeV", "BTagSF_b", "BTagSF_l", "PU"])
+cb.SetGroup("otherSyst", ["TTBarSF", "WGSF", "ZGSF", "PhoEff"])
+cb.SetAutoMCStats(cb, 0, False, 1)
+#------------------
 cb.cp().backgrounds().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
 cb.cp().signals().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
-g=TFile(outFilePath,"recreate")
-g.Close()
 cb.WriteDatacard(datacardPath, outFilePath) 
-print cb.PrintAll()
+cb.WriteDatacard(datacardPath, outFilePath) 
+#------------------
+#print cb.PrintAll()
+#print cb.PrintObs();
+#print cb.PrintProcs();
+#print cb.PrintSysts();
+print cb.PrintParams();
 print datacardPath
+print outFilePath
+
