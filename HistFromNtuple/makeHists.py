@@ -103,6 +103,9 @@ histDirInFile = "%s/Base"%sample
 variation = "Base"
 if "Data" in sample:
     histDirInFile = "data_obs/Base"
+if "QCD%s"%channel in sample:
+    histDirInFile = "QCD/Base"
+
 nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, False)
 
 #-----------------------------------------
@@ -117,6 +120,8 @@ else:
 	level = "Down"
 if not syst=="Base":
     histDirInFile = "%s/%s%s"%(sample,syst,level) 
+    if "QCD%s"%channel in sample:
+        histDirInFile = "QCD/%s%s"%(syst, level)
     variation = "%s%s"%(syst,level) 
     toPrint("Running for systematics", syst+level)
     if syst=="PU":
@@ -349,7 +354,7 @@ if not "QCD_DD" in sample:
                 evtWeight = "%s*%s"%(evtWeight,PhoEff)
             else:
                 evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
-        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
+        #tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
 
 
 #-----------------------------------------

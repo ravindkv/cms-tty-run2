@@ -126,7 +126,6 @@ if len(unFinishedList) ==0 and len(corruptedList)==0:
     print "Noting to be resubmitted"
 else:
     jdlFileName = 'jdl/resubmitJobs_%s%s%s.jdl'%(year, decay, channel)
-    localFileName = open('../runFailedJobs_%s%s%s.sh'%(year, decay, channel), 'w')
     jdlFile = open(jdlFileName,'w')
     jdlFile.write('Executable =  remoteRun.sh \n')
     jdlFile.write(common_command)
@@ -142,3 +141,4 @@ queue 1\n\n' %(submittedDict[corrupted])
     	jdlFile.write(run_command)
     print "condor_submit %s"%jdlFileName
     jdlFile.close() 
+print inHistFullDir
