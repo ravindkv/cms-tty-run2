@@ -15,7 +15,7 @@ parser.add_option("-d", "--decayMode", dest="decayMode", default="SemiLep",type=
                      help="Specify which decayMode moded of ttbar SemiLep or DiLep? default is SemiLep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
-parser.add_option("--hist", "--hist", dest="inHistName", default="phosel_M3",type='str',
+parser.add_option("--hist", "--hist", dest="inHistName", default="presel_M3",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("--cr", "--CR", dest="CR", default="",type='str', 
                      help="which control selection and region")
@@ -35,7 +35,7 @@ is0Photon       = options.is0Photon
 #-----------------------------------------
 #Path of the I/O histograms/datacards
 #----------------------------------------
-inFile = TFile("%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel))
+inFile = TFile("%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel), "read")
 outFileName = "%s/Hists/%s/%s/%s/Merged/AllCat.root"%(condorHistDir, year, decayMode, channel)
 outputFile = TFile(outFileName,"update")
 #histList = ["phosel_M3_GenuinePhoton","phosel_M3_MisIDEle","phosel_M3_HadronicPhoton","phosel_M3_HadronicFake", "phosel_noCut_ChIso_GenuinePhoton","phosel_noCut_ChIso_MisIDEle","phosel_noCut_ChIso_HadronicPhoton","phosel_noCut_ChIso_HadronicFake"]
@@ -116,7 +116,7 @@ def getHistMain0Photon(inHistName, procDir, sysType):
         else:
             histDir = "%s/%s/CR/%s"%(sample, sysType, CR)
         if sample in procDir:
-            h = inFile.Get("%s/%s"%(histDir, inHistName))
+            h = inFile.Get("%s/%s"%(histDir, inHistName)).Clone(sysType)
     return h, procDir, sysType
 
 def getHistOther0Photon(inHistName, procDir, sysType):

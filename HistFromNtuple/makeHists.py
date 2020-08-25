@@ -354,7 +354,7 @@ if not "QCD_DD" in sample:
                 evtWeight = "%s*%s"%(evtWeight,PhoEff)
             else:
                 evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
-        #tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
+        tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
 
 
 #-----------------------------------------

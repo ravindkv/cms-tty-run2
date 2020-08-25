@@ -33,8 +33,8 @@ isQCDMC        = options.isQCDMC
 #-----------------------------------------
 #Path of the I/O histograms/datacards
 #----------------------------------------
-#inFile = "%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel)
-inFile = "AllInc.root"
+inFileName = "%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel)
+print inFileName
 if CR=="":
     inHistDirBase   = "$PROCESS/Base/SR/$BIN"
     inHistDirSys    = "$PROCESS/$SYSTEMATIC/SR/$BIN"
@@ -52,25 +52,34 @@ if not os.path.exists(outFileDir):
 #-----------------------------------
 # Make datacard 
 #-----------------------------------
+cb = ch.CombineHarvester()
+#cb.SetVerbosity(4)
 AllBkgs = ["TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets", "QCD"]
 Signal  = ["TTGamma"]
 allMC   = Signal + AllBkgs
-cb = ch.CombineHarvester()
+#------------------
+#Add observed data
 #------------------
 cb.AddObservations(["*"],["ttgamma"],["13TeV"],[channel],[(-1, hName)])
+#------------------
+#Add sig& bkgs
 #------------------
 cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],Signal,[(-1, hName)], True)
 cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
 #------------------
+#Add systematics
+#------------------
 cb.cp().process(allMC).AddSyst(cb, "lumi_$ERA", "lnN",ch.SystMap("era") (["13TeV"], 1.025))
-#cb.cp().process(allMC).AddSyst(cb, "BTagSF_b" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(allMC).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(allMC).AddSyst(cb, "PU"       , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(allMC).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(allMC).AddSyst(cb, "EleEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "BTagSF_b" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "PU"       , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "EleEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 #cb.cp().process(["TTGamma", "TTbar"]).AddSyst(cb, "Q2" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(["TTGamma"]).AddSyst(cb, "isr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
-#cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(["TTGamma"]).AddSyst(cb, "isr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+#------------------
+#Add rateParam
 #------------------
 cb.cp().process(["TTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
 cb.cp().GetParameter("TTbarSF").set_range(1.0, 0.05)
@@ -79,21 +88,28 @@ cb.cp().GetParameter("WGSF").set_range(1.0, 0.19)
 cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
 cb.cp().GetParameter("ZGSF").set_range(1.0, 0.21)
 #------------------
-#cb.SetGroup("mySyst", ["lumi_13TeV", "BTagSF_b", "BTagSF_l", "PU"])
-#cb.SetGroup("otherSyst", ["TTBarSF", "WGSF", "ZGSF", "PhoEff"])
-cb.SetAutoMCStats(cb, 0, False, 1)
+#Add syst groups
 #------------------
-#cb.cp().backgrounds().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
-cb.cp().signals().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
-#cb.WriteDatacard(datacardPath) 
+cb.SetGroup("mySyst", ["lumi_13TeV", "BTagSF_b", "BTagSF_l", "PU"])
+cb.SetGroup("otherSyst", ["TTBarSF", "WGSF", "ZGSF", "PhoEff"])
+#------------------
+#Add autoMCStat
+#------------------
+cb.SetAutoMCStats(cb, 0, True, 1)
+#------------------
+#Get shape hists
+#------------------
+cb.cp().backgrounds().ExtractShapes(inFileName, inHistDirBase, inHistDirSys)
+cb.cp().signals().ExtractShapes(inFileName, inHistDirBase, inHistDirSys)
 cb.WriteDatacard(datacardPath, outFilePath) 
+#------------------
+#print various info
 #------------------
 #print cb.PrintAll()
 #print cb.PrintObs();
 #print cb.PrintProcs();
 #print cb.PrintSysts();
-print cb.PrintParams();
-print inFile
+#print cb.PrintParams();
 print datacardPath
 print outFilePath
 
