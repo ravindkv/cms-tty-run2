@@ -56,5 +56,5 @@ runMe("hadd -k %s/AllInc.root %s/*.root "%(outHistFullDir,outHistFullDir))
 print "-------------------------------------"
 print "OUTPUT DIR: ", outHistFullDir
 print "-------------------------------------"
-print runMe(("du -h %s/*.root")%outHistFullDir)
+print runMe(("du -sh %s/*.root")%outHistFullDir)
 

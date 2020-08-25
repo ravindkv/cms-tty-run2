@@ -13,18 +13,11 @@ else
     echo "Running In Batch"
     echo ${_CONDOR_SCRATCH_DIR}
     source /cvmfs/cms.cern.ch/cmsset_default.sh
-    scramv1 project CMSSW CMSSW_10_2_5
-    cd CMSSW_10_2_5/src
+    scramv1 project CMSSW CMSSW_10_2_14
+    cd CMSSW_10_2_14/src
     eval `scramv1 runtime -sh`
-    #-------------------
-    #For TIFR
-    #-------------------
-    cp -rf /home/rverma/t3store/TTGammaSemiLep13TeV/Code/CMSSW_10_2_5/src/TTGamma/HistFromNtuple/ .
-    #-------------------
-    #For LPC
-    #-------------------
-    #xrdcp -f root://cmseos.fnal.gov//store/user/npoudyal/CMSSW_10_2_14.tgz .
-    cd HistFromNtuple
+	cd ../..
+	tar --strip-components=1 -zxvf HistFromNtuple.tar.gz
 fi
 
 #Run for Base, Signal region
@@ -59,9 +52,7 @@ printf "Done Histogramming at ";/bin/date
 #Copy the ouput root files
 #---------------------------------------------
 printf "Copying output files ..."
-condorOutDir=/home/rverma/t3store/TTGammaSemiLep13TeV/Output
-mkdir -p $condorOutDir/Hists/$1/$2/$3/
-cp -rf hists/$1/$2/$3/* $condorOutDir/Hists/$1/$2/$3/ 
+condorOutDir=/store/user/rverma/OutputTTGamma
+eos root://cmseos.fnal.gov mkdir -p $condorOutDir/Hists/$1/$2/$3/
+xrdcp -rf hists/$1/$2/$3/*.root root://cmseos.fnal.gov/$condorOutDir/Hists/$1/$2/$3/ 
 printf "Done ";/bin/date
-cd ${_CONDOR_SCRATCH_DIR}
-rm -rf CMSSW_10_2_5

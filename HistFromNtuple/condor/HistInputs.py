@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------
-condorHistDir = "/home/rverma/t3store/TTGammaSemiLep13TeV/Output"
+condorHistDir  = "/eos/uscms/store/user/rverma/OutputTTGamma"
 #-----------------------------------------------------------------
 #Year 	      =	["2016", "2017", "2018"]
 Year 	      =	["2016"]
@@ -9,7 +9,7 @@ Decay 	  =	["SemiLep"]
 Channel 	  =	["Mu"]
 SampleList    =	["TTGamma", "TTbar", "TGJets", "WJets", "ZJets", "WGamma", "ZGamma", "Diboson", "SingleTop", "TTV","GJets"]
 Samples       = SampleList+["data_obs"]
-SamplesOther    =	["TGJets", "WJets", "ZJets", "Diboson", "SingleTop", "TTV","GJets"]
+SamplesOther    =	["TGJets", "WJets", "ZJets", "Diboson", "SingleTop", "TTV","GJets", "QCD"]
 #SampleList    =	["TTGamma", "TTbar"]
 SampleListEle = SampleList + ["QCDEle", "DataEle", "QCD_DD"]
 SampleListMu  = SampleList + ["QCDMu", "DataMu", "QCD_DD"]

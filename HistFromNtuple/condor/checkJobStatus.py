@@ -24,7 +24,7 @@ decay   = options.ttbarDecayMode
 #----------------------------------------
 inHistSubDir = "Hists/%s/%s/%s"%(year, decay, channel)
 inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
-condorLogDir = "%s/Log"%condorHistDir
+condorLogDir = "tmpSub/log"
 
 #----------------------------------------
 #Get all submitted jobs
@@ -103,13 +103,12 @@ print "\n Nan/Inf is propgrated for the following jobs\n"
 #----------------------------------------
 #Create jdl file to be resubmitted
 #----------------------------------------
-if not os.path.exists("jdl"):
-    os.makedirs("jdl")
-condorLogDir = "%s/Log"%(condorHistDir)
+condorLogDir = "tmpSub/log"
 common_command = \
 'Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
+Transfer_Input_Files = HistFromNtuple.tar.gz, remoteRun.sh\n\
 use_x509userproxy = true\n\
 Output = %s/log_$(cluster)_$(process).stdout\n\
 Error  = %s/log_$(cluster)_$(process).stderr\n\
@@ -125,7 +124,7 @@ print len(corruptedList)
 if len(unFinishedList) ==0 and len(corruptedList)==0:
     print "Noting to be resubmitted"
 else:
-    jdlFileName = 'jdl/resubmitJobs_%s%s%s.jdl'%(year, decay, channel)
+    jdlFileName = 'tmpSub/resubmitJobs_%s%s%s.jdl'%(year, decay, channel)
     jdlFile = open(jdlFileName,'w')
     jdlFile.write('Executable =  remoteRun.sh \n')
     jdlFile.write(common_command)

@@ -2,17 +2,19 @@ import itertools
 import os
 from HistInputs import *
 
-if not os.path.exists("jdl"):
-    os.makedirs("jdl")
-condorLogDir = "%s/Log"%(condorHistDir)
-if not os.path.exists(condorLogDir):
-    os.makedirs(condorLogDir)
-os.system("rm %s/*"%condorLogDir)
-
+if not os.path.exists("tmpSub/log"):
+    os.makedirs("tmpSub/log")
+condorLogDir = "log"
+tarFile = "tmpSub/HistFromNtuple.tar.gz"
+if os.path.exists(tarFile):
+	os.system("rm %s"%tarFile)
+os.system("tar -zcvf %s ../../HistFromNtuple --exclude condor"%tarFile)
+os.system("cp remoteRun.sh tmpSub/")
 common_command = \
 'Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
+Transfer_Input_Files = HistFromNtuple.tar.gz, remoteRun.sh\n\
 use_x509userproxy = true\n\
 Output = %s/log_$(cluster)_$(process).stdout\n\
 Error  = %s/log_$(cluster)_$(process).stderr\n\
@@ -25,7 +27,7 @@ for year, decay, channel in itertools.product(Year, Decay, Channel):
     condorOutDir = "%s/Hists/%s/%s/%s"%(condorHistDir, year, decay, channel)
     if not os.path.exists(condorOutDir):
         os.makedirs(condorOutDir)
-    jdlFile = open('jdl/submitJobs_%s%s%s.jdl'%(year, decay, channel),'w')
+    jdlFile = open('tmpSub/submitJobs_%s%s%s.jdl'%(year, decay, channel),'w')
     jdlFile.write('Executable =  remoteRun.sh \n')
     jdlFile.write(common_command)
     if channel=="Mu": Samples = SampleListMu
@@ -60,4 +62,5 @@ queue 1\n\n' %(year, decay, channel, sample, syst, level)
 queue 1\n\n' %(year, decay, channel, sample, syst, level, cr)
         if not sample in ["DataMu", "DataEle", "QCD_DD"]:
             jdlFile.write(run_command)
+	#print "condor_submit jdl/%s"%jdlFile
     jdlFile.close() 

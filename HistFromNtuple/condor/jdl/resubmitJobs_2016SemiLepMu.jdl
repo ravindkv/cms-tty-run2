@@ -1,9 +1,0 @@
-Executable =  remoteRun.sh 
-Universe   = vanilla
-should_transfer_files = YES
-when_to_transfer_output = ON_EXIT
-use_x509userproxy = true
-Output = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).stdout
-Error  = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).stderr
-Log    = /home/rverma/t3store/TTGammaSemiLep13TeV/Output/Log/log_$(cluster)_$(process).condor
-
