@@ -86,18 +86,15 @@ cb.cp().process(allMC).AddSyst(cb, "fsr"      , "shape",ch.SystMap()(1.0))
 #------------------
 #Add rateParam
 #------------------
-cb.cp().process(["isolatedTTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().process(["nonPromptTTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("TTbarSF").set_range(1.0, 0.05)
-cb.cp().process(["isolatedWGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().process(["nonPromptWGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("WGSF").set_range(1.0, 0.19)
-cb.cp().process(["isolatedZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().process(["nonPromptZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("ZGSF").set_range(1.0, 0.21)
-cb.cp().process(["isolatedOther"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().process(["nonPromptOther"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("OtherSF").set_range(1.0, 0.21)
+cb.cp().process(["isolatedTTbar", "nonPromptTTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["isolatedWGamma", "nonPromptWGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["isolatedZGamma", "nonPromptZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["isolatedOther", "nonPromptOther"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(nonPromptBkg).bin([hName]).AddSyst(cb, 'nonPromptSF', 'rateParam', ch.SystMap()(1.0))
+#cb.cp().GetParameter("TTbarSF").set_range(0.05,1.0)
+#cb.cp().GetParameter("WGSF").set_range(0.19,1.0)
+#cb.cp().GetParameter("ZGSF").set_range(0.21,1.0)
+#cb.cp().GetParameter("OtherSF").set_range(0.21,1.0)
 #------------------
 #Add syst groups
 #------------------
@@ -123,3 +120,13 @@ cb.WriteDatacard(datacardPath, outFilePath)
 print cb.PrintParams();
 print outFilePath
 print datacardPath
+
+#------------------
+#Add param
+#------------------
+dc = open(datacardPath, "a")
+dc.write("TTbarSF \t param \t 1.0 \t 0.05\n")
+dc.write("WGSF    \t param \t 1.0 \t 0.10\n")
+dc.write("ZGSF    \t param \t 1.0 \t 0.10\n")
+dc.write("OtherSF \t param \t 1.0 \t 0.30\n")
+dc.close()

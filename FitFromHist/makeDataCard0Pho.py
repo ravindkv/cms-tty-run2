@@ -79,12 +79,14 @@ cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap()(1.0))
 #------------------
 #Add rateParam
 #------------------
-cb.cp().process(["TTbar"]).bin([hName]).AddSyst(cb, 'SFTTbar', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("SFTTbar").set_range(1.0, 0.05)
-cb.cp().process(["WGamma"]).bin([hName]).AddSyst(cb, 'SFWG', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("SFWG").set_range(1.0, 0.19)
-cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'SFZG', 'rateParam', ch.SystMap()(1.0))
-cb.cp().GetParameter("SFZG").set_range(1.0, 0.21)
+cb.cp().process(["TTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["WGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
+cb.cp().process(["Other"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
+#cb.cp().GetParameter("TTbarSF").set_range(0.05,1.0)
+#cb.cp().GetParameter("WGSF").set_range(0.19,1.0)
+#cb.cp().GetParameter("ZGSF").set_range(0.21,1.0)
+#cb.cp().GetParameter("OtherSF").set_range(0.21,1.0)
 #------------------
 #Add syst groups
 #------------------
@@ -111,3 +113,12 @@ print cb.PrintParams();
 print datacardPath
 print outFilePath
 
+#------------------
+#Add param
+#------------------
+dc = open(datacardPath, "a")
+dc.write("TTbarSF \t param \t 1.0 \t 0.05\n")
+dc.write("WGSF    \t param \t 1.0 \t 0.19\n")
+dc.write("ZGSF    \t param \t 1.0 \t 0.21\n")
+dc.write("OtherSF \t param \t 1.0 \t 0.30\n")
+dc.close()

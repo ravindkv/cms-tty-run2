@@ -1,6 +1,7 @@
 from ROOT import TFile, TH1F, gDirectory
 import os
 import sys
+import numpy
 import itertools
 from optparse import OptionParser
 from HistInputs import *
@@ -39,6 +40,14 @@ inFile = TFile("%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, deca
 outFileName = "%s/Hists/%s/%s/%s/Merged/AllCat.root"%(condorHistDir, year, decayMode, channel)
 outputFile = TFile(outFileName,"update")
 #histList = ["phosel_M3_GenuinePhoton","phosel_M3_MisIDEle","phosel_M3_HadronicPhoton","phosel_M3_HadronicFake", "phosel_noCut_ChIso_GenuinePhoton","phosel_noCut_ChIso_MisIDEle","phosel_noCut_ChIso_HadronicPhoton","phosel_noCut_ChIso_HadronicFake"]
+newBinsM3 = numpy.array([ 50.,  100., 125., 150., 175., 200.,250., 300., 500.])
+newBinsChIso = numpy.array([ 0., 0.5, 1., 2., 5., 12., 20.])
+def getNewBins(inHistName):
+	if "M3" in inHistName:
+		return newBinsM3
+	else:
+		return newBinsChIso
+
 def addHist(histList, name):
     if len(histList) ==0:
         print "Hist list | %s, %s | is empty"%(histList, name)
@@ -60,7 +69,8 @@ def writeHist(hist, procDir, histNewName, outputFile):
     outputFile.cd(outHistDir)
     gDirectory.Delete("%s;*"%(hist.GetName()))
     print "%s, \t%s, \t%s, \t%s"%(inHistName, procDir, histNewName, hist.Integral())
-    hist.Write()
+    hNew = hist.Rebin(len(getNewBins(inHistName))-1, histNewName, getNewBins(inHistName))
+    hNew.Write()
 
 def getHistData(inHistName, procDir, sysType):
     if CR=="":

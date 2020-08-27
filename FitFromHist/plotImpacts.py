@@ -25,7 +25,6 @@ parser.add_argument('--color-groups', default=None, help='Comma separated list o
 parser.add_argument("--pullDef",  default=None, help="Choose the definition of the pull, see HiggsAnalysis/CombinedLimit/python/calculate_pulls.py for options")
 parser.add_argument('--POI', default=None, help='Specify a POI to draw')
 args = parser.parse_args()
-
 if args.transparent:
     print 'plotImpacts.py: --transparent is now always enabled, the option will be removed in a future update'
 
@@ -114,7 +113,8 @@ if args.color_groups is not None:
         plot.Set(color_group_hists[name], FillColor=col, Title=name)
 
 for page in xrange(n):
-    canv = ROOT.TCanvas(args.output, args.output, 1600, 1800)
+    canv = ROOT.TCanvas("nuisanceImpact", "nuisanceImpact", 1600, 1800)
+    #canv = ROOT.TCanvas(args.output, args.output, 1600, 1800)
     n_params = len(data['params'][show * page:show * (page + 1)])
     pdata = data['params'][show * page:show * (page + 1)]
     print '>> Doing page %i, have %i parameters' % (page, n_params)
@@ -183,11 +183,11 @@ for page in xrange(n):
 
             g_pulls.SetPoint(i, pull, float(i) + 0.5)
             nuisName = Translate(pdata[p]['name'],translate)
-            if(abs(pull) >0):
+            if(abs(pull) >2):
                 if("prop" in nuisName):
                     chName = nuisName.split("_")[1].replace("bin", "")
                     binName = nuisName.split("_")[2].replace("bin", "")
-                    print '%s\t %s\t %s\t %f \t %f \t %f' % (nuisName, chName, binName, pull_lo, pull, pull_hi)
+                    #print '%s\t %s\t %s\t %f \t %f \t %f' % (nuisName, chName, binName, pull_lo, pull, pull_hi)
                 else:
                     print "-----------------------------"
                     print '%s\t %f \t %f \t %f' % (nuisName, fit[0], fit[1], fit[2])
@@ -363,4 +363,4 @@ for page in xrange(n):
         extra = '('
     if page == n - 1:
         extra = ')'
-    canv.Print('.pdf%s' % extra)
+    canv.Print('%s%s' %(args.output, extra))

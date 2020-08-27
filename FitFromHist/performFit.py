@@ -22,9 +22,9 @@ parser.add_option("--isText","--isText",dest="isText", default=False, action="st
 		  help="create txt datacards")
 parser.add_option("--isT2W","--isT2W",dest="isT2W", default=False, action="store_true",
 		  help="create text2workspace datacards")
-parser.add_option("--runFD","--runFD",dest="runFD", default=False, action="store_true",
+parser.add_option("--isFD","--isFD",dest="isFD", default=False, action="store_true",
 		  help="run FitDiabnostics")
-parser.add_option("--runImpact","--runImpact",dest="runImpact", default=False, action="store_true",
+parser.add_option("--isImpact","--isImpact",dest="isImpact", default=False, action="store_true",
 		  help="run FitDiabnostics")
 (options, args) = parser.parse_args()
 year            = options.year
@@ -33,8 +33,8 @@ channel         = options.channel
 CR              = options.CR
 isText 			= options.isText
 isT2W 			= options.isT2W
-runFD           = options.runFD
-runImpact       = options.runImpact
+isFD           = options.isFD
+isImpact       = options.isImpact
 
 incHistList = ["presel_M3"]
 catHistList = ["phosel_M3", "phosel_noCut_ChIso"]
@@ -69,38 +69,52 @@ if isText:
 #Combine datacards
 #----------------------------------------
 if CR=="":
-	outFileDir      = "%s/Fit/%s/%s/%s/DataCard/SR"%(condorHistDir, year, decayMode, channel)
+	dirDC      = "%s/Fit/%s/%s/%s/DataCard/SR"%(condorHistDir, year, decayMode, channel)
+	dirFD      = "%s/Fit/%s/%s/%s/FitDiag/SR"%(condorHistDir, year, decayMode, channel)
+	dirImpact  = "%s/Fit/%s/%s/%s/Impact/SR"%(condorHistDir, year, decayMode, channel)
 else:
-	outFileDir      = "%s/Fit/%s/%s/%s/DataCard/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
-combinedDCName = "%s/Combined_Datacard_%s_%s_%s.txt"%(outFileDir, year, decayMode, channel)
-combinedT2WName = "%s/Combined_Datacard_T2W_%s_%s_%s.root"%(outFileDir, year, decayMode, channel)
+	dirDC      = "%s/Fit/%s/%s/%s/DataCard/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
+	dirFD      = "%s/Fit/%s/%s/%s/FitDiag/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
+	dirImpact  = "%s/Fit/%s/%s/%s/Impact/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
+for dir_ in [dirDC, dirFD, dirImpact]:
+	if not os.path.exists(dir_):
+		os.makedirs(dir_)
+pathDC  = "%s/Combined_Datacard_%s_%s_%s.txt"%(dirDC, year, decayMode, channel)
+pathT2W = "%s/Combined_Datacard_T2W_%s_%s_%s.root"%(dirDC, year, decayMode, channel)
 if isT2W:
 	incDCList = []
 	catDCList = []
 	catDCList0Pho = []
 	for hName in incHistList:
-		incDCList.append("%s/Datacard_Inc_%s.txt"%(outFileDir, hName))
+		incDCList.append("%s/Datacard_Inc_%s.txt"%(dirDC, hName))
 	for hName in catHistList:
-		catDCList.append("%s/Datacard_Cat_%s.txt"%(outFileDir, hName))
+		catDCList.append("%s/Datacard_Cat_%s.txt"%(dirDC, hName))
 	for hName in catHistList0Pho:
-		catDCList0Pho.append("%s/Datacard_0Pho_%s.txt"%(outFileDir, hName))
+		catDCList0Pho.append("%s/Datacard_0Pho_%s.txt"%(dirDC, hName))
 	combinedDCList = catDCList + catDCList0Pho
 	combinedDCText = ' '.join([str(dc) for dc in combinedDCList])
-	os.system("combineCards.py %s > %s"%(combinedDCText, combinedDCName))
-	os.system("text2workspace.py %s -o %s"%(combinedDCName, combinedT2WName))
+	os.system("combineCards.py %s > %s"%(combinedDCText, pathDC))
+	os.system("text2workspace.py %s -o %s"%(pathDC, pathT2W))
+        print pathDC
 
 #-----------------------------------------
 #Fit diagnostics
 #----------------------------------------
-if runFD:
-	os.system("combine %s --mass 125 -M FitDiagnostics --plots --saveShapes --saveWithUncertainties  --saveNormalizations --initFromBonly "%combinedT2WName)
-	os.system("python diffNuisances.py --all fitDiagnostics.root -g fitDiag.pdf")
-combine -M FitDiagnostics -n   mu_2016   datacard_mu_2016.root   -s 314159 --plots --redefineSignalPOIs r,nonPromptSF,TTbarSF,WGSF,ZGSF,OtherSF --saveShapes --saveWithUncertainties --saveNormalizations  -v2  --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2
+if isFD:
+    os.system("combine -M FitDiagnostics  %s --out %s -s 314159 --plots --redefineSignalPOIs r,nonPromptSF,TTbarSF,WGSF,ZGSF,OtherSF -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2"%(pathT2W, dirFD))
+    os.system("python diffNuisances.py --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirFD,dirFD))
+    print dirFD
+    myfile = TFile("%s/fitDiagnostics.root"%dirFD,"read")
+    paramList = ["r", "nonPromptSF", "TTbarSF", "WGSF", "ZGSF", "OtherSF"]
+    fit_s = myfile.Get("fit_s")
+    for param in paramList:
+        print "%s\t\t = %s"%(param, fit_s.floatParsFinal().find(param).getVal())
 
 #-----------------------------------------
 #Impacts of Systematics
 #----------------------------------------
-if runImpact:
-	os.system("combineTool.py -M Impacts -d %s -m 125 --doInitialFit --robustFit 1 -t -1"%combinedT2WName) 
-	os.system("combineTool.py -M Impacts -d %s -m $mass -o nuisImpactJSON"%combinedT2WName)
-	os.system("plotImpacts.py --cms-label \"   Internal\" -i nuisImpactJSON -o nuisImpactPDF")
+if isImpact:
+    os.system("combineTool.py -M Impacts -d %s  -m 125 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 "%pathT2W) 
+    os.system("combineTool.py -M Impacts -d %s  -m 125  --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 --parallel 10"%pathT2W)
+    os.system("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json"%(pathT2W, dirImpact))
+    os.system("python plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirImpact, dirImpact))
