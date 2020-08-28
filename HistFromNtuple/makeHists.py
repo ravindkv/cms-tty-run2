@@ -90,14 +90,19 @@ outFileMainDir = "./hists"
 gROOT.SetBatch(True)
 nJets = 3
 isQCD = False
-Q2 = 1.
-Pdf = 1.
+evtWeight ="evtWeight"
 Pileup ="PUweight"
 MuEff = "muEffWeight"
 EleEff= "eleEffWeight"
+Q2 = "q2weight_nominal"  
+Pdf = 1.0
+#Pdf = "pdfWeight"
+prefire ="prefireSF"
+isr = 1.
+fsr = 1.
+btagWeight="btagWeight_1a"
 PhoEff= "phoEffWeight"
 loosePhoEff= "loosePhoEffWeight"
-evtWeight ="evtWeight"
 btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
 histDirInFile = "%s/Base"%sample
 variation = "Base"
@@ -126,17 +131,16 @@ if not syst=="Base":
     toPrint("Running for systematics", syst+level)
     if syst=="PU":
         if levelUp:
-                Pileup = "PUweight_Up"
+            Pileup = "PUweight_Up"
         else:
-                    Pileup = "PUweight_Do"
+            Pileup = "PUweight_Do"
     elif 'Q2' in syst:
         if levelUp:
-                Q2="q2weight_Up"
+            Q2="q2weight_Up"
         else:
-                Q2="q2weight_Do"
+            Q2="q2weight_Do"
     elif 'Pdf' in syst:
     	if syst=="Pdf":
-
     	    if levelUp:
     	    	Pdf="pdfweight_Up"
     	    else:
@@ -156,12 +160,27 @@ if not syst=="Base":
         else:
             EleEff = "eleEffWeight_Do"
     elif 'PhoEff' in syst:
-       if levelUp:
-           PhoEff = "phoEffWeight_Up"
-           loosePhoEff = "loosePhoEffWeight_Up"
-       else:
-           PhoEff = "phoEffWeight_Do"
-           loosePhoEff = "loosePhoEffWeight_Do"
+        if levelUp:
+            PhoEff = "phoEffWeight_Up"
+            loosePhoEff = "loosePhoEffWeight_Up"
+        else:
+            PhoEff = "phoEffWeight_Do"
+            loosePhoEff = "loosePhoEffWeight_Do"
+    elif 'fsr' in syst:
+    	if level=="up":
+    	    fsr = "FSRweight_Up"
+    	else:
+    	    fsr = "FSRweight_Do"
+    elif 'isr' in syst:
+    	if level=="up":
+    	    isr = "ISRweight_Up"
+    	else:
+    	    isr = "ISRweight_Do"
+    elif 'prefireEcal' in syst:
+	if level=="up":
+	    prefire = "prefireSF_Up"
+	else:
+	    prefire = "prefireSF_Do"
     elif 'BTagSF_b' in syst:
         if levelUp:
             btagWeightCategory = ["1","(1-btagWeight_b_Up[0])","(btagWeight_b_Up[2])","(btagWeight_b_Up[1])"]
@@ -177,15 +196,6 @@ if not syst=="Base":
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
     	else:
             analysisNtupleLocation = ntupleDirSyst+"/%s_down_"%(syst)
-if (syst=="isr" or syst=="fsr") and sample=="TTbar":
-		samples={"TTbar"     : [["TTbarPowheg_Semilept_2016_AnalysisNtuple_1of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_2of5.root",
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_3of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_4of5.root", 
-			"TTbarPowheg_Semilept_2016_AnalysisNtuple_5of5.root"
-            ],
-            ],
-			}
 
 #-----------------------------------------
 #Select channels
@@ -247,7 +257,7 @@ else:
 btagWeight = btagWeightCategory[nBJets]
 if "QCD" in channel:
         btagWeight="btagWeight[0]"
-weights = "%s*%s*%s*%s*%s*%s*%s"%(evtWeight,Pileup,MuEff,EleEff,Q2,Pdf,btagWeight)
+weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)
@@ -325,12 +335,13 @@ if not "QCD_DD" in sample:
     tree = TChain("AnalysisTree")
     fileList = samples[sample][0]
     for fileName in fileList:
+        print fileName
  	if year=="2017":
 		fileName = fileName.replace("2016", "2017")
  	if year=="2018":
 		fileName = fileName.replace("2016", "2018")
         tree.Add("%s/%s"%(analysisNtupleLocation,fileName))
-    #print "Number of events:", tree.GetEntries()
+    print "Number of events:", tree.GetEntries()
     for index, hist in enumerate(histogramsToMake, start=1):
         hInfo = histogramInfo[hist]
         # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
@@ -354,6 +365,9 @@ if not "QCD_DD" in sample:
                 evtWeight = "%s*%s"%(evtWeight,PhoEff)
             else:
                 evtWeight = "%s*%s[0]"%(evtWeight,PhoEff)
+        print evtWeight
+        print hInfo[0]
+        print hInfo[1]
         tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
 
 

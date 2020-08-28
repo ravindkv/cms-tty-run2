@@ -75,6 +75,7 @@ cb.cp().process(allMC).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap("era") (["13T
 cb.cp().process(allMC).AddSyst(cb, "PU"       , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(allMC).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(allMC).AddSyst(cb, "EleEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
+cb.cp().process(allMC).AddSyst(cb, "MuEff"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 #cb.cp().process(["TTGamma", "TTbar"]).AddSyst(cb, "Q2" , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(["TTGamma"]).AddSyst(cb, "isr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))
 cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap("era") (["13TeV"], 1.0))

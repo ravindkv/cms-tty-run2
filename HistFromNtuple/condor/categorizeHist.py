@@ -16,7 +16,7 @@ parser.add_option("-d", "--decayMode", dest="decayMode", default="SemiLep",type=
                      help="Specify which decayMode moded of ttbar SemiLep or DiLep? default is SemiLep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
-parser.add_option("--hist", "--hist", dest="inHistName", default="presel_M3",type='str',
+parser.add_option("--hist", "--hist", dest="inHistName", default="phosel_M3",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("--cr", "--CR", dest="CR", default="",type='str', 
                      help="which control selection and region")

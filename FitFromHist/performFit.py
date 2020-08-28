@@ -1,10 +1,11 @@
-from ROOT import TFile, TH1F, gDirectory
+import ROOT
 import os
 import sys
 import itertools
 from optparse import OptionParser
 import CombineHarvester.CombineTools.ch as ch
 from FitInputs import *
+from array import array
 
 #-----------------------------------------
 #INPUT command-line arguments 
@@ -25,7 +26,13 @@ parser.add_option("--isT2W","--isT2W",dest="isT2W", default=False, action="store
 parser.add_option("--isFD","--isFD",dest="isFD", default=False, action="store_true",
 		  help="run FitDiabnostics")
 parser.add_option("--isImpact","--isImpact",dest="isImpact", default=False, action="store_true",
-		  help="run FitDiabnostics")
+		  help="run impacts")
+parser.add_option("--isCM","--isCM",dest="isCM", default=False, action="store_true",
+		  help="make plot of covariance matrix")
+parser.add_option("--isTP","--isTP",dest="isTP", default=False, action="store_true",
+		  help="generate toys")
+parser.add_option("--isPlotTP","--isPlotTP",dest="isPlotTP", default=False, action="store_true",
+		  help="plot generated toys")
 (options, args) = parser.parse_args()
 year            = options.year
 decayMode       = options.decayMode
@@ -33,8 +40,11 @@ channel         = options.channel
 CR              = options.CR
 isText 			= options.isText
 isT2W 			= options.isT2W
-isFD           = options.isFD
-isImpact       = options.isImpact
+isFD            = options.isFD
+isImpact        = options.isImpact
+isCM            = options.isCM
+isTP            = options.isTP
+isPlotTP        = options.isPlotTP
 
 incHistList = ["presel_M3"]
 catHistList = ["phosel_M3", "phosel_noCut_ChIso"]
@@ -104,11 +114,17 @@ if isFD:
     os.system("combine -M FitDiagnostics  %s --out %s -s 314159 --plots --redefineSignalPOIs r,nonPromptSF,TTbarSF,WGSF,ZGSF,OtherSF -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2"%(pathT2W, dirFD))
     os.system("python diffNuisances.py --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirFD,dirFD))
     print dirFD
-    myfile = TFile("%s/fitDiagnostics.root"%dirFD,"read")
+    #print param
+    myfile = ROOT.TFile("%s/fitDiagnostics.root"%dirFD,"read")
     paramList = ["r", "nonPromptSF", "TTbarSF", "WGSF", "ZGSF", "OtherSF"]
     fit_s = myfile.Get("fit_s")
     for param in paramList:
         print "%s\t\t = %s"%(param, fit_s.floatParsFinal().find(param).getVal())
+    #plot covariant matrix
+
+if isTP:
+    os.system("combine -M FitDiagnostics %s --name TP --out %s --seed=314159 --saveWithUncertainties --saveNormalizations --saveTPs --plots --saveNLL --rMin=-5 --rMax=5 --setParameterRanges nonPromptSF=-10,10 --expectSignal=1 -t 500 -v3 --skipBOnlyFit --trackParameters r,BTagSF_b,BTagSF_l,EleEff,MuEff,PhoEff,lumi_13TeV,ZGSF,TTbarSF,OtherSF,WGSF,nonPromptSF &"%(pathT2W, dirFD))
+    print dirFD
 
 #-----------------------------------------
 #Impacts of Systematics
@@ -118,3 +134,98 @@ if isImpact:
     os.system("combineTool.py -M Impacts -d %s  -m 125  --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 --parallel 10"%pathT2W)
     os.system("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json"%(pathT2W, dirImpact))
     os.system("python plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirImpact, dirImpact))
+
+#-----------------------------------------
+# Make covariance matrix
+#----------------------------------------
+if isCM:
+    ROOT.gROOT.SetBatch(True)
+    Red    = [ 1.00, 0.00, 0.00, 0.87, 1.00, 0.51 ]
+    Green  = [ 1.00, 0.00, 0.81, 1.00, 0.20, 0.00 ]
+    Blue   = [ 1.00, 0.51, 1.00, 0.12, 0.00, 0.00 ]
+    Length = [ 0.00, 0.02, 0.34, 0.51, 0.64, 1.00 ]
+    lengthArray = array('d', Length)
+    redArray = array('d', Red)
+    greenArray = array('d', Green)
+    blueArray = array('d', Blue)
+
+    #ROOT.TColor.CreateGradientColorTable(6,lengthArray,redArray,greenArray,blueArray,99)
+    ROOT.gStyle.SetOptStat(0)
+    ROOT.gStyle.SetPaintTextFormat('5.1f');
+    canvas = ROOT.TCanvas()
+    canvas.SetFillColor(10);
+    canvas.SetBorderMode(0);
+    canvas.SetBorderSize(0);
+    canvas.SetTickx();
+    canvas.SetTicky();
+    canvas.SetLeftMargin(0.15);
+    canvas.SetRightMargin(0.15);
+    canvas.SetTopMargin(0.15);
+    canvas.SetBottomMargin(0.15);
+    canvas.SetFrameFillColor(0);
+    canvas.SetFrameBorderMode(0);
+       
+    f1 = ROOT.TFile.Open('%s/fitDiagnostics.root'%(dirFD),'read')
+    h_background = f1.Get('covariance_fit_b')
+    h_signal = f1.Get('covariance_fit_s')
+    h_signal.GetYaxis().SetLabelSize(0.02)
+    h_signal.GetXaxis().SetLabelSize(0.02)
+    h_signal.GetZaxis().SetLabelSize(0.03)
+    h_signal.SetMarkerSize(0.7)
+    h_signal.LabelsOption("v", "X")
+    h_signal.SetContour(99)
+    h_signal.Draw('colz, Y+, TEXT0')
+
+    mypal = h_signal.GetListOfFunctions().FindObject('palette')
+    print mypal
+    mypal.SetX1NDC(0.02);
+    mypal.SetX2NDC(0.06);
+    mypal.SetY1NDC(0.1);
+    mypal.SetY2NDC(0.9);
+    canvas.Modified();
+    canvas.Update();
+    #ROOT.gApplication.Run()
+    canvas.SaveAs('%s/covarianceMatrix.pdf'%dirFD) 
+
+if isPlotTP:
+    ROOT.gROOT.SetBatch(True)
+    ROOT.gStyle.SetOptStat(0)
+    ROOT.gStyle.SetOptFit(1)
+    c1 = ROOT.TCanvas( 'c1', '', 800,800 )
+    c1.SetFillColor(10)
+    c1.SetBorderMode(0)
+    c1.SetBorderSize(0)
+    c1.SetTickx()
+    c1.SetTicky()
+    c1.SetLeftMargin(0.15)
+    c1.SetRightMargin(0.15)
+    c1.SetTopMargin(0.15)
+    c1.SetBottomMargin(0.15)
+    c1.SetFrameFillColor(0)
+    c1.SetFrameBorderMode(0)
+    c1.SetGrid()
+    outputDir = "%s/NuisancePlots"%dirFD
+    if not os.path.exists(outputDir):
+        os.mkdir(outputDir)
+    listOfParameters = ["r","BTagSF_b","BTagSF_l","EleEff","MuEff","PhoEff","lumi_13TeV","ZGSF","TTbarSF","OtherSF","WGSF"]#,"nonPromptSF"]
+    myfile = ROOT.TFile("%s/fitDiagnosticsTP.root"%dirFD,"read")
+    mytree=myfile.tree_fit_sb
+    for param in listOfParameters:
+        hist = ROOT.TH1F("hist","",100,-2,2)
+        mytree.Draw("%s >> hist"%(param))
+        hist.Fit("gaus")
+        hist.SetTitle("%s;"%param)
+        hist.GetYaxis().SetLabelSize(0.03)
+        hist.GetXaxis().SetLabelSize(0.03)
+        ROOT.gPad.Update()
+        mypal = hist.GetListOfFunctions().FindObject('stats')
+        mypal.SetX1NDC(0.17)
+        mypal.SetX2NDC(0.4)
+        mypal.SetY1NDC(0.7)
+        mypal.SetY2NDC(0.9)
+        c1.Draw()
+        c1.Modified()
+        c1.Update()
+        c1.Print("%s/%s.pdf"%(outputDir,param))
+        hist.Delete()
+
