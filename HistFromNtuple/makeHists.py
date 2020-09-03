@@ -12,8 +12,8 @@ from HistFunc import *
 parser = OptionParser()
 parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specifyi the year of the data taking" )
-parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="SemiLep",type='str',
-                     help="Specify which decay moded of ttbar SemiLep or DiLep? default is SemiLep")
+parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="Semilep",type='str',
+                     help="Specify which decay moded of ttbar Semilep or Dilep? default is Semilep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("-s", "--sample", dest="sample", default="TTGamma",type='str',
@@ -44,8 +44,6 @@ parser.add_option("--fitHist","--fitHist", dest="makeFitHist",action="store_true
                      help="List of histograms to be used for fitting" )
 parser.add_option("--jetsonly","--jetsonly", dest="makeJetsplots",action="store_true",default=False,
                      help="Extra jets" )
-parser.add_option("--dilepmassPlots","--dilepmassPlots", dest="Dilepmass",action="store_true",default=False,
-                     help="Make only plots for ZJetsSF fits" )
 parser.add_option("--quiet", "-q", dest="quiet",default=False,action="store_true",
                      help="Quiet outputs" )
 parser.add_option("--fwdjets","--fwdjets", dest="FwdJets",action="store_true",default=False,
@@ -53,7 +51,6 @@ parser.add_option("--fwdjets","--fwdjets", dest="FwdJets",action="store_true",de
 
 (options, args) = parser.parse_args()
 level =options.level
-Dilepmass=options.Dilepmass
 year = options.year
 channel = options.channel
 ttbarDecayMode = options.ttbarDecayMode
@@ -77,16 +74,17 @@ print parser.parse_args()
 #INPUT AnalysisNtuples Directory
 #----------------------------------------
 ntupleDirBase       = "%s/%s"%(dirBase,      year) 
-ntupleDirBaseDiLep  = "%s/%s"%(dirBaseDiLep, year)
-ntupleDirBaseCR     = "%s/%s"%(dirBaseCR,    year)
 ntupleDirSyst       = "%s/%s"%(dirSyst,      year)
 ntupleDirSystCR     = "%s/%s"%(dirSystCR,    year)
+ntupleDirBaseCR     = "%s/%s"%(dirBaseCR,    year)
+if "Di" in ttbarDecayMode:
+    ntupleDirBase  = "%s/%s"%(dirBaseDilep, year)
+    ntupleDirSyst       = "%s/%s"%(dirSystDilep,year)
 
 #-----------------------------------------
 #OUTPUT Histogram Directory
 #----------------------------------------
 outFileMainDir = "./hists"
-
 gROOT.SetBatch(True)
 nJets = 3
 isQCD = False
@@ -103,7 +101,6 @@ fsr = 1.
 btagWeight="btagWeight_1a"
 PhoEff= "phoEffWeight"
 loosePhoEff= "loosePhoEffWeight"
-btagWeightCategory = ["1","(1-btagWeight[0])","(btagWeight[2])","(btagWeight[1])"]
 histDirInFile = "%s/Base"%sample
 variation = "Base"
 if "Data" in sample:
@@ -183,14 +180,14 @@ if not syst=="Base":
 	    prefire = "prefireSF_Do"
     elif 'BTagSF_b' in syst:
         if levelUp:
-            btagWeightCategory = ["1","(1-btagWeight_b_Up[0])","(btagWeight_b_Up[2])","(btagWeight_b_Up[1])"]
+			btagWeight = "btagWeight_1a_b_Up"
         else:
-            btagWeightCategory = ["1","(1-btagWeight_b_Do[0])","(btagWeight_b_Do[2])","(btagWeight_b_Do[1])"]
+			btagWeight = "btagWeight_1a_b_Do"
     elif 'BTagSF_l' in syst:
         if levelUp:
-            btagWeightCategory = ["1","(1-btagWeight_l_Up[0])","(btagWeight_l_Up[2])","(btagWeight_l_Up[1])"]
+			btagWeight = "btagWeight_1a_l_Up"
         else:
-            btagWeightCategory = ["1","(1-btagWeight_l_Do[0])","(btagWeight_l_Do[2])","(btagWeight_l_Do[1])"]
+			btagWeight = "btagWeight_1a_l_Do"
     else:
     	if  levelUp:
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
@@ -231,7 +228,7 @@ elif channel=="QCDMu":
         sample = "QCDMu"
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-    analysisNtupleLocation = ntupleDirBaseCR 
+    analysisNtupleLocation = ntupleDirBase 
     outFileFullDir = outFileMainDir+"/%s/%s/Mu"%(year,ttbarDecayMode)
     nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, True)
     extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && %s)*"%(bothJetSel)
@@ -244,7 +241,7 @@ elif channel=="QCDEle":
         sample = "QCDEle"
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    analysisNtupleLocation = ntupleDirBaseCR 
+    analysisNtupleLocation = ntupleDirBase 
     nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, True)
     outFileFullDir = outFileMainDir+"/%s/%s/Ele"%(year,ttbarDecayMode)
     toPrint("Full Path of Hist", outFileFullDir)
@@ -254,9 +251,6 @@ else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
-btagWeight = btagWeightCategory[nBJets]
-if "QCD" in channel:
-        btagWeight="btagWeight[0]"
 weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
@@ -287,10 +281,6 @@ if plotList is None:
 	if not runQuiet: print "Making only dR photon plots"
     elif makegenPlots:
 	plotList=genPlotList
-        if not runQuiet: print "Making only 2D photon plots"
-    elif Dilepmass:
-	plotList = ["presel_DilepMass"]
-        if not runQuiet: print "Making only plots for ZJetsSF fits"
     elif not multiPlotList is None:
         plotList = []
         for plotNameTemplate in multiPlotList:
@@ -318,7 +308,7 @@ histogramsToMake = plotList
 allHistsDefined = True
 for hist in histogramsToMake:
     if not hist in histogramInfo:
-        print "Histogram %s is not defined in HistListDict_cff.py"%hist
+        print "Histogram %s is not defined in HistInfo.py"%hist
         allHistsDefined = False
 if not allHistsDefined:
     sys.exit()
@@ -335,18 +325,19 @@ if not "QCD_DD" in sample:
     tree = TChain("AnalysisTree")
     fileList = samples[sample][0]
     for fileName in fileList:
-        print fileName
  	if year=="2017":
-		fileName = fileName.replace("2016", "2017")
+	    fileName = fileName.replace("2016", "2017")
  	if year=="2018":
-		fileName = fileName.replace("2016", "2018")
+	    fileName = fileName.replace("2016", "2018")
+        if "Dilep" in ttbarDecayMode:
+            fileName = "Dilep_%s"%fileName
+        #print "%s/%s"%(analysisNtupleLocation,fileName)
         tree.Add("%s/%s"%(analysisNtupleLocation,fileName))
     print "Number of events:", tree.GetEntries()
     for index, hist in enumerate(histogramsToMake, start=1):
         hInfo = histogramInfo[hist]
-        # skip some histograms which rely on MC truth and can't be done in data or QCD data driven templates
         if ('Data' in sample or isQCD) and not hInfo[5]: continue
-	if not runQuiet: toPrint("%s/%s: Filling the histogram"%(index, len(histogramsToMake)), hInfo[1])
+        if not runQuiet: toPrint("%s/%s: Filling the histogram"%(index, len(histogramsToMake)), hInfo[1])
         evtWeight = ""
         histograms.append(TH1F("%s"%(hInfo[1]),"%s"%(hInfo[1]),hInfo[2][0],hInfo[2][1],hInfo[2][2]))
         if hInfo[4]=="":
@@ -370,7 +361,6 @@ if not "QCD_DD" in sample:
         print hInfo[1]
         tree.Draw("%s>>%s"%(hInfo[0],hInfo[1]),evtWeight, "goff")
 
-
 #-----------------------------------------
 #Final output Linux and ROOT directories
 #----------------------------------------
@@ -393,7 +383,7 @@ if not runQuiet: toPrint ("The histogram directory inside the root file is", his
 qcdTFDirInFile = "%s/TF"%histDirInFile
 qcdShapeDirInFile = "%s/Shape"%histDirInFile
 transferFactor = 1.0
-if sample =="QCD_DD":
+if sample =="QCD_DD" and "Semi" in ttbarDecayMode:
         toPrint("Determining QCD Transfer factor from CR", "")
 	#transferFactor = getQCDTransFact(year, channel, nBJets, outputFile, qcdTFDirInFile)
 	print "Transfer factor = ", transferFactor

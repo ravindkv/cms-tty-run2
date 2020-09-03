@@ -11,8 +11,8 @@ parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specifyi the year of the data taking" )
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
                      help="Specify which channel Mu or Ele? default is Mu" )
-parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="SemiLep",type='str',
-                     help="Specify which decay moded of ttbar SemiLep or DiLep? default is SemiLep")
+parser.add_option("-d", "--decay", dest="ttbarDecayMode", default="Semilep",type='str',
+                     help="Specify which decay moded of ttbar Semilep or Dilep? default is Semilep")
 (options, args) = parser.parse_args()
 year = options.year
 channel = options.channel

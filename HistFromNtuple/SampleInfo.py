@@ -2,10 +2,11 @@
 #INPUT AnalysisNtuples Directory
 #----------------------------------------
 dirBase = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples"
-dirBaseDiLep = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/Dilepton"
 dirBaseCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion"
 dirSyst = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/Systematics"
 dirSystCR = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/QCD_controlRegion/Systematics"
+dirBaseDilep = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/Dilepton"
+dirSystDilep = "root://cmseos.fnal.gov//store/user/lpctop/TTGamma_FullRun2/AnalysisNtuples/Dilepton/Systematics"
 
 #-----------------------------------------
 #Name of the ROOT files
@@ -15,7 +16,7 @@ samples = {"TTGamma"   : [["TTGamma_SingleLept_2016_AnalysisNtuple.root",
                            "TTGamma_Hadronic_2016_AnalysisNtuple.root"]
                           ],
 
-           "TTGJets"   : [["TTGJets_AnalysisNtuple.root"]
+           "TTGJets"   : [["TTGJets_2016_AnalysisNtuple.root"]
                           ],
 
            "TTbar"     : [["TTbarPowheg_Semilept_2016_AnalysisNtuple_1of5.root",

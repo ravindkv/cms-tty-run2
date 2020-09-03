@@ -1,6 +1,7 @@
 from ROOT import TFile, TH1F, gDirectory
 import os
 import sys
+import json
 import itertools
 from optparse import OptionParser
 import CombineHarvester.CombineTools.ch as ch
@@ -12,8 +13,8 @@ from FitInputs import *
 parser = OptionParser()
 parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specify the year of the data taking" )
-parser.add_option("-d", "--decayMode", dest="decayMode", default="SemiLep",type='str',
-                     help="Specify which decayMode moded of ttbar SemiLep or DiLep? default is SemiLep")
+parser.add_option("-d", "--decayMode", dest="decayMode", default="Semilep",type='str',
+                     help="Specify which decayMode moded of ttbar Semilep or Dilep? default is Semilep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("--hist", "--hist", dest="hName", default="phosel_M3",type='str', 
@@ -85,9 +86,6 @@ cb.cp().process(["TTGamma"]).AddSyst(cb, "fsr"   , "shape",ch.SystMap("era") (["
 cb.cp().process(["TTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
 cb.cp().process(["WGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
 cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
-#cb.cp().GetParameter("TTbarSF").set_range(0.05,1.0)
-#cb.cp().GetParameter("WGSF").set_range(0.19,1.0)
-#cb.cp().GetParameter("ZGSF").set_range(0.21,1.0)
 #------------------
 #Add syst groups
 #------------------
@@ -123,3 +121,16 @@ dc.write("WGSF    \t param \t 1.0 \t 0.10\n")
 dc.write("ZGSF    \t param \t 1.0 \t 0.10\n")
 dc.close()
 
+#------------------------
+#Save DC path in a file
+#------------------------
+if CR=="":
+    name  = "DC_%s_%s_%s_SR_%s"%(year, decayMode, channel, hName)
+else:
+    name  = "DC_%s_%s_%s_CR_%s_%s"%(year, decayMode, channel, CR, hName)
+with open ('DataCard.json') as jsonFile:
+    jsonData = json.load(jsonFile)
+jsonData[name] = []
+jsonData[name].append(datacardPath)
+with open ('DataCard.json', 'w') as jsonFile:
+    json.dump(jsonData, jsonFile)

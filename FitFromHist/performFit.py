@@ -1,6 +1,7 @@
 import ROOT
 import os
 import sys
+import json
 import itertools
 from optparse import OptionParser
 import CombineHarvester.CombineTools.ch as ch
@@ -13,16 +14,22 @@ from array import array
 parser = OptionParser()
 parser.add_option("-y", "--year", dest="year", default="2016",type='str',
                      help="Specify the year of the data taking" )
-parser.add_option("-d", "--decayMode", dest="decayMode", default="SemiLep",type='str',
-                     help="Specify which decayMode moded of ttbar SemiLep or DiLep? default is SemiLep")
+parser.add_option("-d", "--decayMode", dest="decayMode", default="Semilep",type='str',
+                     help="Specify which decayMode moded of ttbar Semilep or Dilep? default is Semilep")
 parser.add_option("-c", "--channel", dest="channel", default="Mu",type='str',
 		  help="Specify which channel Mu or Ele? default is Mu" )
 parser.add_option("--cr", "--CR", dest="CR", default="",type='str', 
                      help="which control selection and region")
-parser.add_option("--isText","--isText",dest="isText", default=False, action="store_true",
-		  help="create txt datacards")
+parser.add_option("--hist", "--hist", dest="hName", default="presel_M3",type='str', 
+                     help="which histogram to be used for making datacard")
 parser.add_option("--isT2W","--isT2W",dest="isT2W", default=False, action="store_true",
 		  help="create text2workspace datacards")
+parser.add_option("--isComb","--isComb",dest="isComb", default=False, action="store_true",
+		  help="combine datacards")
+parser.add_option("--isDilep","--isDilep",dest="isDilep", default=False, action="store_true",
+		  help="datacards for mass of dilepton")
+parser.add_option("--isLepGamma","--isLepGamma",dest="isLepGamma", default=False, action="store_true",
+		  help="combine datacards")
 parser.add_option("--isFD","--isFD",dest="isFD", default=False, action="store_true",
 		  help="run FitDiabnostics")
 parser.add_option("--isImpact","--isImpact",dest="isImpact", default=False, action="store_true",
@@ -38,45 +45,39 @@ year            = options.year
 decayMode       = options.decayMode
 channel         = options.channel
 CR              = options.CR
-isText 			= options.isText
+hName           = options.hName
+
+isComb          = options.isComb
+isDilep         = options.isDilep
+isLepGamma      = options.isLepGamma
+
 isT2W 			= options.isT2W
 isFD            = options.isFD
 isImpact        = options.isImpact
 isCM            = options.isCM
 isTP            = options.isTP
 isPlotTP        = options.isPlotTP
-
-incHistList = ["presel_M3"]
-catHistList = ["phosel_M3", "phosel_noCut_ChIso"]
-catHistList0Pho = ["presel_M3"]
+with open ("DataCards.json") as jsonFile:
+    jsonData = json.load(jsonFile)
+def getDataCard(year, decayMode, channel, CR, hName):
+    if CR=="":
+        name = "DC_%s_%s_%s_SR_%s"%(year, decayMode, channel, hName)
+    else:
+        name = "DC_%s_%s_%s_CR_%s_%s"%(year, decayMode, channel, CR, hName)
+    pathDC   = jsonData[name][0]
+    if not os.path.exists(pathDC):
+        print "Datacard: %s does not exist"%pathDC
+        sys.exit()
+    return pathDC
+def runCmd(cmd):
+    print "\n\033[01;32m Excecuting: %s \033[00m"%cmd
+    os.system(cmd)
+def createDir(dirArray):
+    for dir_ in dirArray: 
+	    if not os.path.exists(dir_):
+		    os.makedirs(dir_)
 #-----------------------------------------
-#Make separate datacards
-#----------------------------------------
-if isText:
-	for hName in incHistList:
-		if CR=="":
-			toRun = "python makeDataCardInc.py --hist %s -y %s -d %s -c %s"
-			os.system(toRun%(hName, year, decayMode, channel))
-		else:
-			toRun = "python makeDataCardInc.py --hist %s -y %s -d %s -c %s --cr %s"
-			os.system(toRun%(hName, year, decayMode, channel, CR))
-	for hName in catHistList:
-		if CR=="":
-			toRun = "python makeDataCardCat.py --hist %s -y %s -d %s -c %s"
-			os.system(toRun%(hName, year, decayMode, channel))
-		else:
-			toRun = "python makeDataCardCat.py --hist %s -y %s -d %s -c %s --cr %s"
-			os.system(toRun%(hName, year, decayMode, channel, CR))
-	for hName in catHistList0Pho:
-		if CR=="":
-			toRun = "python makeDataCard0Pho.py --hist %s -y %s -d %s -c %s"
-			os.system(toRun%(hName, year, decayMode, channel))
-		else:
-			toRun = "python makeDataCard0Pho.py --hist %s -y %s -d %s -c %s --cr %s"
-			os.system(toRun%(hName, year, decayMode, channel, CR))
-
-#-----------------------------------------
-#Combine datacards
+#For separate datacards
 #----------------------------------------
 if CR=="":
 	dirDC      = "%s/Fit/%s/%s/%s/DataCard/SR"%(condorHistDir, year, decayMode, channel)
@@ -86,33 +87,53 @@ else:
 	dirDC      = "%s/Fit/%s/%s/%s/DataCard/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
 	dirFD      = "%s/Fit/%s/%s/%s/FitDiag/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
 	dirImpact  = "%s/Fit/%s/%s/%s/Impact/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
-for dir_ in [dirDC, dirFD, dirImpact]:
-	if not os.path.exists(dir_):
-		os.makedirs(dir_)
-pathDC  = "%s/Combined_Datacard_%s_%s_%s.txt"%(dirDC, year, decayMode, channel)
-pathT2W = "%s/Combined_Datacard_T2W_%s_%s_%s.root"%(dirDC, year, decayMode, channel)
+createDir([dirDC, dirFD, dirImpact])
+pathDC = getDataCard(year, decayMode, channel, CR, hName)
+pathT2W = "%s/Datacard_T2W_%s.root"%(dirDC, hName) 
+print pathDC
+print pathT2W
+
+#-----------------------------------------
+#For combined datacards
+#----------------------------------------
+if isComb:
+    combDC = []
+    if isDilep:
+        combHist = ["presel_MassDilep"]
+    elif isLepGamma:
+        combHist = ["phosel_MassLepGammma"]
+    else:
+        combHist = ["presel_M3", "phosel_M3", "phosel_noCut_ChIso"]
+    for combY, combD, combCh, combH in itertools.product(combYear, combDecay,  combChannel, combHist):
+        name = getDataCard(combY, combD, combCh, CR, combH)
+        combDC.append(name)
+	combDCText = ' '.join([str(dc) for dc in combDC])
+    combYText  = ''.join([str(y) for y in combY])
+    combChText = ''.join([str(ch) for ch in combCh]) 
+    combHText  = ''.join([str(h) for h in combHist]) 
+    if CR=="":
+        dirDC      = "%s/Fit/Combined/%s_%s/DataCard/SR"%(condorHistDir, combYText, combChText)
+        dirFD      = "%s/Fit/Combined/%s_%s/FitDiag/SR"%(condorHistDir, combYText, combChText)
+        dirImpact  = "%s/Fit/Combined/%s_%s/Impact/SR"%(condorHistDir, combYText, combChText)
+    else:
+        dirDC      = "%s/Fit/Combined/%s_%s/DataCard/CR/%s"%(condorHistDir, combYText, combChText, CR)
+        dirFD      = "%s/Fit/Combined/%s_%s/FitDiag/CR/%s"%(condorHistDir, combYText, combChText, CR)
+        dirImpact  = "%s/Fit/Combined/%s_%s/Impact/CR/%s"%(condorHistDir, combYText, combChText, CR)
+    createDir([dirDC, dirFD, dirImpact])
+    pathDC  = "%s/Datacard_Comb_%s.txt"%(dirDC, combHText)
+    runCmd("combineCards.py %s > %s"%(combDCText, pathDC))
+    pathT2W = "%s/Datacard_Comb_T2W_%s.root"%(dirDC, combHText)
+    print pathDC
+    print pathT2W
 if isT2W:
-	incDCList = []
-	catDCList = []
-	catDCList0Pho = []
-	for hName in incHistList:
-		incDCList.append("%s/Datacard_Inc_%s.txt"%(dirDC, hName))
-	for hName in catHistList:
-		catDCList.append("%s/Datacard_Cat_%s.txt"%(dirDC, hName))
-	for hName in catHistList0Pho:
-		catDCList0Pho.append("%s/Datacard_0Pho_%s.txt"%(dirDC, hName))
-	combinedDCList = catDCList + catDCList0Pho
-	combinedDCText = ' '.join([str(dc) for dc in combinedDCList])
-	os.system("combineCards.py %s > %s"%(combinedDCText, pathDC))
-	os.system("text2workspace.py %s -o %s"%(pathDC, pathT2W))
-        print pathDC
+	runCmd("text2workspace.py %s -o %s"%(pathDC, pathT2W))
 
 #-----------------------------------------
 #Fit diagnostics
 #----------------------------------------
 if isFD:
-    os.system("combine -M FitDiagnostics  %s --out %s -s 314159 --plots --redefineSignalPOIs r,nonPromptSF,TTbarSF,WGSF,ZGSF,OtherSF -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2"%(pathT2W, dirFD))
-    os.system("python diffNuisances.py --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirFD,dirFD))
+    runCmd("combine -M FitDiagnostics  %s --out %s -s 314159 --plots --redefineSignalPOIs r,nonPromptSF,TTbarSF,WGSF,ZGSF,OtherSF -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2"%(pathT2W, dirFD))
+    runCmd("python diffNuisances.py --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirFD,dirFD))
     print dirFD
     #print param
     myfile = ROOT.TFile("%s/fitDiagnostics.root"%dirFD,"read")
@@ -123,17 +144,17 @@ if isFD:
     #plot covariant matrix
 
 if isTP:
-    os.system("combine -M FitDiagnostics %s --name TP --out %s --seed=314159 --saveWithUncertainties --saveNormalizations --saveTPs --plots --saveNLL --rMin=-5 --rMax=5 --setParameterRanges nonPromptSF=-10,10 --expectSignal=1 -t 500 -v3 --skipBOnlyFit --trackParameters r,BTagSF_b,BTagSF_l,EleEff,MuEff,PhoEff,lumi_13TeV,ZGSF,TTbarSF,OtherSF,WGSF,nonPromptSF &"%(pathT2W, dirFD))
+    runCmd("combine -M FitDiagnostics %s --name TP --out %s --seed=314159 --saveWithUncertainties --saveNormalizations --saveTPs --plots --saveNLL --rMin=-5 --rMax=5 --setParameterRanges nonPromptSF=-10,10 --expectSignal=1 -t 500 -v3 --skipBOnlyFit --trackParameters r,BTagSF_b,BTagSF_l,EleEff,MuEff,PhoEff,lumi_13TeV,ZGSF,TTbarSF,OtherSF,WGSF,nonPromptSF &"%(pathT2W, dirFD))
     print dirFD
 
 #-----------------------------------------
 #Impacts of Systematics
 #----------------------------------------
 if isImpact:
-    os.system("combineTool.py -M Impacts -d %s  -m 125 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 "%pathT2W) 
-    os.system("combineTool.py -M Impacts -d %s  -m 125  --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 --parallel 10"%pathT2W)
-    os.system("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json"%(pathT2W, dirImpact))
-    os.system("python plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirImpact, dirImpact))
+    runCmd("combineTool.py -M Impacts -d %s  -m 125 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 "%pathT2W) 
+    runCmd("combineTool.py -M Impacts -d %s  -m 125  --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --rMin=0 --rMax=2 --parallel 10"%pathT2W)
+    runCmd("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json"%(pathT2W, dirImpact))
+    runCmd("python plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirImpact, dirImpact))
 
 #-----------------------------------------
 # Make covariance matrix
