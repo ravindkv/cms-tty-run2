@@ -39,14 +39,14 @@ print inFileName
 if CR=="":
     inHistDirBase   = "$PROCESS/Base/SR/$BIN"
     inHistDirSys    = "$PROCESS/$SYSTEMATIC/SR/$BIN"
-    outFileDir  = "%s/Fit/%s/%s/%s/DataCard/SR"%(condorHistDir, year, decayMode, channel)
+    outFileDir      = "%s/Fit/%s/%s/%s/%s/SR"%(condorHistDir, year, decayMode, channel, hName)
 else:
     inHistDirBase   = "$PROCESS/Base/CR/%s/$BIN"%CR
     inHistDirSys    = "$PROCESS/$SYSTEMATIC/CR/%s/$BIN"%CR
-    outFileDir  = "%s/Fit/%s/%s/%s/DataCard/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
+    outFileDir      = "%s/Fit/%s/%s/%s/%s/CR/%s"%(condorHistDir, year, decayMode, channel, hName, CR)
 
-outFilePath = "%s/Shapes_Inc_%s.root"%(outFileDir, hName)
-datacardPath    = "%s/Datacard_Inc_%s.txt"%(outFileDir, hName)
+outFilePath     = "%s/Shapes_Inc.root"%(outFileDir)
+datacardPath    = "%s/Datacard_Inc.txt"%(outFileDir)
 if not os.path.exists(outFileDir):
     os.makedirs(outFileDir)
 
@@ -125,9 +125,9 @@ dc.close()
 #Save DC path in a file
 #------------------------
 if CR=="":
-    name  = "DC_%s_%s_%s_SR_%s"%(year, decayMode, channel, hName)
+    name  = "DC_%s_%s_%s_%s_SR"%(year, decayMode, channel, hName)
 else:
-    name  = "DC_%s_%s_%s_CR_%s_%s"%(year, decayMode, channel, CR, hName)
+    name  = "DC_%s_%s_%s_%s_CR_%s"%(year, decayMode, channel, hName, CR)
 with open ('DataCard.json') as jsonFile:
     jsonData = json.load(jsonFile)
 jsonData[name] = []

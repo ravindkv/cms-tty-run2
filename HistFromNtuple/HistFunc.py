@@ -264,9 +264,9 @@ def getJetMultiCut(controlRegion="tight_a4j_e0b", isQCDMC=False):
     if not len(controlRegion.split("_"))==3 and not controlRegion=="":
         print "Please provide control region in NAME_ExpNumJet_ExpNumBJet formate such as tight_a4j_e0b"
         sys.exit()
-    nJets, nBJets, nJetSel, nBJetSel, allJetSel = 3, 1, "nJet>=3", "nBJet>=1", "nJet>=3 && nBJet>=1"
+    nJets, nBJets, nJetSel, nBJetSel, allJetSel = 4, 1, "nJet>=4", "nBJet>=1", "nJet>=4 && nBJet>=1"
     if isQCDMC: 
-        nJets, nBJets, nJetSel, nBJetSel, allJetSel = 3, 0, "nJet>=3", "nBJet==0", "nJet>=3 && nBJet==0"
+        nJets, nBJets, nJetSel, nBJetSel, allJetSel = 4, 0, "nJet>=4", "nBJet==0", "nJet>=4 && nBJet==0"
     if not controlRegion=="":
     	splitCR = controlRegion.split("_")
     	jetCut  = splitCR[1].strip()

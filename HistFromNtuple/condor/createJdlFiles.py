@@ -23,11 +23,13 @@ Log    = %s/log_$(cluster)_$(process).condor\n\n'%(condorLogDir, condorLogDir, c
 #----------------------------------------
 #Create jdl files
 #----------------------------------------
+subFile = open('tmpSub/condorSubmit.sh','w')
 for year, decay, channel in itertools.product(Year, Decay, Channel):
     condorOutDir = "%s/Hists/%s/%s/%s"%(condorHistDir, year, decay, channel)
     if not os.path.exists(condorOutDir):
         os.makedirs(condorOutDir)
-    jdlFile = open('tmpSub/submitJobs_%s%s%s.jdl'%(year, decay, channel),'w')
+    jdlName = 'submitJobs_%s%s%s.jdl'%(year, decay, channel)
+    jdlFile = open('tmpSub/%s'%jdlName,'w')
     jdlFile.write('Executable =  remoteRun.sh \n')
     jdlFile.write(common_command)
     if channel=="Mu": Samples = SampleListMu
@@ -63,4 +65,6 @@ queue 1\n\n' %(year, decay, channel, sample, syst, level, cr)
         if not sample in ["DataMu", "DataEle", "QCD_DD"]:
             jdlFile.write(run_command)
 	#print "condor_submit jdl/%s"%jdlFile
+    subFile.write("condor_submit %s\n"%jdlName)
     jdlFile.close() 
+subFile.close()

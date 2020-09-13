@@ -51,13 +51,13 @@ print inFile
 if CR=="":
     inHistDirBase   = "$PROCESS/$BIN/SR/Base"
     inHistDirSys    = "$PROCESS/$BIN/SR/$SYSTEMATIC"
-    outFileDir      = "%s/Fit/%s/%s/%s/DataCard/SR"%(condorHistDir, year, decayMode, channel)
+    outFileDir      = "%s/Fit/%s/%s/%s/%s/SR"%(condorHistDir, year, decayMode, channel, hName)
 else:
     inHistDirBase   = "$PROCESS/$BIN/CR/%s/Base"%CR
     inHistDirSys    = "$PROCESS/$BIN/CR/%s/$SYSTEMATIC"%CR
-    outFileDir      = "%s/Fit/%s/%s/%s/DataCard/CR/%s"%(condorHistDir, year, decayMode, channel, CR)
-outFilePath     = "%s/Shapes_Cat_%s.root"%(outFileDir, hName)
-datacardPath    = "%s/Datacard_Cat_%s.txt"%(outFileDir, hName)
+    outFileDir      = "%s/Fit/%s/%s/%s/%s/CR/%s"%(condorHistDir, year, decayMode, channel, hName, CR)
+outFilePath     = "%s/Shapes_Cat.root"%(outFileDir)
+datacardPath    = "%s/Datacard_Cat.txt"%(outFileDir)
 
 if not os.path.exists(outFileDir):
     os.makedirs(outFileDir)
@@ -258,11 +258,39 @@ if isMassDilep:
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
     cb.SetAutoMCStats(cb, 0, True, 1)
     #------------------
+    #Add systematics
+    #------------------
+    cb.cp().process(allMC).AddSyst(cb, "lumi_$ERA", "lnN"  ,ch.SystMap()(1.025))
+    cb.cp().process(allMC).AddSyst(cb, "BTagSF_b" , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "BTagSF_l" , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "PU"       , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "PhoEff"   , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "EleEff"   , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "MuEff"    , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "isr"      , "shape",ch.SystMap()(1.0))
+    cb.cp().process(allMC).AddSyst(cb, "fsr"      , "shape",ch.SystMap()(1.0))
+    #cb.cp().process(allMC).AddSyst(cb, "Q2" , "shape",ch.SystMap()(1.0))
+    #------------------
+    #Add rateParam
+    #------------------
+    cb.cp().process(AllBkgs).bin([hName]).AddSyst(cb, 'OthersSF', 'rateParam', ch.SystMap()(1.0))
+    #------------------
+    #Add autoMCStat
+    #------------------
+    cb.SetAutoMCStats(cb, 0, True, 1)
+    #------------------
+    #------------------
     #Get shape hists
     #------------------
     cb.cp().backgrounds().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
     cb.cp().signals().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
     cb.WriteDatacard(datacardPath, outFilePath) 
+    #------------------
+    #Add param
+    #------------------
+    dc = open(datacardPath, "a")
+    dc.write("#OthersSF \t param \t 1.0 \t 0.90\n")
+    dc.close()
 
 if isChIsoM3 or is0PhoM3 or isMassLepGamma or isMassDilep:
     #------------------
@@ -280,9 +308,9 @@ if isChIsoM3 or is0PhoM3 or isMassLepGamma or isMassDilep:
     #Save DC path in a file
     #------------------------
     if CR=="":
-        name  = "DC_%s_%s_%s_SR_%s"%(year, decayMode, channel, hName)
+        name  = "DC_%s_%s_%s_%s_SR"%(year, decayMode, channel, hName)
     else:
-        name  = "DC_%s_%s_%s_CR_%s_%s"%(year, decayMode, channel, CR, hName)
+        name  = "DC_%s_%s_%s_%s_CR_%s"%(year, decayMode, channel, hName, CR)
     with open ('DataCards.json') as jsonFile:
         jsonData = json.load(jsonFile)
     jsonData[name] = []
