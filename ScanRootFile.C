@@ -5,7 +5,6 @@
 
 void readDir(TDirectory *dir) {
     TDirectory *dirsav = gDirectory;
-    cout<<"\n"<<endl;
     gDirectory->pwd();
     TIter next(dir->GetListOfKeys());
     TKey *key;
@@ -22,9 +21,13 @@ void readDir(TDirectory *dir) {
         else{
             if(TString(key->GetClassName())=="TH1F"){
                 TH1F *h; gDirectory->GetObject(key->GetName(),h);
-                printf("%20s %15.2f %15.2f %10.4f\n", 
-                        key->GetName(), h->Integral(), h->GetEntries(),
+                printf("%15s %10.2d %10.2f %10.2f %10.4f\n", 
+                        h->GetName(), h->GetNbinsX(), 
+                        h->Integral(), h->GetEntries(),
                         float(h->Integral()/h->GetEntries()));
+                for(int i = 1; i<h->GetNbinsX()+1; i++){
+                    //printf("\t %5d %10.0f %10.0f\n", i, h->GetBinCenter(i), h->GetBinContent(i));
+                }
             }
         }
     }
@@ -45,8 +48,9 @@ void readFile(TFile * file){
     }
 }
 
-void scanRootFile(TString fileName){
-    TFile *f = new TFile(fileName);
+void ScanRootFile(TString fileName){
+    //TFile *f = new TFile(fileName);
+    TFile *f = TFile::Open("root://cmsxrootd.fnal.gov/"+fileName);
     if (f->IsZombie()) {
         printf("The input root file is corrupted");
       return;

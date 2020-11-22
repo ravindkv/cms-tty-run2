@@ -74,12 +74,13 @@ print parser.parse_args()
 #INPUT AnalysisNtuples Directory
 #----------------------------------------
 ntupleDirBase       = "%s/%s"%(dirBase,      year) 
+ntupleDirBaseCR     = "%s/%s"%(dirBaseCR,    year)
 ntupleDirSyst       = "%s/%s"%(dirSyst,      year)
 ntupleDirSystCR     = "%s/%s"%(dirSystCR,    year)
-ntupleDirBaseCR     = "%s/%s"%(dirBaseCR,    year)
 if "Di" in ttbarDecayMode:
     ntupleDirBase  = "%s/%s"%(dirBaseDilep, year)
     ntupleDirSyst       = "%s/%s"%(dirSystDilep,year)
+analysisNtupleLocation = ntupleDirBase
 
 #-----------------------------------------
 #OUTPUT Histogram Directory
@@ -164,17 +165,17 @@ if not syst=="Base":
             PhoEff = "phoEffWeight_Do"
             loosePhoEff = "loosePhoEffWeight_Do"
     elif 'fsr' in syst:
-    	if level=="up":
+    	if levelUp:
     	    fsr = "FSRweight_Up"
     	else:
     	    fsr = "FSRweight_Do"
     elif 'isr' in syst:
-    	if level=="up":
+    	if levelUp:
     	    isr = "ISRweight_Up"
     	else:
     	    isr = "ISRweight_Do"
     elif 'prefireEcal' in syst:
-	if level=="up":
+	if levelUp:
 	    prefire = "prefireSF_Up"
 	else:
 	    prefire = "prefireSF_Do"
@@ -191,8 +192,12 @@ if not syst=="Base":
     else:
     	if  levelUp:
             analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
+            if "Dilep" in ttbarDecayMode:
+                analysisNtupleLocation = ntupleDirBase
     	else:
             analysisNtupleLocation = ntupleDirSyst+"/%s_down_"%(syst)
+            if "Dilep" in ttbarDecayMode:
+                analysisNtupleLocation = ntupleDirBase
 
 #-----------------------------------------
 #Select channels
@@ -204,7 +209,6 @@ if channel=="Mu":
         sample = "QCDMu"
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-    analysisNtupleLocation = ntupleDirBase
     outFileFullDir = outFileMainDir+"/%s/%s/Mu"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Mu && %s)*"%(bothJetSel)
     extraPhotonCuts      = "(passPresel_Mu && %s && %s)*"%(bothJetSel, "%s")
@@ -216,7 +220,6 @@ elif channel=="Ele":
         sample = "QCDEle"
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    analysisNtupleLocation = ntupleDirBase 
     outFileFullDir = outFileMainDir+"/%s/%s/Ele"%(year,ttbarDecayMode)
     extraCuts            = "(passPresel_Ele && %s)*"%(bothJetSel)
     extraPhotonCuts      = "(passPresel_Ele && %s && %s)*"%(bothJetSel, "%s")
@@ -228,7 +231,6 @@ elif channel=="QCDMu":
         sample = "QCDMu"
     sampleList[-1] = "DataMu"
     sampleList[-2] = "QCDMu"
-    analysisNtupleLocation = ntupleDirBase 
     outFileFullDir = outFileMainDir+"/%s/%s/Mu"%(year,ttbarDecayMode)
     nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, True)
     extraCuts            = "(passPresel_Mu && muPFRelIso<0.3 && %s)*"%(bothJetSel)
@@ -241,7 +243,6 @@ elif channel=="QCDEle":
         sample = "QCDEle"
     sampleList[-1] = "DataEle"
     sampleList[-2] = "QCDEle"
-    analysisNtupleLocation = ntupleDirBase 
     nJets, nBJets, nJetSel, nBJetSel, bothJetSel = getJetMultiCut(controlRegion, True)
     outFileFullDir = outFileMainDir+"/%s/%s/Ele"%(year,ttbarDecayMode)
     toPrint("Full Path of Hist", outFileFullDir)
@@ -251,7 +252,10 @@ else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
-weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
+if "JE" in syst:
+    weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Pdf,isr,fsr,btagWeight)
+else:
+    weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)
@@ -331,8 +335,12 @@ if not "QCD_DD" in sample:
 	    fileName = fileName.replace("2016", "2018")
         if "Dilep" in ttbarDecayMode:
             fileName = "Dilep_%s"%fileName
-        #print "%s/%s"%(analysisNtupleLocation,fileName)
-        tree.Add("%s/%s"%(analysisNtupleLocation,fileName))
+        if "JE" in syst and not "Di" in ttbarDecayMode:
+            print "%s%s"%(analysisNtupleLocation,fileName)
+            tree.Add("%s%s"%(analysisNtupleLocation,fileName))
+        else:
+            print "%s/%s"%(analysisNtupleLocation,fileName)
+            tree.Add("%s/%s"%(analysisNtupleLocation,fileName))
     print "Number of events:", tree.GetEntries()
     for index, hist in enumerate(histogramsToMake, start=1):
         hInfo = histogramInfo[hist]

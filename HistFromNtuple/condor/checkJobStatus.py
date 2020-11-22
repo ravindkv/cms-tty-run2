@@ -23,7 +23,8 @@ decay   = options.ttbarDecayMode
 #Path of the output histrograms
 #----------------------------------------
 inHistSubDir = "Hists/%s/%s/%s"%(year, decay, channel)
-inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
+inHistFullDir = "/eos/uscms/%s/%s"%(condorHistDir, inHistSubDir)
+#inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
 condorLogDir = "tmpSub/log"
 
 #----------------------------------------

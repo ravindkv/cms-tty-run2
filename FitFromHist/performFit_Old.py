@@ -22,8 +22,14 @@ parser.add_option("--isComb","--isComb",dest="isComb", default=False, action="st
 		  help="combine datacards")
 parser.add_option("--combYear", dest="combYear",default=["2016"], action="append",
           help="years to be combined" )
+parser.add_option("--combDecay", dest="combDecay",default=["Semilep"], action="append",
+          help="decays to be combined" )
 parser.add_option("--combChannel", dest="combChannel",default=["Mu"],action="append",
           help="channels to be combined" )
+parser.add_option("--isMassDilep","--isMassDilep",dest="isMassDilep", default=False, action="store_true",
+		  help="datacards for mass of dilepton")
+parser.add_option("--isMassLepGamma","--isMassLepGamma",dest="isMassLepGamma", default=False, action="store_true",
+		  help="combine datacards")
 parser.add_option("--cr", "--CR", dest="CR", default="",type='str', 
                      help="which control selection and region")
 parser.add_option("--hist", "--hist", dest="hName", default="phosel_M3",type='str', 
@@ -49,11 +55,15 @@ channel         = options.channel
 CR              = options.CR
 hName           = options.hName
 combYear        = options.combYear[0].split(",")
+combDecay       = options.combDecay[0].split(",")
 combChannel     = options.combChannel[0].split(",")
 isCount         = options.isCount
+print combDecay
 print combChannel
 
 isComb          = options.isComb
+isMassDilep     = options.isMassDilep
+isMassLepGamma  = options.isMassLepGamma
 
 isT2W 			= options.isT2W
 isFD            = options.isFD
@@ -99,22 +109,30 @@ def getDataCard(year, decayMode, channel, CR, hName):
 #----------------------------------------
 if isComb:
     combDC = []
-    combHist = ["phosel_M3", "presel_M3_0Pho", "phosel_noCut_ChIso", "phosel_MassLepGamma", "presel_MassDilep"]
-    for combY, combCh in itertools.product(combYear, combChannel):
-        combDC.append(getDataCard(combY, "Semilep", combCh, CR, combHist[0]))
-        combDC.append(getDataCard(combY, "Semilep", combCh, CR, combHist[1]))
-        combDC.append(getDataCard(combY, "Semilep", combCh, CR, combHist[2]))
-        combDC.append(getDataCard(combY, "Semilep", combCh, CR, combHist[3]))
-        combDC.append(getDataCard(combY, "Dilep",   combCh, CR, combHist[4]))
+    if isMassDilep:
+        combHist = ["presel_MassDilep"]
+    elif isMassLepGamma:
+        combHist = ["phosel_MassLepGamma"]
+    else:
+        combHist = ["presel_M3_0Pho", "phosel_M3", "phosel_noCut_ChIso"]
+    for combY, combD, combCh, combH in itertools.product(combYear, combDecay,  combChannel, combHist):
+        name = getDataCard(combY, combD, combCh, CR, combH)
+        combDC.append(name)
+    for combY, combD, combCh in itertools.product(combYear, combDecay,  combChannel):
+        if not isMassDilep and not isMassLepGamma:
+            combDC.append(getDataCard(combY, combD, combCh, "tight_a4j_e0b", "phosel_M3"))
+            #combDC.append(getDataCard(combY, combD, combCh, "tight_e3j_e0b", "phosel_M3"))
 	combDCText = ' '.join([str(dc) for dc in combDC])
     combYText  = ''.join([str(y) for y in combYear])
+    combDText  = ''.join([str(d) for d in combDecay]) 
     combChText = ''.join([str(ch) for ch in combChannel]) 
+    combHText  = ''.join([str(h) for h in combHist]) 
     if CR=="":
-        dirDC        = "%s/Fit/Combined/%s_%s/%s/SR"%(condorHistDir, combYText, combChText, shapeOrCount)
-        rateParamKey = "RP_Comb_%s_%s_%s_SR"%(combYText, combChText, shapeOrCount)
+        dirDC        = "%s/Fit/Combined/%s_%s_%s/%s/%s/SR"%(condorHistDir, combYText, combDText, combChText, shapeOrCount, combHText)
+        rateParamKey = "RP_Comb_%s_%s_%s_%s_%s_SR"%(combYText, combDText, combChText, shapeOrCount, combHText)
     else:
-        dirDC        = "%s/Fit/Combined/%s_%s/%s/CR/%s"%(condorHistDir, combYText, combChText, shapeOrCount, CR)
-        rateParamKey = "RP_Comb_%s_%s_%s_CR_%s"%(combYText, combChText, shapeOrCount, CR)
+        dirDC        = "%s/Fit/Combined/%s_%s_%s/%s/%s/CR/%s"%(condorHistDir, combYText, combDText, combChText, shapeOrCount, combHText, CR)
+        rateParamKey = "RP_Comb_%s_%s_%s_%s_%s_CR_%s"%(combYText, combDText, combChText, shapeOrCount, combHText, CR)
     if not os.path.exists(dirDC):
         os.makedirs(dirDC)
     pathDC  = "%s/Datacard_Comb.txt"%(dirDC)
@@ -124,6 +142,9 @@ if isComb:
 else:
     pathDC = getDataCard(year, decayMode, channel, CR, hName)
     pathT2W = "%s/Text2W_Cat.root"%(dirDC) 
+    #dirDC = "/eos/uscms/store/user/rverma/OutputTTGamma/Fit/Combined/2016_Semilep_Mu/CountBased/presel_M3_0Phophosel_M3phosel_noCut_ChIso/SR/"
+    #pathDC = "/eos/uscms/store/user/rverma/OutputTTGamma/Fit/Combined/2016_Semilep_Mu/CountBased/presel_M3_0Phophosel_M3phosel_noCut_ChIso/SR/Datacard_Comb.txt"
+    #pathT2W = "/eos/uscms/store/user/rverma/OutputTTGamma/Fit/Combined/2016_Semilep_Mu/CountBased/presel_M3_0Phophosel_M3phosel_noCut_ChIso/SR/Text2W_Comb.root"
     print pathDC
 
 if isT2W:
@@ -133,14 +154,23 @@ if isT2W:
 #-----------------------------------------
 #Fit diagnostics
 #----------------------------------------
-rMin = 0
-rMax = 2
-#paramList = ["r", "nonPromptSF", "TTbarSF", "WGSF", "ZGSF", "OtherSF", "lumi_13TeV"]
-paramList = ["r"]
+if isMassLepGamma:
+    rMin = -5
+    rMax = +5
+    paramList = ["r","OtherPhotonsZGammaSF","OtherPhotonsWGammaSF","OtherPhotonsOthersSF"] 
+elif isMassDilep:
+    rMin = -5
+    rMax = +5
+    paramList = ["r","OthersSF"]
+else:
+    rMin = 0
+    rMax = 2
+    #paramList = ["r", "nonPromptSF", "TTbarSF", "WGSF", "ZGSF", "OtherSF", "lumi_13TeV"]
+    paramList = ["r", "nonPromptSF"]
 params    = ','.join([str(param) for param in paramList])
 if isFD:
-    #runCmd("combine -M FitDiagnostics  %s --out %s -t -1 --plots --redefineSignalPOIs %s -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=%s --rMax=%s"%(pathT2W, dirDC, params, rMin, rMax))
-    runCmd("combine -M FitDiagnostics  %s --out %s -t -1 --expectSignal 1 --plots --redefineSignalPOIs %s -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=%s --rMax=%s"%(pathT2W, dirDC, params, rMin, rMax))
+    runCmd("combine -M FitDiagnostics  %s --out %s -t -1 --plots --redefineSignalPOIs %s -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=%s --rMax=%s"%(pathT2W, dirDC, params, rMin, rMax))
+    #runCmd("combine -M FitDiagnostics  %s --out %s -t -1 --expectSignal 1 --plots --redefineSignalPOIs %s -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=%s --rMax=%s"%(pathT2W, dirDC, params, rMin, rMax))
     #runCmd("combine -M FitDiagnostics %s --out %s -t -1 --plots -v2 --saveShapes --saveWithUncertainties --saveNormalizations --cminDefaultMinimizerStrategy 0 --rMin=%s --rMax=%s"%(pathT2W, dirDC, rMin, rMax))
     #runCmd("python diffNuisances.py --abs --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirDC,dirDC))
     runCmd("python diffNuisances.py --all %s/fitDiagnostics.root -g %s/diffNuisances.root"%(dirDC,dirDC))
@@ -170,9 +200,9 @@ if isTP:
 #Impacts of Systematics
 #----------------------------------------
 if isImpact:
-    runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s "%(pathT2W, params)) 
-    runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s --parallel 10"%(pathT2W, params))
-    runCmd("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json --redefineSignalPOIs %s "%(pathT2W, dirDC, params))
+    #runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s "%(pathT2W, params)) 
+    #runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s --parallel 10"%(pathT2W, params))
+    #runCmd("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json --redefineSignalPOIs %s "%(pathT2W, dirDC, params))
     runCmd("python ./plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirDC, dirDC))
 
 

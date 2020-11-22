@@ -47,26 +47,29 @@ print isCount
 #-----------------------------------------
 #Path of the I/O histograms/datacards
 #----------------------------------------
-#inFile = TFile("%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel), "read")
-inFile = TFile.Open("root://cmsxrootd.fnal.gov/%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel), "read")
-outFileName = "AllCat_%s.root"%(inHistName)
+inFile = TFile("%s/Hists/%s/%s/%s/Merged/AllInc.root"%(condorHistDir, year, decayMode, channel), "read")
+if isCount:
+    outDir = "%s/Hists/%s/%s/%s/Merged/CountBased"%(condorHistDir, year, decayMode, channel)
+else:
+    outDir = "%s/Hists/%s/%s/%s/Merged/ShapeBased"%(condorHistDir, year, decayMode, channel)
+if not os.path.exists(outDir):
+    os.makedirs(outDir)
+outFileName = "%s/AllCat_%s.root"%(outDir, inHistName)
 print inFile
-print outFileName
 outputFile = TFile(outFileName,"update")
-print outputFile
 
 #-----------------------------------------
 #Rebinning scheme of the histograms
 #----------------------------------------
 if isCount:
-    newBinsM3 = numpy.array([50.,500.])
-    newBinsChIso = numpy.array([0.,20.])
+    newBinsM3 = numpy.array([ 50.,500.])
+    newBinsChIso = numpy.array([ 0.,20.])
     newBinsDilep = numpy.array([80.,102.]) 
     newBinsMisID = numpy.array([0,180.])
 else:
-    newBinsM3 = numpy.array([50.,  100., 125., 150., 175., 200.,250., 300., 500.])
-    newBinsChIso = numpy.array([0.5, 1., 2., 5., 12., 20.])
-    #newBinsChIso = numpy.array([ 0., 0.5, 1., 2., 5., 12., 20.])
+    newBinsM3 = numpy.array([ 50.,  100., 125., 150., 175., 200.,250., 300., 500.])
+    #newBinsChIso = numpy.array([0.5, 1., 2., 5., 12., 20.])
+    newBinsChIso = numpy.array([ 0., 0.5, 1., 2., 5., 12., 20.])
     #newBinsDilep = numpy.arange(0,180.1,1)
     newBinsDilep = numpy.arange(80.,102.,2) #dont put space
     if "le" in channel:
@@ -83,6 +86,47 @@ def getNewBins(inHistName):
 		    return newBinsM3
 	    else:
 		    return newBinsChIso
+#-----------------------------------------
+#Function to read rateParams from json file
+#----------------------------------------
+jsonPath = "../../FitFromHist/RateParams.json"
+if not os.path.exists(jsonPath):
+    print "Json file %s does not exists"%jsonPath
+    sys.exit()
+with open (jsonPath) as jsonFile:
+    jsonData = json.load(jsonFile)
+'''
+def getRateParam(year, decayMode, channel, CR, hName,proc):
+    if CR=="":
+        name  = "RP_Comb_%s_%s_%s_%s_SR"%(year, decayMode, channel, hName)
+    else:
+        name  = "RP_Comb_%s_%s_%s_%s_CR_%s"%(year, decayMode, channel, hName, CR)
+    paramDicts   = jsonData[name]
+    rateParam = 1.0
+    for paramDict in paramDicts:
+        for key, val in paramDict.iteritems():
+            if proc==key:
+                rateParam = val
+    return rateParam
+'''
+def getRateParam(name, proc):
+    paramDicts   = jsonData[name]
+    rateParam = 1.0
+    for paramDict in paramDicts:
+        for key, val in paramDict.iteritems():
+            if proc==key:
+                rateParam = val
+    return rateParam
+misIDName = "RP_Nabin_MisIDEleSF_2016_looseCRge2e0"
+misIDSF   = getRateParam(misIDName, "r")
+zGammaSF  = getRateParam(misIDName, "ZGammaSF")
+wGammaSF  = getRateParam(misIDName, "WGammaSF")
+zJetsSF   = getRateParam("RP_Nabin_ZJetsSF_2016_tight","r")
+print misIDSF
+print zGammaSF
+print wGammaSF
+print zJetsSF
+
 #-----------------------------------------
 #Functions to read/write histograms
 #----------------------------------------
@@ -120,25 +164,29 @@ def getHistData(inHistName, procDir, sysType):
     hist = inFile.Get("%s/%s"%(histDir, inHistName)).Clone(sysType)
     return hist, procDir, sysType
 
-def getHistAlone(inHistName, procDir, sysType, isIsolated, isMisId):
+def getHistAlone(inHistName, procDir, sysType, isIsolated):
     hList = []
     for sample in Samples:
         if sample in procDir:
             histDir = getHistDir(sample, sysType, CR)
             if isIsolated:
-                if isMisId:
-                    h1 = inFile.Get("%s/%s_MisIDEle"%(histDir, inHistName))
-                else:
-                    h1 = inFile.Get("%s/%s_GenuinePhoton"%(histDir, inHistName))
-                hList.append(h1)
+                h1 = inFile.Get("%s/%s_GenuinePhoton"%(histDir, inHistName))
+                h2 = inFile.Get("%s/%s_MisIDEle"%(histDir, inHistName))
+                h2.Scale(misIDSF)
             else:
                 h1 = inFile.Get("%s/%s_HadronicPhoton"%(histDir, inHistName))
                 h2 = inFile.Get("%s/%s_HadronicFake"%(histDir, inHistName))
-                hList.append(h1)
-                hList.append(h2)
+            if "ZGamma" in sample:
+                h1.Scale(zGammaSF)
+                h2.Scale(zGammaSF)
+            if "WGamma" in sample:
+                h1.Scale(wGammaSF)
+                h2.Scale(wGammaSF)
+            hList.append(h1)
+            hList.append(h2)
     return addHist(hList, sysType), procDir, sysType
 
-def getHistOther(inHistName, procDir, sysType, isIsolated, isMisId):
+def getHistOther(inHistName, procDir, sysType, isIsolated):
     hList = []
     sysType_ = sysType
     for sample in SamplesOther:
@@ -147,16 +195,17 @@ def getHistOther(inHistName, procDir, sysType, isIsolated, isMisId):
             sysType = "Base"
         histDir = getHistDir(sample, sysType, CR)
         if isIsolated:
-            if isMisId:
-                h1 = inFile.Get("%s/%s_MisIDEle"%(histDir, inHistName))
-            else:
-                h1 = inFile.Get("%s/%s_GenuinePhoton"%(histDir, inHistName))
-            hList.append(h1)
+            h1 = inFile.Get("%s/%s_GenuinePhoton"%(histDir, inHistName))
+            h2 = inFile.Get("%s/%s_MisIDEle"%(histDir, inHistName))
+            h2.Scale(misIDSF)
         else:
             h1 = inFile.Get("%s/%s_HadronicPhoton"%(histDir, inHistName))
             h2 = inFile.Get("%s/%s_HadronicFake"%(histDir, inHistName))
-            hList.append(h1)
-            hList.append(h2)
+        if "ZJets" in sample:
+            h1.Scale(zJetsSF)
+            h2.Scale(zJetsSF)
+        hList.append(h1)
+        hList.append(h2)
     return addHist(hList, sysType), procDir, sysType_
 
 #-----------------------------------------
@@ -167,17 +216,23 @@ def getHistAlone0Pho(inHistName, procDir, sysType):
         histDir = getHistDir(procDir, sysType, CR)
         if sample in procDir:
             h = inFile.Get("%s/%s"%(histDir, inHistName)).Clone(sysType)
+            if "ZGamma" in sample:
+                h.Scale(zGammaSF)
+            if "WGamma" in sample:
+                h.Scale(wGammaSF)
     return h, procDir, sysType
 
 def getHistOther0Pho(inHistName, procDir, sysType):
     hList = []
     sysType_ = sysType
-    for sample in SamplesOther0Pho:
+    for sample in SamplesOther:
         if isQCDDD and sample=="QCD":
             sample  = "QCD_DD"
             sysType = "Base"
         histDir = getHistDir(sample, sysType, CR)
         h = inFile.Get("%s/%s"%(histDir, inHistName))
+        if "ZJets" in sample:
+            h.Scale(zJetsSF)
         hList.append(h)
     return addHist(hList, sysType), procDir, sysType_
 
@@ -206,9 +261,9 @@ def getHistOtherDilep(inHistName, procDir, sysType):
 #-----------------------------------------
 #Functions for misID 
 #----------------------------------------
-def getHistAloneMassLG(inHistName, procDir, sysType):
+def getHistAloneMisID(inHistName, procDir, sysType):
     hList = []
-    for sample in SampleWZGammaMassLG:
+    for sample in SampleMisIDWZGamma:
         if sample in procDir:
             histDir = getHistDir(sample, sysType, CR)
             h1 = inFile.Get("%s/%s_GenuinePhoton"%(histDir, inHistName))
@@ -219,10 +274,10 @@ def getHistAloneMassLG(inHistName, procDir, sysType):
             hList.append(h3)
     return addHist(hList, sysType), procDir, sysType
 
-def getHistOtherMassLG(inHistName, procDir, sysType):
+def getHistOtherMisID(inHistName, procDir, sysType):
     hList = []
     sysType_ = sysType
-    for sample in SampleOtherMassLG:
+    for sample in SampleMisIDOther:
         if isQCDDD and sample=="QCD":
             sample  = "QCD_DD"
             sysType = "Base"
@@ -235,20 +290,10 @@ def getHistOtherMassLG(inHistName, procDir, sysType):
         hList.append(h3)
     return addHist(hList, sysType), procDir, sysType_
 
-def getHistAloneMisIDMassLG(inHistName, procDir, sysType):
+def getHistAllMisID(inHistName, procDir, sysType):
     hList = []
     sysType_ = sysType
-    for sample in SampleAllMassLG:
-        if sample in procDir:
-            histDir = getHistDir(sample, sysType, CR)
-            h = inFile.Get("%s/%s_MisIDEle"%(histDir, inHistName))
-            hList.append(h)
-    return addHist(hList, sysType), procDir, sysType_
-
-def getHistOtherMisIDMassLG(inHistName, procDir, sysType):
-    hList = []
-    sysType_ = sysType
-    for sample in SampleNoZJetsMassLG:
+    for sample in SampleMisIDAll:
         if isQCDDD and sample=="QCD":
             sample  = "QCD_DD"
             sysType = "Base"
@@ -267,46 +312,35 @@ for syst, level in itertools.product(Systematics, SystLevel):
     allSysType.append(sysType)
 writeList = []
 for sysType in allSysType:
-    writeList.append(getHistData(inHistName, "data_obs", "Base"))
     if is0PhoM3:
+        writeList.append(getHistData(inHistName, "data_obs", "Base"))
         writeList.append(getHistAlone0Pho(inHistName,  "TTGamma",  sysType))
         writeList.append(getHistAlone0Pho(inHistName,  "TTbar",    sysType))
         writeList.append(getHistAlone0Pho(inHistName,  "ZGamma",   sysType))
         writeList.append(getHistAlone0Pho(inHistName,  "WGamma",   sysType))
-        writeList.append(getHistAlone0Pho(inHistName,  "ZJets",    sysType))
-        writeList.append(getHistOther0Pho(inHistName,  "Other",    sysType))
+        writeList.append(getHistOther0Pho(inHistName, "Other",    sysType))
     elif isMassLepGamma:
-        writeList.append(getHistAloneMassLG(inHistName,     "OtherPhotonsZGamma",  sysType))
-        writeList.append(getHistAloneMassLG(inHistName,     "OtherPhotonsWGamma",  sysType))
-        writeList.append(getHistAloneMassLG(inHistName,     "OtherPhotonsZJets",   sysType))
-        writeList.append(getHistOtherMassLG(inHistName,     "OtherPhotonsOthers",  sysType))
-        writeList.append(getHistAloneMisIDMassLG(inHistName,"MisIdPhotonZJets",    sysType))
-        writeList.append(getHistOtherMisIDMassLG(inHistName,"MisIdPhotonOther",    sysType))
+        writeList.append(getHistData(inHistName, "data_obs", "Base"))
+        writeList.append(getHistAloneMisID(inHistName,  "OtherPhotonsZGamma",  sysType))
+        writeList.append(getHistAloneMisID(inHistName,  "OtherPhotonsWGamma",   sysType))
+        writeList.append(getHistOtherMisID(inHistName, "OtherPhotonsOthers",   sysType))
+        writeList.append(getHistAllMisID(inHistName,   "MisIDPhotonAll",    sysType))
     elif isMassDilep:
-        writeList.append(getHistAloneDilep(inHistName,  "ZJetsDilep",  sysType))
-        writeList.append(getHistOtherDilep(inHistName,  "OthersDilep",   sysType))
+        writeList.append(getHistData(inHistName, "data_obs", "Base"))
+        writeList.append(getHistAloneDilep(inHistName,  "ZJets",  sysType))
+        writeList.append(getHistOtherDilep(inHistName, "Others",   sysType))
     else:
-        #misID
-        writeList.append(getHistAlone(inHistName,  "MisIdTTGamma",  sysType, True, True))
-        writeList.append(getHistAlone(inHistName,  "MisIdTTbar",    sysType, True, True))
-        writeList.append(getHistAlone(inHistName,  "MisIdWGamma",   sysType, True, True))
-        writeList.append(getHistAlone(inHistName,  "MisIdZGamma",   sysType, True, True))
-        writeList.append(getHistAlone(inHistName,  "MisIdZJets",    sysType, True, True))
-        writeList.append(getHistOther(inHistName,  "MisIdOther",    sysType, True, True))
-        #genuine
-        writeList.append(getHistAlone(inHistName,  "GenuineTTGamma",  sysType, True, False))
-        writeList.append(getHistAlone(inHistName,  "GenuineTTbar",    sysType, True, False))
-        writeList.append(getHistAlone(inHistName,  "GenuineWGamma",   sysType, True, False))
-        writeList.append(getHistAlone(inHistName,  "GenuineZGamma",   sysType, True, False))
-        writeList.append(getHistAlone(inHistName,  "GenuineZJets",    sysType, True, False))
-        writeList.append(getHistOther(inHistName,  "GenuineOther",    sysType, True, False))
-        #other
-        writeList.append(getHistAlone(inHistName,  "NonPromptTTGamma", sysType, False, False))
-        writeList.append(getHistAlone(inHistName,  "NonPromptTTbar",   sysType, False, False))
-        writeList.append(getHistAlone(inHistName,  "NonPromptWGamma",  sysType, False, False))
-        writeList.append(getHistAlone(inHistName,  "NonPromptZGamma",  sysType, False, False))
-        writeList.append(getHistAlone(inHistName,  "NonPromptZJets",   sysType, False, False))
-        writeList.append(getHistOther(inHistName,  "NonPromptOther",   sysType, False, False))
+        writeList.append(getHistData(inHistName, "data_obs", "Base"))
+        writeList.append(getHistAlone(inHistName,  "isolatedTTGamma",  sysType, True))
+        writeList.append(getHistAlone(inHistName,  "isolatedTTbar",    sysType, True))
+        writeList.append(getHistAlone(inHistName,  "isolatedZGamma",   sysType, True))
+        writeList.append(getHistAlone(inHistName,  "isolatedWGamma",   sysType, True))
+        writeList.append(getHistOther(inHistName, "isolatedOther",    sysType, True))
+        writeList.append(getHistAlone(inHistName,  "nonPromptTTGamma", sysType, False))
+        writeList.append(getHistAlone(inHistName,  "nonPromptTTbar",   sysType, False))
+        writeList.append(getHistAlone(inHistName,  "nonPromptWGamma",  sysType, False))
+        writeList.append(getHistAlone(inHistName,  "nonPromptZGamma",  sysType, False))
+        writeList.append(getHistOther(inHistName, "nonPromptOther",   sysType, False))
 for write in writeList:
     writeHist(write[0], write[1], write[2], outputFile)
 outputFile.Close()

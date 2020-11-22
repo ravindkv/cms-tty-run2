@@ -26,8 +26,7 @@ Log    = %s/log_$(cluster)_$(process).condor\n\n'%(condorLogDir, condorLogDir, c
 subFile = open('tmpSub/condorSubmit.sh','w')
 for year, decay, channel in itertools.product(Year, Decay, Channel):
     condorOutDir = "%s/Hists/%s/%s/%s"%(condorHistDir, year, decay, channel)
-    if not os.path.exists(condorOutDir):
-        os.makedirs(condorOutDir)
+    runCmd("eos root://cmseos.fnal.gov mkdir -p %s"%condorOutDir)
     jdlName = 'submitJobs_%s%s%s.jdl'%(year, decay, channel)
     jdlFile = open('tmpSub/%s'%jdlName,'w')
     jdlFile.write('Executable =  remoteRun.sh \n')

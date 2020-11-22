@@ -4,7 +4,7 @@
 # Merge histo files into a single root file       #
 #                                                 #
 #//////////////////////////////////////////////////
-
+#https://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml#listFilesOnEOS
 import os
 from optparse import OptionParser
 from HistInputs import *
@@ -31,8 +31,7 @@ inHistSubDir = "Hists/%s/%s/%s"%(year, decay, channel)
 inHistFullDir = "%s/%s"%(condorHistDir, inHistSubDir)
 outHistSubDir = "Hists/%s/%s/%s/Merged"%(year, decay, channel)
 outHistFullDir = "%s/%s"%(condorHistDir, outHistSubDir)
-if not os.path.exists(outHistFullDir):
-    os.makedirs(outHistFullDir)
+runCmd("eos root://cmseos.fnal.gov mkdir -p %s"%outHistFullDir)
 
 #-----------------------------------------
 #Merge histograms using hadd
@@ -43,16 +42,24 @@ def runCmd(cmd):
 
 if channel in ["mu", "Mu", "MU", "mU"]:
     for sampleMu in SampleListMu:
-        runCmd("hadd -f %s/%s.root %s/%s*.root"%(outHistFullDir, sampleMu, inHistFullDir, sampleMu))
+        haddOut = "root://cmseos.fnal.gov/%s/%s.root"%(outHistFullDir, sampleMu)
+        haddIn  = "`xrdfs root://cmseos.fnal.gov ls -u %s | grep \'%s_.*root\'`"%( inHistFullDir, sampleMu)
+        runCmd("hadd -f %s %s"%(haddOut, haddIn))
 else:
     for sampleEle in SampleListEle:
-        runCmd("hadd -k %s/%s.root %s/%s*.root"%(outHistFullDir, sampleEle, inHistFullDir, sampleEle))
+        haddOut = "root://cmseos.fnal.gov/%s/%s.root"%(outHistFullDir, sampleEle)
+        haddIn  = "`xrdfs root://cmseos.fnal.gov ls -u %s | grep \'%s_.*root\'`"%( inHistFullDir, sampleEle)
+        runCmd("hadd -f %s %s"%(haddOut, haddIn))
 
-runCmd("mv %s/Data%s.root %s/Data.root"%(outHistFullDir, channel, outHistFullDir))
-runCmd("mv %s/QCD%s.root %s/QCD.root"%(outHistFullDir, channel, outHistFullDir))
-runCmd("hadd -k %s/AllInc.root %s/*.root "%(outHistFullDir,outHistFullDir))
+runCmd("eos root://cmseos.fnal.gov mv %s/Data%s.root %s/Data.root"%(outHistFullDir, channel, outHistFullDir))
+runCmd("eos root://cmseos.fnal.gov mv %s/QCD%s.root %s/QCD.root"%(outHistFullDir, channel, outHistFullDir))
+#Merge all histograms
+haddOut = "root://cmseos.fnal.gov/%s/AllInc.root"%(outHistFullDir)
+haddIn  = "`xrdfs root://cmseos.fnal.gov ls -u %s | grep \'.*root\'`"%(outHistFullDir)
+runCmd("hadd -f %s %s"%(haddOut, haddIn))
 print "-------------------------------------"
 print "OUTPUT DIR: ", outHistFullDir
 print "-------------------------------------"
-print runCmd(("du -sh %s/*.root")%outHistFullDir)
+print runCmd(("eos root://cmseos.fnal.gov find --size %s")%outHistFullDir)
+
 

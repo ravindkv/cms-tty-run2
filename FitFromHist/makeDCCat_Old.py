@@ -40,10 +40,10 @@ channel         = options.channel
 hName           = options.hName
 CR              = options.CR
 isQCDMC         = options.isQCDMC
-isChIsoM3       = options.isChIsoM3
-is0PhoM3        = options.is0PhoM3
-isMassLepGamma  = options.isMassLepGamma
-isMassDilep     = options.isMassDilep
+isChIsoM3         = options.isChIsoM3
+is0PhoM3          = options.is0PhoM3
+isMassLepGamma      = options.isMassLepGamma
+isMassDilep         = options.isMassDilep
 isCount         = options.isCount
 print isCount
 
@@ -76,15 +76,13 @@ if isChIsoM3:
     #-----------------------------------
     # Make datacard 
     #-----------------------------------
-    misIdBkg        = ["MisIdTTbar", "MisIdWGamma", "MisIdZGamma", "MisIdZJets", "MisIdOther"]
-    genuineBkg      = ["GenuineTTbar", "GenuineWGamma", "GenuineZGamma", "GenuineZJets", "GenuineOther"]
-    nonPromptBkg    = ["NonPromptTTbar","NonPromptWGamma","NonPromptZGamma", "NonPromptZJets", "NonPromptOther"]
-    misIdSig        = ["MisIdTTGamma"]
-    genuineSig      = ["GenuineTTGamma"]
-    nonPromptSig    = ["NonPromptTTGamma"]
-    AllBkg          = misIdBkg + genuineBkg + nonPromptBkg
-    AllSig          = misIdSig + genuineSig + nonPromptSig
-    allMC           = AllSig + AllBkg
+    isolatedBkg    = ["isolatedTTbar", "isolatedWGamma", "isolatedZGamma", "isolatedOther"]
+    nonPromptBkg   = ["nonPromptTTbar","nonPromptWGamma","nonPromptZGamma","nonPromptOther"]
+    isolatedSig    = ["isolatedTTGamma"]
+    nonPromptSig   = ["nonPromptTTGamma"]
+    AllBkgs        = isolatedBkg +  nonPromptBkg
+    allSig         = isolatedSig +  nonPromptSig
+    allMC          = allSig + AllBkgs
     #------------------
     #Add observed data
     #------------------
@@ -92,11 +90,9 @@ if isChIsoM3:
     #------------------
     #Add sig& bkgs
     #------------------
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],misIdSig,[(-1, hName)], True)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],genuineSig,[(-1, hName)], True)
+    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],isolatedSig,[(-1, hName)], True)
+    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],isolatedBkg,[(-1, hName)], False)
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],nonPromptSig,[(-1, hName)], True)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],misIdBkg,[(-1, hName)], False)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],genuineBkg,[(-1, hName)], False)
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],nonPromptBkg,[(-1, hName)], False)
     #------------------
     #Add systematics
@@ -114,30 +110,12 @@ if isChIsoM3:
     #------------------
     #Add rateParam
     #------------------
-    #misID for all
-    cb.cp().process(misIdBkg).bin([hName]).AddSyst(cb, 'MisIdSF', 'rateParam', ch.SystMap()(1.0))
-    #for TTbar
-    cb.cp().process(["MisIdTTbar", "GenuineTTbar"]).bin([hName]).AddSyst(cb, 'IsoTTbarSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["NonPromptTTbar"]).bin([hName]).AddSyst(cb, 'NpTTbarSF', 'rateParam', ch.SystMap()(1.0))
-
-    #for WGamma
-    cb.cp().process(["MisIdWGamma", "GenuineWGamma"]).bin([hName]).AddSyst(cb, 'IsoWGammaSF','rateParam',ch.SystMap()(1.0))
-    cb.cp().process(["NonPromptWGamma"]).bin([hName]).AddSyst(cb, 'NpWGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["MisIdWGamma", "GenuineWGamma", "NonPromptWGamma"]).bin([hName]).AddSyst(cb,'WGammaSF','rateParam',ch.SystMap()(1.0))
-    
-    #for ZGamma
-    cb.cp().process(["MisIdZGamma", "GenuineZGamma"]).bin([hName]).AddSyst(cb, 'IsoZGammaSF','rateParam',ch.SystMap()(1.0))
-    cb.cp().process(["NonPromptZGamma"]).bin([hName]).AddSyst(cb, 'NpZGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["MisIdZGamma", "GenuineZGamma", "NonPromptZGamma"]).bin([hName]).AddSyst(cb,'ZGammaSF','rateParam',ch.SystMap()(1.0))
-    
-    #for ZJets
-    cb.cp().process(["MisIdZJets", "GenuineZJets"]).bin([hName]).AddSyst(cb, 'IsoZJetsSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["NonPromptZJets"]).bin([hName]).AddSyst(cb, 'NpZJetsSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["MisIdZJets", "GenuineZJets", "NonPromptZJets"]).bin([hName]).AddSyst(cb,'ZJetsSF','rateParam',ch.SystMap()(1.0))
-    
-    #for Other
-    cb.cp().process(["MisIdOther", "GenuineOther"]).bin([hName]).AddSyst(cb, 'IsoOtherSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["NonPromptOther"]).bin([hName]).AddSyst(cb, 'NpOtherSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["isolatedTTbar", "nonPromptTTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["isolatedWGamma", "nonPromptWGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["isolatedZGamma", "nonPromptZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["isolatedOther", "nonPromptOther"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(nonPromptBkg).bin([hName]).AddSyst(cb, 'nonPromptSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().GetParameter("nonPromptSF").set_range(0.,10.)
     #------------------
     #Add syst groups
     #------------------
@@ -152,38 +130,22 @@ if isChIsoM3:
     #------------------
     cb.cp().backgrounds().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
     cb.cp().signals().ExtractShapes(inFile, inHistDirBase, inHistDirSys)
-    #cb.cp().AddDatacardLineAtEnd("rrr \t param \t 1.0 \t 0.05\n")
+    #cb.cp().AddDatacardLineAtEnd("thoko \t param \t 1.0 \t 0.05\n")
     cb.WriteDatacard(datacardPath, outFilePath) 
     #------------------
     #Add param
     #------------------
     dc = open(datacardPath, "a")
-    dc.write("MisIdSF \t param \t 1.0 \t 0.05\n")
-    #TTbar
     dc.write("TTbarSF \t param \t 1.0 \t 0.05\n")
-    dc.write("IsoTTbarSF \t param \t 1.0 \t 0.05\n")
-    dc.write("NpTTbarSF \t param \t 1.0 \t 0.05\n")
-    #WGamma
-    dc.write("WGammaSF    \t param \t 1.0 \t 0.19\n")
-    dc.write("IsoWGammaSF    \t param \t 1.0 \t 0.19\n")
-    dc.write("NpWGammaSF    \t param \t 1.0 \t 0.19\n")
-    #ZGamma
-    dc.write("ZGammaSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("IsoZGammaSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("NpZGammaSF    \t param \t 1.0 \t 0.21\n")
-    #ZJets
-    dc.write("ZJetsSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("IsoZJetsSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("NpZJetsSF    \t param \t 1.0 \t 0.21\n")
-    #Other
-    dc.write("IsoOtherSF \t param \t 1.0 \t 0.30\n")
-    dc.write("NpOtherSF \t param \t 1.0 \t 0.30\n")
+    dc.write("WGSF    \t param \t 1.0 \t 0.19\n")
+    dc.write("ZGSF    \t param \t 1.0 \t 0.21\n")
+    dc.write("OtherSF \t param \t 1.0 \t 0.30\n")
     dc.close()
 
 if is0PhoM3:
-    AllBkg = ["TTbar", "WGamma", "ZGamma", "ZJets", "Other"] 
+    AllBkgs = ["TTbar", "WGamma", "ZGamma", "Other"] 
     Signal  = ["TTGamma"]
-    allMC   = Signal + AllBkg
+    allMC   = Signal + AllBkgs
     #------------------
     #Add observed data
     #------------------
@@ -192,7 +154,7 @@ if is0PhoM3:
     #Add sig& bkgs
     #------------------
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],Signal,[(-1, hName)], True)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkg,[(-1, hName)], False)
+    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
     #------------------
     #Add systematics
     #------------------
@@ -209,9 +171,10 @@ if is0PhoM3:
     #------------------
     #Add rateParam
     #------------------
-    cb.cp().process(["WGamma"]).bin([hName]).AddSyst(cb, 'WGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'ZGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["ZJets"]).bin([hName]).AddSyst(cb,  'ZJetsSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["TTbar"]).bin([hName]).AddSyst(cb, 'TTbarSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["WGamma"]).bin([hName]).AddSyst(cb, 'WGSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["ZGamma"]).bin([hName]).AddSyst(cb, 'ZGSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["Other"]).bin([hName]).AddSyst(cb,  'OtherSF', 'rateParam', ch.SystMap()(1.0))
     #------------------
     #Add syst groups
     #------------------
@@ -231,15 +194,16 @@ if is0PhoM3:
     #Add param
     #------------------
     dc = open(datacardPath, "a")
-    dc.write("WGammaSF    \t param \t 1.0 \t 0.19\n")
-    dc.write("ZGammaSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("ZJetsSF    \t param \t 1.0 \t 0.21\n")
+    dc.write("TTbarSF \t param \t 1.0 \t 0.05\n")
+    dc.write("WGSF    \t param \t 1.0 \t 0.19\n")
+    dc.write("ZGSF    \t param \t 1.0 \t 0.21\n")
+    dc.write("OtherSF \t param \t 1.0 \t 0.30\n")
     dc.close()
 
 if isMassLepGamma:
-    AllBkg = ["OtherPhotonsZGamma","OtherPhotonsWGamma", "OtherPhotonsZJets", "OtherPhotonsOthers"]
-    Signal  = ["MisIdPhotonZJets", "MisIdPhotonOther"]
-    allMC   = Signal + AllBkg
+    AllBkgs = ["OtherPhotonsZGamma","OtherPhotonsWGamma","OtherPhotonsOthers"]
+    Signal  = ["MisIDPhotonAll"]
+    allMC   = Signal + AllBkgs
     #------------------
     #Add observed data
     #------------------
@@ -248,7 +212,7 @@ if isMassLepGamma:
     #Add sig& bkgs
     #------------------
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],Signal,[(-1, hName)], True)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkg,[(-1, hName)], False)
+    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
     #------------------
     #Add systematics
     #------------------
@@ -265,12 +229,9 @@ if isMassLepGamma:
     #------------------
     #Add rateParam
     #------------------
-    cb.cp().process(["MisIdPhotonOther"]).bin([hName]).AddSyst(cb,    'MisIdSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["MisIdPhotonZJets"]).bin([hName]).AddSyst(cb,    'MisIdSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["MisIdPhotonZJets"]).bin([hName]).AddSyst(cb,    'ZJetsSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["OtherPhotonsZGamma"]).bin([hName]).AddSyst(cb, 'ZGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["OtherPhotonsWGamma"]).bin([hName]).AddSyst(cb, 'WGammaSF', 'rateParam', ch.SystMap()(1.0))
-    cb.cp().process(["OtherPhotonsZJets"]).bin([hName]).AddSyst(cb, 'ZJetsSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["OtherPhotonsZGamma"]).bin([hName]).AddSyst(cb, 'OtherPhotonsZGammaSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["OtherPhotonsWGamma"]).bin([hName]).AddSyst(cb, 'OtherPhotonsWGammaSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(["OtherPhotonsOthers"]).bin([hName]).AddSyst(cb,  'OtherPhotonsOthersSF', 'rateParam', ch.SystMap()(1.0))
     #------------------
     #Add syst groups
     #------------------
@@ -290,16 +251,13 @@ if isMassLepGamma:
     #Add param
     #------------------
     dc = open(datacardPath, "a")
-    dc.write("MisIdSF \t param \t 1.0 \t 0.05\n")
-    dc.write("ZGammaSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("ZJetsSF    \t param \t 1.0 \t 0.21\n")
-    dc.write("WGammaSF    \t param \t 1.0 \t 0.19\n")
+    dc.write("OtherPhotonsOthersSF \t param \t 1.0 \t 0.10\n")
     dc.close()
 
 if isMassDilep:
-    AllBkg  = ["OthersDilep"]
-    Signal  = ["ZJetsDilep"]
-    allMC   = Signal + AllBkg
+    AllBkgs = ["Others"]
+    Signal  = ["ZJets"]
+    allMC   = Signal + AllBkgs
     #------------------
     #Add observed data
     #------------------
@@ -308,7 +266,7 @@ if isMassDilep:
     #Add sig& bkgs
     #------------------
     cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],Signal,[(-1, hName)], True)
-    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkg,[(-1, hName)], False)
+    cb.AddProcesses(["*"],["ttgamma"],["13TeV"],[channel],AllBkgs,[(-1, hName)], False)
     cb.SetAutoMCStats(cb, 0, True, 1)
     #------------------
     #Add systematics
@@ -326,7 +284,7 @@ if isMassDilep:
     #------------------
     #Add rateParam
     #------------------
-    cb.cp().process(Signal).bin([hName]).AddSyst(cb, 'ZJetsSF', 'rateParam', ch.SystMap()(1.0))
+    cb.cp().process(AllBkgs).bin([hName]).AddSyst(cb, 'OthersSF', 'rateParam', ch.SystMap()(1.0))
     #------------------
     #Add autoMCStat
     #------------------
@@ -342,7 +300,7 @@ if isMassDilep:
     #Add param
     #------------------
     dc = open(datacardPath, "a")
-    dc.write("ZJetsSF    \t param \t 1.0 \t 0.21\n")
+    dc.write("#OthersSF \t param \t 1.0 \t 0.90\n")
     dc.close()
 
 if isChIsoM3 or is0PhoM3 or isMassLepGamma or isMassDilep:

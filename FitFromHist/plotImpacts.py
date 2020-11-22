@@ -161,7 +161,10 @@ for page in xrange(n):
         i = n_params - (p + 1)
         pre = pdata[p]['prefit']
         fit = pdata[p]['fit']
-        tp = pdata[p]['type']
+        r   = pdata[p]['r']
+        impact_r = pdata[p]['impact_r']
+        unc = (r[0]-r[1],r[2]-r[1])
+        tp  = pdata[p]['type']
         seen_types.add(tp)
         if pdata[p]['type'] != 'Unconstrained':
             pre_err_hi = (pre[2] - pre[1])
@@ -183,6 +186,8 @@ for page in xrange(n):
 
             g_pulls.SetPoint(i, pull, float(i) + 0.5)
             nuisName = Translate(pdata[p]['name'],translate)
+            #print '%s\t %f \t %f \t %f' % (nuisName, fit[0], fit[1], fit[2])
+            print '%20s\t %10f \t %10f \t %10f' % (nuisName, impact_r, max(unc), min(unc))
             if(abs(pull) >2):
                 if("prop" in nuisName):
                     chName = nuisName.split("_")[1].replace("bin", "")
