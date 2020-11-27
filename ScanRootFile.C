@@ -25,9 +25,9 @@ void readDir(TDirectory *dir) {
                         h->GetName(), h->GetNbinsX(), 
                         h->Integral(), h->GetEntries(),
                         float(h->Integral()/h->GetEntries()));
-                for(int i = 1; i<h->GetNbinsX()+1; i++){
+                //for(int i = 1; i<h->GetNbinsX()+1; i++){
                     //printf("\t %5d %10.0f %10.0f\n", i, h->GetBinCenter(i), h->GetBinContent(i));
-                }
+                //}
             }
         }
     }
@@ -49,8 +49,8 @@ void readFile(TFile * file){
 }
 
 void ScanRootFile(TString fileName){
-    //TFile *f = new TFile(fileName);
-    TFile *f = TFile::Open("root://cmsxrootd.fnal.gov/"+fileName);
+    TFile *f = new TFile(fileName);
+    //TFile *f = TFile::Open("root://cmsxrootd.fnal.gov/"+fileName);
     if (f->IsZombie()) {
         printf("The input root file is corrupted");
       return;

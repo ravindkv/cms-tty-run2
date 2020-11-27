@@ -256,6 +256,7 @@ if "JE" in syst:
     weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Pdf,isr,fsr,btagWeight)
 else:
     weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
+weights = "1"
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)

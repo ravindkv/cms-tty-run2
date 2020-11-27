@@ -1,5 +1,5 @@
 from ROOT import TLegend, TGraphAsymmErrors
-from PlotInputs_cff import *
+from PlotInputs import *
 import numpy as np
 #-----------------------------------------
 #Get historgams from the root files 
@@ -82,6 +82,8 @@ def decoHistStack(hist, xTit, yTit):
     hist.GetXaxis().SetTitleSize(0.11);
 
 def decoHistRatio(hist, xTit, yTit, color):
+    #hist.SetFillColor(color);
+    hist.SetLineColor(color);
     hist.GetXaxis().SetTitle(xTit);
     hist.GetYaxis().SetTitle(yTit);
     hist.GetXaxis().SetTitleSize(0.11);
@@ -99,7 +101,7 @@ def decoHistRatio(hist, xTit, yTit, color):
     hist.GetYaxis().SetLabelFont(42);
     #hist.GetYaxis().SetAxisColor(1);
     hist.GetYaxis().SetNdivisions(6,5,0);
-    hist.GetXaxis().SetTickLength(0.06);
+    #hist.GetXaxis().SetTickLength(0.06);
     hist.GetYaxis().SetTitleOffset(0.6);
     hist.GetYaxis().SetLabelOffset(0.01);
     hist.GetYaxis().CenterTitle();
@@ -158,6 +160,17 @@ def getUncBand(hBase, hDiffUp, hDiffDown, isRatio):
 #-----------------------------------------
 #Legends for all histograms, graphs
 #-----------------------------------------
+def decoLegend(legend, nCol, textSize):
+    legend.SetNColumns(nCol);
+    legend.SetFillStyle(0);
+    legend.SetBorderSize(0);
+    #legend.SetFillColor(kBlack);
+    legend.SetTextFont(42);
+    legend.SetTextAngle(0);
+    legend.SetTextSize(textSize);
+    legend.SetTextAlign(12);
+    return legend
+
 def getLegend(dataHist, bkgHists, uncGraph):
     '''
     The background hists are sorted in the
@@ -166,16 +179,9 @@ def getLegend(dataHist, bkgHists, uncGraph):
     comes first.
     '''
     legend = TLegend(0.45,0.70,0.92,0.88);
+    decoLegend(legend, 4, 0.035)
     #legend = TLegend(0.55,0.60,0.92,0.88); for 3 col
     #legend = TLegend(0.70,0.50,0.95,0.88); 
-    legend.SetNColumns(4);
-    legend.SetFillStyle(0);
-    legend.SetBorderSize(0);
-    #legend.SetFillColor(kBlack);
-    legend.SetTextFont(42);
-    legend.SetTextAngle(0);
-    legend.SetTextSize(0.035);
-    legend.SetTextAlign(12);
     legend.AddEntry(dataHist[0], Samples["Data"][2], "PEL")
     for bkgHist in bkgHists:
         legendName = Samples[bkgHist.GetName().split("_")[0]][2] 
