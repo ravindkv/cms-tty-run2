@@ -109,7 +109,7 @@ common_command = \
 'Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
-Transfer_Input_Files = HistFromNtuple.tar.gz, remoteRun.sh\n\
+Transfer_Input_Files = HistFromNtuple.tar.gz, runMakeHists.sh\n\
 use_x509userproxy = true\n\
 Output = %s/log_$(cluster)_$(process).stdout\n\
 Error  = %s/log_$(cluster)_$(process).stderr\n\
@@ -127,7 +127,7 @@ if len(unFinishedList) ==0 and len(corruptedList)==0:
 else:
     jdlFileName = 'tmpSub/resubmitJobs_%s%s%s.jdl'%(year, decay, channel)
     jdlFile = open(jdlFileName,'w')
-    jdlFile.write('Executable =  remoteRun.sh \n')
+    jdlFile.write('Executable =  runMakeHists.sh \n')
     jdlFile.write(common_command)
     for unFinished in unFinishedList[1]:
         run_command =  \

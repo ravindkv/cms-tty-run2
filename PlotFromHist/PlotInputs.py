@@ -2,13 +2,13 @@ import ROOT as rt
 #-----------------------------------------------------------------
 condorHistDir = "/eos/uscms/store/user/rverma/OutputTTGamma"
 #-----------------------------------------------------------------
-#Year 	      =	["2016", "2017", "2018"]
-Year 	      =	["2016"]
-#Channel 	  =	["Mu", "Ele"]
+Year 	      =	["2016", "2017", "2018"]
+#Year 	      =	["2018"]
+Channel 	  =	["Mu", "Ele"]
+#Channel 	  =	["Mu"]
 #Decay 	  =	["Semilep", "Dilep"]
 Decay 	  =	["Semilep"]
-Channel 	  =	["Mu"]
-Systematics   =	["PU","MuEff","PhoEff","BTagSF_b","BTagSF_l","EleEff","Q2","Pdf","isr","fsr"]
+Systematics   =	["PU","MuEff","PhoEff","BTagSF_b","BTagSF_l","EleEff","Q2","Pdf","isr","fsr", "JER", "JECTotal"]
 #Systematics   =	["PU","Q2"]
 SystLevel     = ["Up", "Down"]
 ControlRegion = ["tight_a4j_a1b", "looseCR_a2j_e1b",]

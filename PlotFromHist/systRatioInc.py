@@ -2,12 +2,12 @@ from ROOT import TFile, TLegend, gPad, gROOT, TCanvas, THStack, TF1, TH1F, TGrap
 import os
 import numpy
 import sys
+import math
 from optparse import OptionParser
-from PlotFunc import *
 from PlotInputs import *
+from PlotFunc import *
 from PlotCMSLumi import *
 from PlotTDRStyle import *
-
 
 padGap = 0.01
 iPeriod = 4;
@@ -64,9 +64,19 @@ gPad.SetLeftMargin(0.11);
 #gPad.SetLogy(True);
 gPad.RedrawAxis();
 rootFile = TFile("%s/%s.root"%(inHistFullDir,sample), "read")
+print rootFile
 print("Systematics, \tDown, \tBase, \tUp")
+def checkNanInBins(hist):
+    checkNan = False
+    for b in range(hist.GetNbinsX()):
+        if math.isnan(hist.GetBinContent(b)):
+            print "%s: bin %s is nan"%(hist.GetName(), b)
+            checkNan = True
+    return checkNan
+            
 allHistUp = []
 allHistDown = []
+allSystPercentage = {}
 for index, syst in enumerate(Systematics):
     if CR=="":
         hPathBase = "%s/Base/SR/%s"%(sample, hName)
@@ -76,21 +86,42 @@ for index, syst in enumerate(Systematics):
         hPathBase = "%s/Base/CR/%s/%s"%(sample, CR, hName)
         hPathUp   = "%s/%sUp/CR/%s/%s"%(sample, syst, CR, hName)
         hPathDown   = "%s/%sDown/CR/%s/%s"%(sample, syst, CR, hName)
-    hBase_ = rootFile.Get(hPathBase) 
-    hUp_   = rootFile.Get(hPathUp) 
-    hDown_ = rootFile.Get(hPathDown) 
-    print("%10s %10.2f %10.2f %10.2f"%(syst, 
-        round(hDown_.Integral(),2), 
-        round(hBase_.Integral(),2), 
-        round(hUp_.Integral(),2)
+    hBase_ = rootFile.Get(hPathBase).Clone("Base_")
+    hUp_   = rootFile.Get(hPathUp).Clone("%sUp_"%syst) 
+    hDown_ = rootFile.Get(hPathDown).Clone("%sDown_"%syst) 
+    evtBase = hBase_.Integral()
+    evtUp   = hUp_.Integral()
+    evtDown = hDown_.Integral()
+    #check if intergal is 0
+    #if evtUp ==0.0 or evtBase ==0.0 or evtDown ==0.0:
+    if evtBase ==0.0:
+        print "evtBase is zero"
+        continue
+    #check if intergal is NaN
+    if math.isnan(evtUp) or math.isnan(evtDown):
+        print "Inegral is nan"
+        continue
+    #check if bins are nan
+    if checkNanInBins(hUp_) or checkNanInBins(hBase_) or checkNanInBins(hDown_):
+        print "Some of the bins are nan"
+        continue
+    allSystPercentage[syst] = 100*max(abs(evtUp -evtBase),abs(evtBase-evtDown))/evtBase
+    print("%10s %10.2f %10.2f %10.2f %10.2f %%"%(syst, 
+        round(evtDown,2), 
+        round(evtBase,2), 
+        round(evtUp,2),
+        allSystPercentage[syst]
         ))
+    if allSystPercentage[syst] > 100.0:
+        print "Large uncertainty for %s: %10.2f"%(syst, allSystPercentage[syst])
     xAxis = hBase_.GetXaxis()
     lowBinEdge = xAxis.GetBinLowEdge(1)
     upBinEdge = xAxis.GetBinUpEdge(hBase_.GetNbinsX())
-    nBins = int((upBinEdge - lowBinEdge)/30)
-    if nBins < 10: 
-        nBins = upBinEdge -lowBinEdge
-    newBins = numpy.arange(lowBinEdge,upBinEdge,nBins)
+    #print lowBinEdge, upBinEdge
+    newWidth = int((upBinEdge - lowBinEdge)/20)
+    if int(newWidth) ==0: 
+        newWidth = 1
+    newBins = numpy.arange(lowBinEdge,upBinEdge,newWidth)
     newBins = numpy.concatenate([newBins, [upBinEdge]])
     hBase = hBase_.Rebin(len(newBins)-1, "RebinnedBase", newBins)
     hUp = hUp_.Rebin(len(newBins)-1, "RebinnedUp", newBins)
@@ -101,10 +132,10 @@ for index, syst in enumerate(Systematics):
     myColor = index+2
     if myColor >9:
         myColor = 32+index
-    decoHistRatio(hRatioUp, hName, "#frac{Up}{Nominal} (solid), #frac{Down}{Nominal} (dashed)", myColor)
+    decoHistRatio(hRatioUp, hName, "#frac{SystUp}{Nominal} (solid), #frac{SystDown}{Nominal} (dashed)", myColor)
     hRatioUp.GetXaxis().SetTitleSize(0.05)
     hRatioUp.GetXaxis().SetLabelSize(0.05)
-    hRatioUp.GetYaxis().SetTitleSize(0.05)
+    hRatioUp.GetYaxis().SetTitleSize(0.045)
     hRatioUp.GetYaxis().SetLabelSize(0.05)
     #hRatioUp.GetYaxis().SetRangeUser(0.1, 2)
     hRatioUp.GetYaxis().SetTitleOffset(1.0)
@@ -113,7 +144,7 @@ for index, syst in enumerate(Systematics):
     #Ratio Down
     hRatioDown = hDown.Clone(syst)
     hRatioDown.Divide(hBase)
-    decoHistRatio(hRatioDown, hName, "#frac{Up}{Nominal} (solid), #frac{Down}{Nominal} (dashed)", myColor)
+    decoHistRatio(hRatioDown, hName, "#frac{SystUp}{Nominal} (solid), #frac{SystDown}{Nominal} (dashed)", myColor)
     hRatioDown.SetLineStyle(2)
     hRatioDown.SetLineWidth(2)
     hRatioDown.SetMarkerStyle(index)
@@ -121,19 +152,22 @@ for index, syst in enumerate(Systematics):
     allHistDown.append(hRatioDown)#Don't comment
 
 #Draw Leg
-leg = TLegend(0.20,0.15,0.92,0.28)
-decoLegend(leg, 5, 0.05)
+leg = TLegend(0.13,0.15,0.93,0.28)
+decoLegend(leg, 5, 0.034)
 allHistUpSorted = sortHists(allHistUp, True)
 maxRatio = []
 for h in allHistUpSorted:
     ratio = []
     for i in range(h.GetNbinsX()):
-        ratio.append(h.GetBinContent(i))
+        ratio.append(round(h.GetBinContent(i),2))
     maxRatio.append(max(ratio))
+    #print h.GetName(), ratio
 yMax = max(maxRatio)
 for i, h in enumerate(allHistUpSorted):
     h.GetYaxis().SetRangeUser(1-yMax, 1+yMax)
-    leg.AddEntry(h, h.GetName(), "L")
+    systPercentage = int(round(allSystPercentage[h.GetName()]))
+    legName = "%s (%s%%)"%(h.GetName(), str(systPercentage))
+    leg.AddEntry(h, legName, "L")
     if(i==0):
         h.Draw("hist")
     else:
@@ -143,22 +177,30 @@ leg.Draw("same")
 
 #Draw CMS, Lumi, channel
 if channel in ["mu", "Mu", "m"]:
-    chName = "%s, #mu + jets"%sample
+    chName = "mu + jets"
 else:
-    chName = "%s, e + jets"%sample
+    chName = "e + jets"
 crName = formatCRString(CR)
 if CR=="":
     chName = "%s, SR"%chName
 else:
     chName = "%s, CR"%chName
-chCRName = "#font[42]{%s}, #font[42]{%s}"%(chName, crName)
-extraText   = "Preliminary, %s"%chCRName
-CMS_lumi(canvas, iPeriod, iPosX, extraText)
+nBase = "#font[42]{%s, Nominal Events = %s}"%(sample, str(int(round(evtBase))))
+chCRName = "#font[42]{%s (%s)}"%(chName, crName)
+extraText   = "#splitline{Preliminary, %s}{%s}"%(chCRName, nBase)
+
+lumi_13TeV = "35.9 fb^{-1}"
+if "16" in year:
+    lumi_13TeV = "35.9 fb^{-1} (2016)"
+if "17" in year:
+    lumi_13TeV = "41.5 fb^{-1} (2017)"
+if "18" in year:
+    lumi_13TeV = "59.7 fb^{-1} (2018)"
+CMS_lumi(lumi_13TeV, canvas, iPeriod, iPosX, extraText)
 #Draw Baseline
 baseLine = TF1("baseLine","1", -100, 2000);
 baseLine.SetLineColor(1);
 baseLine.Draw("same");
 
 #canvas.SaveAs("%s/%s.pdf"%(outPlotFullDir, hName))
-canvas.SaveAs("%s_SystRatio_%s.pdf"%(hName, sample))
-
+canvas.SaveAs("SystRatio_%s_%s_%s_%s_%s_%s.pdf"%(year, decayMode, channel, hName, sample, CR))

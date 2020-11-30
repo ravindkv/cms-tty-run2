@@ -93,7 +93,7 @@ evtWeight ="evtWeight"
 Pileup ="PUweight"
 MuEff = "muEffWeight"
 EleEff= "eleEffWeight"
-Q2 = "q2weight_nominal"  
+Q2 = 1.0 
 Pdf = 1.0
 #Pdf = "pdfWeight"
 prefire ="prefireSF"
@@ -252,11 +252,7 @@ else:
     print "Unknown final state, options are Mu and Ele"
     sys.exit()
 
-if "JE" in syst:
-    weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Pdf,isr,fsr,btagWeight)
-else:
-    weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
-weights = "1"
+weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)

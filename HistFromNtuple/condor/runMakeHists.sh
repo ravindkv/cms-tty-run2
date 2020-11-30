@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#To be run on remote machine
 #Take input arguments as an array
 myArray=( "$@" )
 #Array: Size=$#, an element=$1, all element = $@

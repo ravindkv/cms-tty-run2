@@ -201,6 +201,7 @@ def sortHists(hAllBkgs, isReverse):
     yieldDict = {}
     for h in hAllBkgs:
         yieldDict[h.GetName()] = h.Integral()
+        #print h.GetName(), h.Integral()
     if isReverse:
         newDict = sorted(yieldDict.items(), key=lambda x: x[1], reverse=True)
     else:

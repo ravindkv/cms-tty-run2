@@ -31,7 +31,7 @@ lumi_sqrtS = ""
 
 drawLogo      = False
 
-def CMS_lumi(pad,  iPeriod,  iPosX, extraText):
+def CMS_lumi(lumi_13TeV, pad,  iPeriod,  iPosX, extraText):
     outOfFrame    = False
     if(iPosX/10==0 ): outOfFrame = True
 
