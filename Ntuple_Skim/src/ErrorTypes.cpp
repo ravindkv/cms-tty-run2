@@ -1,6 +1,6 @@
 // Adapted from D0 Experiment jetcorr/src/RjetCorr.cpp
 
-#include "../interface/ErrorTypes.hpp"
+#include "ErrorTypes.hpp"
 
 namespace jec {
 

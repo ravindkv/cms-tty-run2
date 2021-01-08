@@ -1,8 +1,8 @@
 #include<iostream>
 #include<string>
-#include"../interface/EventTree.h"
-#include"../interface/Selector.h"
-#include"../interface/EventPick.h"
+#include"EventTree.h"
+#include"Selector.h"
+#include"EventPick.h"
 #include<TFile.h>
 #include<TTree.h>
 #include<TDirectory.h>
@@ -136,8 +136,10 @@ int main(int ac, char** av){
 	selector->smearJetPt = false;
 
 	selector->smearEle = false;
+	selector->smearPho = false;
 
 	selector->scaleEle = false;
+	selector->scalePho = false;
 
 
 
@@ -167,6 +169,7 @@ int main(int ac, char** av){
 
 	// remove the jet dR cuts, so we can play with these levels later on
 	selector->veto_lep_jet_dR = -1;
+	selector->veto_pho_jet_dR = -1;
 
 	evtPick->SkimNjet_ge = 2;
 	evtPick->SkimNBjet_ge = 0;

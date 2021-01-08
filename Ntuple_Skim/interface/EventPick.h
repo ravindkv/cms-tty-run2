@@ -37,6 +37,7 @@ public:
 	double MET_cut;
 	bool no_trigger;
 
+	bool loosePhotonVeto;
 
 	int Nlep_eq;
 	
@@ -58,6 +59,7 @@ public:
 	int Nmu_eq;
 	int NEleVeto_le;
 	
+	int Npho_eq;
 	int NlooseMuVeto_le;
 	int NlooseEleVeto_le;
 	int NmediumEleVeto_le;
@@ -86,6 +88,13 @@ public:
 	ofstream dump_threeJet_ele;
 	ofstream dump_fourJet_ele;
 	ofstream dump_btag_ele;
+	ofstream dump_photon_ele;
+	ofstream dump_loosePhoton_ele;
+	ofstream dump_photon_GenPho_ele;
+	ofstream dump_photon_MisIDEle_ele;
+	ofstream dump_photon_HadPho_ele;
+	ofstream dump_photon_HadFake_ele;
+	ofstream dump_photon_PU_ele;
 
 	ofstream dump_input_mu;
 	ofstream dump_trigger_mu;
@@ -95,6 +104,14 @@ public:
 	ofstream dump_threeJet_mu;
 	ofstream dump_fourJet_mu;
 	ofstream dump_btag_mu;
+	ofstream dump_photon_mu;
+	ofstream dump_loosePhoton_mu;
+	ofstream dump_photon_GenPho_mu;
+	ofstream dump_photon_MisIDEle_mu;
+	ofstream dump_photon_HadPho_mu;
+	ofstream dump_photon_HadFake_mu;
+	ofstream dump_photon_PU_mu;
+
 
 private:
 	EventTree* tree;
@@ -138,6 +155,7 @@ public:
         int Nmu_eq;
         int NEleVeto_le;
 
+        int Npho_ge;
         int NlooseMuVeto_le;
         int NlooseEleVeto_le;
         int NmediumEleVeto_le;

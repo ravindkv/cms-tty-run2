@@ -3,22 +3,22 @@ import os
 import sys
 
 #IMPORT MODULES FROM OTHER DIR
-sys.path.insert(0, os.getcwd().replace("RecoNtuple_Skim/condor","Skim_NanoAOD/sample"))
+sys.path.insert(0, os.getcwd().replace("Ntuple_Skim/condor","Skim_NanoAOD/sample"))
 from NanoAOD_Gen_SplitJobs_cff import Samples_2016, Samples_2017, Samples_2018 
 
 if not os.path.exists("tmpSub/log"):
     os.makedirs("tmpSub/log")
 condorLogDir = "log"
-tarFile = "tmpSub/RecoNtuple_Skim.tar.gz"
+tarFile = "tmpSub/Ntuple_Skim.tar.gz"
 if os.path.exists(tarFile):
 	os.system("rm %s"%tarFile)
-os.system("tar -zcvf %s ../../RecoNtuple_Skim --exclude condor"%tarFile)
-os.system("cp runMakeRecoNtuple.sh tmpSub/")
+os.system("tar -zcvf %s ../../Ntuple_Skim --exclude condor"%tarFile)
+os.system("cp runMakeNtuple.sh tmpSub/")
 common_command = \
 'Universe   = vanilla\n\
 should_transfer_files = YES\n\
 when_to_transfer_output = ON_EXIT\n\
-Transfer_Input_Files = RecoNtuple_Skim.tar.gz, runMakeRecoNtuple.sh\n\
+Transfer_Input_Files = Ntuple_Skim.tar.gz, runMakeNtuple.sh\n\
 use_x509userproxy = true\n\
 Output = %s/log_$(cluster)_$(process).stdout\n\
 Error  = %s/log_$(cluster)_$(process).stderr\n\
@@ -32,9 +32,9 @@ for year in [2016,2017,2018]:
     sampleList = eval("Samples_%i"%year)
     jdlName = 'submitJobs_%s.jdl'%(year)
     jdlFile = open('tmpSub/%s'%jdlName,'w')
-    jdlFile.write('Executable =  runMakeRecoNtuple.sh \n')
+    jdlFile.write('Executable =  runMakeNtuple.sh \n')
     jdlFile.write(common_command)
-    condorOutDir="/store/user/rverma/Output/cms-hcs-run2/RecoNtuple_Skim"
+    condorOutDir="/store/user/rverma/Output/cms-ttg-run2/Ntuple_Skim"
     os.system("eos root://cmseos.fnal.gov mkdir -p %s/%s"%(condorOutDir, year))
     jdlFile.write("X=$(step)+1\n")
     

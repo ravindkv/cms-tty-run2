@@ -10,6 +10,8 @@ EventPick::EventPick(std::string titleIn){
 
     printEvent = -1;
 
+    loosePhotonVeto=true;
+
     cutFlow_ele = new TH1D("cut_flow_ele","cut flow e+jets",20,-0.5,19.5);
     cutFlow_ele->SetDirectory(0);
     set_cutflow_labels_ele(cutFlow_ele);
@@ -38,6 +40,9 @@ EventPick::EventPick(std::string titleIn){
     // assign cut values
     //	veto_jet_dR = 0.1;
     // veto_lep_jet_dR = 0.4;
+    // veto_pho_jet_dR = 0.7;
+    // veto_pho_lep_dR = 0.7;
+
     MET_cut = 0.0;
     no_trigger = false;
 
@@ -56,6 +61,8 @@ EventPick::EventPick(std::string titleIn){
     QCDselect = false;
 
     applyMetFilter   = false;
+
+    Npho_eq = 1;
 
 }
 
@@ -200,6 +207,8 @@ void EventPick::process_event(EventTree* tree, Selector* selector, double weight
 	cout << "  Loose   "<< selector->ElectronsLoose.size() << endl;
 	cout << "Jets      "<< selector->Jets.size() << endl;
 	cout << "BJets     "<< selector->bJets.size() << endl;
+	cout << "Photons   "<< selector->Photons.size() << endl;
+	cout << "  Loose   "<< selector->LoosePhotons.size() << endl;
 	cout << "-------------------"<< endl;
     }
 
@@ -415,6 +424,38 @@ void EventPick::process_event(EventTree* tree, Selector* selector, double weight
     // MET cut for muons
     if(passPresel_mu && tree->MET_pt_ >= MET_cut) { if (saveCutflows) {cutFlow_mu->Fill(12); cutFlowWeight_mu->Fill(12,weight);}}
     else passPresel_mu = false;
+
+
+
+    // Photon cut for electrons
+    if(passPresel_ele  && selector->Photons.size() == Npho_eq) {  
+	passAll_ele = true;
+	if (saveCutflows) {cutFlow_ele->Fill(13); cutFlowWeight_ele->Fill(13,weight);  dump_photon_ele << run_lumi_event;}
+    }
+    else passAll_ele = false ; 
+
+
+    // Photon cut for muons
+    if(passPresel_mu && selector->Photons.size() == Npho_eq) { 
+	passAll_mu = true;
+	if (saveCutflows) {cutFlow_mu->Fill(13); cutFlowWeight_mu->Fill(13,weight); dump_photon_mu << run_lumi_event;}
+    }
+    else passAll_mu = false ; 
+    
+    if (loosePhotonVeto){
+	// Loose photon cut for electrons
+	if(passAll_ele && selector->LoosePhotons.size() == Npho_eq) {
+	    if (saveCutflows) {cutFlow_ele->Fill(14); cutFlowWeight_ele->Fill(14,weight);  dump_loosePhoton_ele << run_lumi_event;}
+	}
+	else passAll_ele = false;
+    
+	// Loose photon cut for muons
+	if(passAll_mu && selector->LoosePhotons.size() == Npho_eq) {
+	    if (saveCutflows) {cutFlow_mu->Fill(14); cutFlowWeight_mu->Fill(14,weight);  dump_loosePhoton_mu << run_lumi_event;}
+	}
+	else passAll_mu = false;
+    }    
+    
 }
 
 void EventPick::print_cutflow_mu(TH1D* _cutflow){
@@ -432,6 +473,7 @@ void EventPick::print_cutflow_mu(TH1D* _cutflow){
     std::cout << "Events with >= " << 1 <<     " bjets "<< _cutflow->GetBinContent(11) << std::endl;
     std::cout << "Events with >= " << 2 << " bjets       " << _cutflow->GetBinContent(12) << std::endl;
     std::cout << "Events passing MET cut       " << _cutflow->GetBinContent(13) << std::endl;
+    std::cout << "Events with >= 1 photon      " << _cutflow->GetBinContent(14) << std::endl;
     std::cout << std::endl;
 }
 
@@ -450,6 +492,7 @@ void EventPick::print_cutflow_ele(TH1D* _cutflow){
     std::cout << "Events with >= " << 1 <<     " bjets "<< _cutflow->GetBinContent(11) << std::endl;
     std::cout << "Events with >= " << 2 << " bjets       " << _cutflow->GetBinContent(12) << std::endl;
     std::cout << "Events passing MET cut       " << _cutflow->GetBinContent(13) << std::endl;
+    std::cout << "Events with >= 1 photon      " << _cutflow->GetBinContent(14) << std::endl;
     std::cout << std::endl;
 }
 
@@ -467,8 +510,11 @@ void EventPick::set_cutflow_labels_mu(TH1D* hist){
     hist->GetXaxis()->SetBinLabel(11,">=1 b-tags");
     hist->GetXaxis()->SetBinLabel(12,">=2 b-tags");
     hist->GetXaxis()->SetBinLabel(13,"MET Cut");
+    hist->GetXaxis()->SetBinLabel(14,"Photon");
+    hist->GetXaxis()->SetBinLabel(15,"Loose Photon Veto");
     hist->GetXaxis()->SetBinLabel(16,"Genuine");
     hist->GetXaxis()->SetBinLabel(17,"MisIDEle");
+    hist->GetXaxis()->SetBinLabel(18,"HadronicPho");
     hist->GetXaxis()->SetBinLabel(19,"HadronicFake");
 }
 
@@ -486,8 +532,11 @@ void EventPick::set_cutflow_labels_ele(TH1D* hist){
     hist->GetXaxis()->SetBinLabel(11,">=1 b-tags");
     hist->GetXaxis()->SetBinLabel(12,">=2 b-tags");
     hist->GetXaxis()->SetBinLabel(13,"MET Cut");
+    hist->GetXaxis()->SetBinLabel(14,"Photon");
+    hist->GetXaxis()->SetBinLabel(15,"Lose Photon Veto");
     hist->GetXaxis()->SetBinLabel(16,"Genuine");
     hist->GetXaxis()->SetBinLabel(17,"MisIDEle");
+    hist->GetXaxis()->SetBinLabel(18,"HadronicPho");
     hist->GetXaxis()->SetBinLabel(19,"HadronicFake");
 }
 
@@ -502,6 +551,13 @@ void EventPick::init_cutflow_files(string fileName){
     dump_threeJet_ele.open(fileName+"_threeJet_ele.csv");
     dump_fourJet_ele.open(fileName+"_fourJet_ele.csv");  
     dump_btag_ele.open(fileName+"_btag_ele.csv");     
+    dump_photon_ele.open(fileName+"_photon_ele.csv");   
+    dump_loosePhoton_ele.open(fileName+"_loosePhoton_ele.csv");   
+    dump_photon_GenPho_ele.open(fileName+"_photon_GenPho_ele.csv");   
+    dump_photon_MisIDEle_ele.open(fileName+"_photon_MisIDEle_ele.csv");   
+    dump_photon_HadPho_ele.open(fileName+"_photon_HadPho_ele.csv");   
+    dump_photon_HadFake_ele.open(fileName+"_photon_HadFake_ele.csv");   
+    dump_photon_PU_ele.open(fileName+"_photon_PU_ele.csv");   
 
     //    dump_input_mu.open(fileName+"_input_mu.csv");  
     dump_trigger_mu.open(fileName+"_trigger_mu.csv");  
@@ -511,6 +567,13 @@ void EventPick::init_cutflow_files(string fileName){
     dump_threeJet_mu.open(fileName+"_threeJet_mu.csv");
     dump_fourJet_mu.open(fileName+"_fourJet_mu.csv");  
     dump_btag_mu.open(fileName+"_btag_mu.csv");     
+    dump_photon_mu.open(fileName+"_photon_mu.csv");   
+    dump_loosePhoton_mu.open(fileName+"_loosePhoton_mu.csv");   
+    dump_photon_GenPho_mu.open(fileName+"_photon_GenPho_mu.csv");   
+    dump_photon_MisIDEle_mu.open(fileName+"_photon_MisIDEle_mu.csv");   
+    dump_photon_HadPho_mu.open(fileName+"_photon_HadPho_mu.csv");   
+    dump_photon_HadFake_mu.open(fileName+"_photon_HadFake_mu.csv");   
+    dump_photon_PU_mu.open(fileName+"_photon_PU_mu.csv");   
     
 }
 
@@ -524,6 +587,13 @@ void EventPick::close_cutflow_files(){
     dump_threeJet_ele.close();
     dump_fourJet_ele.close();
     dump_btag_ele.close();
+    dump_photon_ele.close();
+    dump_loosePhoton_ele.close();
+    dump_photon_GenPho_ele.close();
+    dump_photon_MisIDEle_ele.close();
+    dump_photon_HadPho_ele.close();
+    dump_photon_HadFake_ele.close();
+    dump_photon_PU_ele.close();
 
     //    dump_input_mu.close();
     dump_trigger_mu.close();
@@ -533,5 +603,55 @@ void EventPick::close_cutflow_files(){
     dump_threeJet_mu.close();
     dump_fourJet_mu.close();
     dump_btag_mu.close();
+    dump_photon_mu.close();
+    dump_loosePhoton_mu.close();
+    dump_photon_GenPho_mu.close();
+    dump_photon_MisIDEle_mu.close();
+    dump_photon_HadPho_mu.close();
+    dump_photon_HadFake_mu.close();
+    dump_photon_PU_mu.close();
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+// void EventPick::clear_vectors(){
+// 	Electrons.clear();
+// 	ElectronsLoose.clear();
+// 	ElectronsMedium.clear();
+// 	Muons.clear();
+// 	MuonsLoose.clear();
+// 	Jets.clear();
+// 	bJets.clear();
+// 	Photons.clear();
+// 	LoosePhotons.clear();
+// 	PhotonsPresel.clear();
+// 	PhoPassChHadIso.clear();
+// 	PhoPassPhoIso.clear();
+// 	PhoPassSih.clear();
+// }
+
+// double EventPick::dR_jet_ele(int jetInd, int eleInd){
+// 	return dR(tree->jetEta_->at(jetInd), tree->jetPhi_->at(jetInd), tree->eleSCEta_->at(eleInd), tree->elePhi_->at(eleInd));
+// }
+// double EventPick::dR_jet_mu(int jetInd, int muInd){
+// 	return dR(tree->jetEta_->at(jetInd), tree->jetPhi_->at(jetInd), tree->muEta_->at(muInd), tree->muPhi_->at(muInd));
+// }
+// double EventPick::dR_jet_pho(int jetInd, int phoInd){
+// 	return dR(tree->jetEta_->at(jetInd), tree->jetPhi_->at(jetInd), tree->phoSCEta_->at(phoInd), tree->phoPhi_->at(phoInd));
+// }
+// double EventPick::dR_ele_pho(int eleInd, int phoInd){
+// 	return dR(tree->eleSCEta_->at(eleInd), tree->elePhi_->at(eleInd), tree->phoSCEta_->at(phoInd), tree->phoPhi_->at(phoInd));
+// }
+// double EventPick::dR_mu_pho(int muInd, int phoInd){
+// 	return dR(tree->muEta_->at(muInd), tree->muPhi_->at(muInd), tree->phoSCEta_->at(phoInd), tree->phoPhi_->at(phoInd));
+// }
 

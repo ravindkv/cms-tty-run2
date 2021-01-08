@@ -1,4 +1,4 @@
-#include"../interface/EventPick.h"
+#include"EventPick.h"
 #include <iostream> 
 #include <iomanip>
 
@@ -39,6 +39,9 @@ EventPick_gen::EventPick_gen(std::string titleIn){
 	// assign cut values
 	//	veto_jet_dR = 0.1;
 	// veto_lep_jet_dR = 0.4;
+	// veto_pho_jet_dR = 0.7;
+	// veto_pho_lep_dR = 0.7;
+
 	MET_cut = 0.0;
 	no_trigger = false;
 	
@@ -54,6 +57,7 @@ EventPick_gen::EventPick_gen(std::string titleIn){
 
 	ZeroBExclusive = false;
 
+	Npho_ge = 1;
 	NlooseMuVeto_le = 0;
 	NlooseEleVeto_le = 0;
 
@@ -171,6 +175,11 @@ void EventPick_gen::process_event(EventTree* tree, Selector_gen* selector_gen, d
 //	if(passPresel_ele && tree->pfMET_ >= MET_cut) { if (saveCutflows) {cutFlow_ele->Fill(13); cutFlowWeight_ele->Fill(13,weight);}}
 //	else passPresel_ele = false;
 
+	// Photon cut for electrons
+	if(passPresel_ele && selector_gen->Photons.size() >= 1) {  if (saveCutflows) {cutFlow_ele->Fill(11); cutFlowWeight_ele->Fill(11,weight); passAll_ele = true;}}
+	else passAll_ele = false ; 
+
+
 	// NJet cuts for muons
 	// Implemented in this way (with a loop) to check for numbers failing each level of cut < Njet cut, and filling cutflow histo
 	// cutflow histo will not be filled for bins where the cut is > Njet_ge (ex, if cut is at 3, Njet>=4 bin is left empty)
@@ -194,6 +203,10 @@ void EventPick_gen::process_event(EventTree* tree, Selector_gen* selector_gen, d
 //	if(passPresel_mu && tree->pfMET_ >= MET_cut) { if (saveCutflows) {cutFlow_mu->Fill(13); cutFlowWeight_mu->Fill(13,weight);}}
 //	else passPresel_mu = false;
 
+	// Photon cut for muons
+	if(passPresel_mu && selector_gen->Photons.size() >= Npho_ge) { if (saveCutflows) {cutFlow_mu->Fill(11); cutFlowWeight_mu->Fill(11,weight); passAll_mu = true;}}
+	else passAll_mu = false ; 
+	
 }
 
 void EventPick_gen::print_cutflow_mu(TH1D* _cutflow){
@@ -211,6 +224,7 @@ void EventPick_gen::print_cutflow_mu(TH1D* _cutflow){
 	std::cout << "Events with >= " << 1 <<     " bjets "<< _cutflow->GetBinContent(11) << std::endl;
 //	std::cout << "Events with >= " << 2 << " bjets       " << _cutflow->GetBinContent(12) << std::endl;
 //	std::cout << "Events passing MET cut       " << _cutflow->GetBinContent(1) << std::endl;
+	std::cout << "Events with >= 1 photon      " << _cutflow->GetBinContent(12) << std::endl;
 	std::cout << std::endl;
 }
 
@@ -229,6 +243,7 @@ void EventPick_gen::print_cutflow_ele(TH1D* _cutflow){
 	std::cout << "Events with >= " << 1 <<     " bjets "<< _cutflow->GetBinContent(11) << std::endl;
 //	std::cout << "Events with >= " << 2 << " bjets       " << _cutflow->GetBinContent(12) << std::endl;
 //	std::cout << "Events passing MET cut       " << _cutflow->GetBinContent(14) << std::endl;
+	std::cout << "Events with >= 1 photon      " << _cutflow->GetBinContent(12) << std::endl;
 	std::cout << std::endl;
 }
 
@@ -246,6 +261,7 @@ void EventPick_gen::set_cutflow_labels_mu(TH1D* hist){
 	hist->GetXaxis()->SetBinLabel(11,">=1 b-tags");
 //	hist->GetXaxis()->SetBinLabel(12,">=2 b-tags");
 //	hist->GetXaxis()->SetBinLabel(13,"MET Cut");
+	hist->GetXaxis()->SetBinLabel(12,"Photon");
 }
 
 void EventPick_gen::set_cutflow_labels_ele(TH1D* hist){
@@ -262,6 +278,7 @@ void EventPick_gen::set_cutflow_labels_ele(TH1D* hist){
 	hist->GetXaxis()->SetBinLabel(11,">=1 b-tags");
 //	hist->GetXaxis()->SetBinLabel(12,">=2 b-tags");
 //	hist->GetXaxis()->SetBinLabel(13,"MET Cut");
+	hist->GetXaxis()->SetBinLabel(12,"Photon");
 }
 
 

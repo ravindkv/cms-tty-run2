@@ -182,6 +182,64 @@ double get2017EleSF(double pt, double eta, int systLevel){
 	//double eleEffSF = eleTrigSF[eleTrigEtaRegion][eleTrigPtRegion][systLevel] * eleIDSF[eleIDEtaRegion][eleIDPtRegion][systLevel] * eleRecoSF[eleRecoEtaRegion][systLevel];
 	//double eleEffSF = eleTrigSF[eleTrigEtaRegion][eleTrigPtRegion][systLevel] * eleIDSF[systLevel] * eleRecoSF[systLevel];
 //cout<<"IDSF = "<<ele2017IDSF[eleIDEtaRegion][eleIDPtRegion][systLevel]<<endl;
+//cout<<"Reco EFF = "<<ele2017RecoSF[eleRecoEtaRegion][eleRecoPtRegion][systLevel]<<endl;	
        return eleEffSF;
+
+
+}
+
+
+
+
+
+
+double pho2017IDSF[10][5][3]={{{0.987394,1.02926,1.07113},{0.960999,0.985135,1.00927},{0.968756,0.985056,1.00136},{0.936331,1.02689,1.11746},{0.793648,0.995122,1.1966},},
+				{{0.959802,0.991005,1.02221},{0.959727,0.981747,1.00377},{0.971872,0.985203,0.998535},{0.968596,0.986779,1.00496},{0.958923,1.05853,1.15814},},
+				{{0,1,2},{0,1,2},{0,1,2},{0,1,2},{0,1,2},},
+				{{1.00195,1.0227,1.04344},{0.967061,0.985933,1.00481},{0.942869,0.969212,0.995555},{0.910044,0.980512,1.05098},{0.833777,0.983432,1.13309},},
+				{{1.00292,1.02199,1.04107},{0.959828,0.981747,1.00367},{0.940553,0.960199,0.979845},{0.938001,0.991261,1.04452},{0.887392,0.967391,1.04739},},
+				{{0.999819,1.0189,1.03797},{0.967691,0.98961,1.01153},{0.957966,0.977612,0.997258},{0.939311,0.992537,1.04576},{0.875032,0.954933,1.03483},},
+				{{1.0035,1.02425,1.045},{0.970871,0.989744,1.00862},{0.942831,0.969174,0.995517},{0.913851,0.984318,1.05479},{0.780216,0.929929,1.07964},},
+				{{0,1,2},{0,1,2},{0,1,2},{0,1,2},{0,1,2},},
+				{{0.977806,1.00901,1.04021},{0.963675,0.985696,1.00772},{0.973088,0.98642,0.999751},{0.974452,0.992857,1.01126},{0.761942,0.860262,0.958582},},
+				{{1.02611,1.06794,1.10978},{0.966405,0.990541,1.01468},{0.97252,0.98882,1.00512},{0.933782,1.0243,1.11482},{0.803762,1.00601,1.20826},},};
+
+double get2017PhoSF(double pt, double eta, int systLevel){
+//double getPhoSF(double pt, double eta, int systLevel){
+
+
+	
+	int phoIDEtaRegion = 0;
+
+//	if (eta < -2.0	){phoIDEtaRegion++;}
+	if (eta > -2.0	){phoIDEtaRegion++;}
+	if (eta > -1.566){phoIDEtaRegion++;}
+	if (eta > -1.444){phoIDEtaRegion++;}
+	if (eta > -0.8	){phoIDEtaRegion++;}
+	if (eta > 0.0	){phoIDEtaRegion++;}
+	if (eta > 0.8	){phoIDEtaRegion++;}
+	if (eta > 1.444	){phoIDEtaRegion++;}
+	if (eta > 1.566	){phoIDEtaRegion++;}
+	if (eta > 2.0	){phoIDEtaRegion++;}
+
+
+	int phoIDPtRegion = 0;
+
+//	if (pt > 20.0  ){phoIDPtRegion++;}
+//	if (pt < 35.0  ){phoIDPtRegion++;}
+	if (pt > 35.0  ){phoIDPtRegion++;}
+	if (pt > 50.0  ){phoIDPtRegion++;}
+	if (pt > 100.0  ){phoIDPtRegion++;}
+	if (pt > 200.0 ){phoIDPtRegion++;}
+        
+
+	double phoSF = pho2017IDSF[phoIDEtaRegion][phoIDPtRegion][systLevel];
+//	double phoSF = phoIDSF[systLevel];
+  //      tf2->Clear();
+  //aloke
+ // cout<<"phoSF = "<<phoSF<<endl;
+	return phoSF;
+
+
 }
 

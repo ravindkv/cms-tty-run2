@@ -10,7 +10,7 @@
 #include"JetCorrectorParameters.h"
 #include"FactorizedJetCorrector.h"
 #include"JetCorrectionUncertainty.h"
-#include"../interface/EventTree.h"
+#include"EventTree.h"
 
 class JECvariation{
 public: 

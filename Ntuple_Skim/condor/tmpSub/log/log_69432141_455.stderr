@@ -1,3 +1,0 @@
-WARNING: In non-interactive mode release checks e.g. deprecated releases, production architectures are disabled.
-Error in <TTree::SetBranchStatus>: unknown branch -> Flag_ecalBadCalibFilterV2
-[25.53kB/25.53kB][100%][==================================================][25.53kB/s]  [25.53kB/25.53kB][100%][==================================================][25.53kB/s]  

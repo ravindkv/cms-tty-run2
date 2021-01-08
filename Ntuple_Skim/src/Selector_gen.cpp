@@ -1,4 +1,4 @@
-#include"../interface/Selector.h"
+#include"Selector.h"
 #include"TRandom3.h"
 
 double dR(double eta1, double phi1, double eta2, double phi2){
@@ -16,6 +16,11 @@ Selector_gen::Selector_gen(){
 
 //	looseJetID = true;
 	veto_lep_jet_dR = 0.4; // remove jets with a lepton closer than this cut level
+	veto_pho_jet_dR = 0.4; // remove jets with a photon closer than this cut level
+
+	veto_lep_pho_dR = 0.4; // remove photons with a lepton closer than this cut level
+	veto_jet_pho_dR = 0.4; // remove photons with a jet closer than this cut level
+
 	useDeepCSVbTag = false;
 	//https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
 	// CSVv2M
@@ -43,6 +48,15 @@ Selector_gen::Selector_gen(){
 	
 	mu_Iso_invert = false;
 	//smearJetPt = true;
+	// photons
+	pho_Et_cut = 20.0; 
+	pho_Eta_cut = 2.5; 
+//	pho_ID_ind = 0; // 0 - Loose, 1 - Medium, 2 - Tight
+//	pho_noPixelSeed_cut = false;
+//	pho_noEleVeto_cut = false;
+       // scalePho = true;
+//	pho_applyPhoID = true;
+	
 }
 
 void Selector_gen::process_objects(EventTree* inp_tree){
@@ -55,11 +69,28 @@ void Selector_gen::process_objects(EventTree* inp_tree){
 		//cout << "before selector electrons" << endl;
  	filter_electrons();
 
+		//cout << "before selector photons" << endl;
+	filter_photons();
+
 		//cout << "before selector jets" << endl;
 	filter_jets();
+
+		//cout << "before photon jet dr" << endl;
+	// add in the DR(photon,jet), removing photons with jet < 0.4 away, needs to be done after the jet selection
+	filter_photons_jetsDR();
+
+		//cout << "end selector" << endl;
+
 }
 
 void Selector_gen::clear_vectors(){
+	Photons.clear();
+	PhoPassChHadIso.clear();
+	PhoPassPhoIso.clear();
+	PhoPassSih.clear();
+
+	LoosePhotons.clear();
+	
 	Electrons.clear();
 	ElectronsLoose.clear();
 	ElectronsMedium.clear();
@@ -69,7 +100,79 @@ void Selector_gen::clear_vectors(){
 	bJets.clear();
 	
 	MuRelIso_corr.clear();
+	PhoChHadIso_corr.clear();
+	PhoNeuHadIso_corr.clear();
+	PhoPhoIso_corr.clear();
+	PhoRandConeChHadIso_corr.clear();
+
 }
+
+void Selector_gen::filter_photons(){
+	for(int phoInd = 0; phoInd < tree->nMC_; ++phoInd){
+		if (tree->mcPID->at(phoInd)==22){
+
+		double eta = tree->mcEta->at(phoInd);
+		double absEta = TMath::Abs(eta);
+		double et = tree->mcPt->at(phoInd);
+		double phi = tree->mcPhi->at(phoInd);
+		//std::cout<<"Photon ID:"<<tree->mcPID->at(phoInd)<<":"<<absEta<<","<<et<<","<<phi<<std::endl;
+		bool passDR_lep_pho = true;
+		
+		for(std::vector<int>::const_iterator eleInd = Electrons.begin(); eleInd != Electrons.end(); eleInd++) {
+			if (dR(eta, phi, tree->mcEta->at(*eleInd), tree->mcPhi->at(*eleInd)) < veto_lep_pho_dR) passDR_lep_pho = false;
+		}
+
+		//loop over selected muons
+		for(std::vector<int>::const_iterator muInd = Muons.begin(); muInd != Muons.end(); muInd++) {
+			if (dR(eta, phi, tree->mcEta->at(*muInd), tree->mcPhi->at(*muInd)) < veto_lep_pho_dR) passDR_lep_pho = false;
+		}
+
+
+
+		// make sure it doesn't fall within the gap
+		bool passEtaOverlap = (absEta < 1.4442) || (absEta > 1.566);
+
+		bool isEndCap = (absEta > 1.479);
+		//std::cout<<passEtaOverlap<<  "  "<<passDR_lep_pho<<std::endl;
+		bool phoPresel = (et > pho_Et_cut &&
+						  absEta < pho_Eta_cut &&
+						  passEtaOverlap &&
+						  passDR_lep_pho);// && 
+						 // !hasPixelSeed);
+
+		if(phoPresel){
+			Photons.push_back(phoInd);
+		}
+	}
+}
+}
+
+
+void Selector_gen::filter_photons_jetsDR(){
+	if (veto_jet_pho_dR < 0) return;
+
+	for(int i = Photons.size()-1; i >= 0; i--){
+		int phoInd = Photons.at(i);
+		double eta = tree->mcEta->at(phoInd);
+	
+		double et = tree->mcPt->at(phoInd);
+		double phi = tree->mcPhi->at(phoInd);
+
+		bool passDR_jet_pho = true;
+		double _dr;
+
+		for(std::vector<int>::const_iterator jetInd = Jets.begin(); jetInd != Jets.end(); jetInd++) {
+			_dr = dR(eta, phi, tree->jetGenJetEta_->at(*jetInd), tree->jetGenJetPhi_->at(*jetInd));
+			if (_dr < veto_jet_pho_dR) passDR_jet_pho = false;
+		}
+		if (!passDR_jet_pho){
+			Photons.erase(Photons.begin()+i);
+		}
+	}
+}
+
+
+
 
 void Selector_gen::filter_electrons(){
 	for(int eleInd = 0; eleInd < tree->nMC_; ++eleInd){
@@ -136,9 +239,17 @@ void Selector_gen::filter_jets(){
 			if (dR(eta, phi, tree->mcEta->at(*muInd), tree->mcPhi->at(*muInd)) < veto_lep_jet_dR) passDR_lep_jet = false;
 		}
 
+		bool passDR_pho_jet = true;
+
+		for(std::vector<int>::const_iterator phoInd = Photons.begin(); phoInd != Photons.end(); phoInd++) {
+				if (dR(eta, phi, tree->mcEta->at(*phoInd), tree->mcPhi->at(*phoInd)) < veto_pho_jet_dR) passDR_pho_jet = false;
+			}
+		
+
 		bool jetPresel = (pt > jet_Pt_cut &&
 						  TMath::Abs(eta) < jet_Eta_cut &&
-						  passDR_lep_jet
+						  passDR_lep_jet &&
+						  passDR_pho_jet
 						  );
 
 		if( jetPresel){
@@ -153,6 +264,41 @@ void Selector_gen::filter_jets(){
 	}
 }
 
+
+
+
+
+// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedPhotonID2012#Effective_Areas_for_rho_correcti
+int Selector_gen::egammaRegion(double absEta){
+	int region = 0;
+	if( absEta >= 1.0  ) region++;
+	if( absEta >= 1.479) region++;
+	if( absEta >= 2.0  ) region++;
+	if( absEta >= 2.2  ) region++;
+	if( absEta >= 2.3  ) region++;
+	if( absEta >= 2.4  ) region++;
+	return region;
+}
+
 // Currently, these are the listed values for the SPRING16 MC samples, need to verify that they are what should be used from SUMMER16 as well
+
+
+double Selector_gen::phoEffArea03ChHad(double phoSCEta){
+	double eta = TMath::Abs(phoSCEta);
+	return photonEA[egammaRegion(eta)][0];
+}
+
+double Selector_gen::phoEffArea03NeuHad(double phoSCEta){
+	double eta = TMath::Abs(phoSCEta);
+	return photonEA[egammaRegion(eta)][1];
+}
+
+double Selector_gen::phoEffArea03Pho(double phoSCEta){
+	double eta = TMath::Abs(phoSCEta);
+	return photonEA[egammaRegion(eta)][2];
+}
+
+
+
 Selector_gen::~Selector_gen(){
 }

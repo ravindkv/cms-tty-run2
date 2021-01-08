@@ -25,6 +25,7 @@ class EventTree{
     UInt_t    lumis_;
     
     Float_t  genWeight_;
+
     UInt_t nLHEScaleWeight_;
     Float_t LHEScaleWeight_[200];
     
@@ -35,6 +36,7 @@ class EventTree{
     Float_t PSWeight_[200];
 
     Float_t LHEWeight_originalXWGTUP_;
+    
     bool isData_;
 
     Int_t    nVtx_;
@@ -100,6 +102,33 @@ class EventTree{
     Float_t         eleHcalSumEtDr03_[20];
     Float_t         eleTrkSumPtDr03_[20];
 
+    Int_t           elePhoIdx_[20];
+
+
+    // Photon
+    
+    UInt_t          nPho_;
+    Float_t         phoEt_[15];
+    Float_t         phoEta_[15];
+    Float_t         phoPhi_[15];
+    Bool_t          phoIsEB_[15];
+    Bool_t          phoIsEE_[15];
+    Float_t         phoPFRelIso_[15];
+    Float_t         phoPFRelChIso_[15];
+    Int_t          phoIDcutbased_[15];
+    Int_t           phoVidWPBitmap_[15];
+    Bool_t           phoPixelSeed_[15];
+    Bool_t           phoEleVeto_[15];
+    Float_t           phoMVAId_[15];
+    Float_t           phoMVAId17V1_[15];
+
+    Float_t         phoR9_[15];
+    Float_t         phoSIEIE_[15];
+    Float_t         phoHoverE_[15];
+    
+    Int_t           phoGenPartIdx_[15];
+    
+
     // I don't know why, but these two lines are needed to avoid possible memory issue with nMuon (segfault when it thinks there are 2**32-1 muons in an event
     // These vectors are not used
     vector<float>*  PFClustdEta_;
@@ -155,6 +184,8 @@ class EventTree{
     Bool_t   HLT_Ele105_CaloIdVT_GsfTrkIdT_;
     Bool_t   HLT_Ele115_CaloIdVT_GsfTrkIdT_;
     Bool_t   HLT_DoubleEle25_CaloIdL_MW_;
+    Bool_t   HLT_Photon175_;
+    Bool_t   HLT_Photon200_;
 
     Bool_t   HLT_Ele27_WPTight_Gsf_;
     Bool_t   HLT_Ele32_WPTight_Gsf_;

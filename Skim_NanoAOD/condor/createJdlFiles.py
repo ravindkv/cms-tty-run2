@@ -34,7 +34,7 @@ for year in [2016,2017,2018]:
     jdlFile = open('tmpSub/%s'%jdlName,'w')
     jdlFile.write('Executable =  runMakeSkims.sh \n')
     jdlFile.write(common_command)
-    condorOutDir="/store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD"
+    condorOutDir="/store/user/rverma/Output/cms-ttg-run2/Skim_NanoAOD"
     os.system("eos root://cmseos.fnal.gov mkdir -p %s/%s"%(condorOutDir, year))
     jdlFile.write("X=$(step)+1\n")
     
