@@ -1,0 +1,93 @@
+000 (69432141.333.000) 12/21 16:08:43 Job submitted from host: <131.225.188.235:9618?addrs=131.225.188.235-9618&noUDP&sock=2886_2269_3>
+...
+001 (69432141.333.000) 12/21 16:18:03 Job executing on host: <131.225.206.171:9618?addrs=131.225.206.171-9618&noUDP&sock=1140_860e_3>
+...
+006 (69432141.333.000) 12/21 16:18:12 Image size of job updated: 3
+	3  -  MemoryUsage of job (MB)
+	3212  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:19:12 Image size of job updated: 224
+	224  -  MemoryUsage of job (MB)
+	230024  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:20:13 Image size of job updated: 342
+	342  -  MemoryUsage of job (MB)
+	351196  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:21:13 Image size of job updated: 431
+	431  -  MemoryUsage of job (MB)
+	441496  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:22:13 Image size of job updated: 435
+	435  -  MemoryUsage of job (MB)
+	445604  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:23:13 Image size of job updated: 438
+	438  -  MemoryUsage of job (MB)
+	448988  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:24:13 Image size of job updated: 440
+	440  -  MemoryUsage of job (MB)
+	451024  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:25:13 Image size of job updated: 442
+	442  -  MemoryUsage of job (MB)
+	453524  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:26:14 Image size of job updated: 445
+	445  -  MemoryUsage of job (MB)
+	455968  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:27:15 Image size of job updated: 452
+	452  -  MemoryUsage of job (MB)
+	463312  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:28:16 Image size of job updated: 452
+	452  -  MemoryUsage of job (MB)
+	463356  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:29:17 Image size of job updated: 456
+	456  -  MemoryUsage of job (MB)
+	467416  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:30:17 Image size of job updated: 458
+	458  -  MemoryUsage of job (MB)
+	469464  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:31:17 Image size of job updated: 460
+	460  -  MemoryUsage of job (MB)
+	471512  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:32:17 Image size of job updated: 462
+	462  -  MemoryUsage of job (MB)
+	473832  -  ResidentSetSize of job (KB)
+...
+006 (69432141.333.000) 12/21 16:33:17 Image size of job updated: 465
+	465  -  MemoryUsage of job (MB)
+	476480  -  ResidentSetSize of job (KB)
+...
+022 (69432141.333.000) 12/21 16:33:43 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_6@cmswn1796.fnal.gov <131.225.206.171:9618?addrs=131.225.206.171-9618&noUDP&sock=1140_860e_3>
+...
+024 (69432141.333.000) 12/21 17:13:43 Job reconnection failed
+    Job disconnected too long: JobLeaseDuration (2400 seconds) expired
+    Can not reconnect to slot1_6@cmswn1796.fnal.gov, rescheduling job
+...
+001 (69432141.333.000) 12/21 17:14:48 Job executing on host: <131.225.205.221:9618?addrs=131.225.205.221-9618&noUDP&sock=1480_bc41_3>
+...
+005 (69432141.333.000) 12/21 17:41:17 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:25:01, Sys 0 00:00:16  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:25:01, Sys 0 00:00:16  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	1645864  -  Run Bytes Sent By Job
+	7226122  -  Run Bytes Received By Job
+	1645864  -  Total Bytes Sent By Job
+	14452244  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :     0.00        1         1 
+	   Disk (KB)            : 52150     1000000   3366041 
+	   Memory (MB)          :   461        2048      2048 
+...

@@ -1,0 +1,10 @@
+########## To be udated #############
+files = $(wildcard src/*.cc src/*.cpp)
+OBJS = $(addsuffix .o,$(basename $(files)))
+HEADERS = $(addsuffix .h,$(basename $(files)))
+
+OPT = -O -Wall -fPIC -D_REENTRANT
+INC = -I${ROOTSYS}/include -I..
+EXT = -std=c++17
+all: $(files) $(HEADERS)
+	$(CXX) $(OPT) $(INC) $(EXT) -c $<

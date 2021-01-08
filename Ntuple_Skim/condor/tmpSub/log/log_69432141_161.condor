@@ -1,0 +1,51 @@
+000 (69432141.161.000) 12/21 16:08:42 Job submitted from host: <131.225.188.235:9618?addrs=131.225.188.235-9618&noUDP&sock=2886_2269_3>
+...
+022 (69432141.161.000) 12/21 16:17:42 Job disconnected, attempting to reconnect
+    Socket between submit and execute hosts closed unexpectedly
+    Trying to reconnect to slot1_30@cmswn1951.fnal.gov <131.225.205.177:9618?addrs=131.225.205.177-9618&noUDP&sock=1485_2a3a_3>
+...
+024 (69432141.161.000) 12/21 16:57:42 Job reconnection failed
+    Job disconnected too long: JobLeaseDuration (2400 seconds) expired
+    Can not reconnect to slot1_30@cmswn1951.fnal.gov, rescheduling job
+...
+001 (69432141.161.000) 12/21 16:58:39 Job executing on host: <131.225.191.223:9618?addrs=131.225.191.223-9618&noUDP&sock=1454_e6cb_3>
+...
+006 (69432141.161.000) 12/21 16:58:48 Image size of job updated: 4
+	4  -  MemoryUsage of job (MB)
+	4184  -  ResidentSetSize of job (KB)
+...
+006 (69432141.161.000) 12/21 16:59:49 Image size of job updated: 210
+	210  -  MemoryUsage of job (MB)
+	215444  -  ResidentSetSize of job (KB)
+...
+006 (69432141.161.000) 12/21 17:00:49 Image size of job updated: 263
+	263  -  MemoryUsage of job (MB)
+	269588  -  ResidentSetSize of job (KB)
+...
+006 (69432141.161.000) 12/21 17:01:50 Image size of job updated: 282
+	282  -  MemoryUsage of job (MB)
+	289600  -  ResidentSetSize of job (KB)
+...
+006 (69432141.161.000) 12/21 17:02:50 Image size of job updated: 290
+	290  -  MemoryUsage of job (MB)
+	297468  -  ResidentSetSize of job (KB)
+...
+006 (69432141.161.000) 12/21 17:03:50 Image size of job updated: 299
+	299  -  MemoryUsage of job (MB)
+	306228  -  ResidentSetSize of job (KB)
+...
+005 (69432141.161.000) 12/21 17:04:08 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:04:21, Sys 0 00:00:05  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:04:21, Sys 0 00:00:05  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	1652818  -  Run Bytes Sent By Job
+	7226122  -  Run Bytes Received By Job
+	1652818  -  Total Bytes Sent By Job
+	7236068  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :        0        1         1 
+	   Disk (KB)            :    52157     7500    771378 
+	   Memory (MB)          :      299     2048      2048 
+...

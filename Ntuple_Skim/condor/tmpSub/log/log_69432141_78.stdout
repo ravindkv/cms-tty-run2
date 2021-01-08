@@ -1,0 +1,207 @@
+[FERMIHTC-SINGULARITY]: INFO -- No Singulariy image specified
+[FERMIHTC-SINGULARITY]: INFO -- Running job on the host machine
+
+[FERMIHTC-SINGULARITY]: INFO -- Running ./condor_exec.exe 2018 Data_SingleEle_a 2 35
+Start Running Histogramming at Mon Dec 21 22:15:14 UTC 2020
+Worker node hostname rverma-69432141-78-cmswn1723.fnal.gov
+Running In Batch
+/storage/local/data1/condor/execute/dir_32115
+WARNING: Release CMSSW_10_2_14 is not available for architecture slc7_amd64_gcc820.
+         Developer's area is created for available architecture slc7_amd64_gcc700.
+RecoNtuple_Skim/Makefile
+RecoNtuple_Skim/weight/
+RecoNtuple_Skim/weight/BtagSF/
+RecoNtuple_Skim/weight/BtagSF/DeepCSV_102XSF_V1.csv
+RecoNtuple_Skim/weight/BtagSF/DeepCSV_2016LegacySF_V1.csv
+RecoNtuple_Skim/weight/BtagSF/DeepCSV_94XSF_V3_B_F.csv
+RecoNtuple_Skim/weight/BtagSF/DeepCSV_Moriond17_B_H.csv
+RecoNtuple_Skim/weight/BtagSF/btag_efficiencies_2016.root
+RecoNtuple_Skim/weight/BtagSF/btag_efficiencies_2017.root
+RecoNtuple_Skim/weight/BtagSF/btag_efficiencies_2018.root
+RecoNtuple_Skim/weight/JetSF/
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L1FastJet_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L1RC_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L2L3Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L2Relative_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L2Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_L3Absolute_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_UncertaintySources_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Autumn18_V19_MC_Uncertainty_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L1RC_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L2L3Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L2Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_UncertaintySources_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/
+RecoNtuple_Skim/weight/JetSF/JER/Autumn18_V7b_MC_PtResolution_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/Autumn18_V7b_MC_SF_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/Fall17_V3_MC_PtResolution_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/Fall17_V3_MC_SF_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/Summer16_25nsV1_MC_PtResolution_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/JER/Summer16_25nsV1_MC_SF_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L1FastJet_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L1RC_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L2L3Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L2Relative_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L2Residual_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_L3Absolute_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_UncertaintySources_AK4PFchs.txt
+RecoNtuple_Skim/weight/JetSF/Summer16_07Aug2017_V11_MC_Uncertainty_AK4PFchs.txt
+RecoNtuple_Skim/weight/MuEleSF/
+RecoNtuple_Skim/weight/MuEleSF/ele2016/
+RecoNtuple_Skim/weight/MuEleSF/ele2016/2016LegacyReReco_ElectronTight_Fall17V2.root
+RecoNtuple_Skim/weight/MuEleSF/ele2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root
+RecoNtuple_Skim/weight/MuEleSF/ele2016/sf_ele_2016_trig_v5.root
+RecoNtuple_Skim/weight/MuEleSF/ele2017/
+RecoNtuple_Skim/weight/MuEleSF/ele2017/2017_ElectronTight.root
+RecoNtuple_Skim/weight/MuEleSF/ele2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root
+RecoNtuple_Skim/weight/MuEleSF/ele2017/sf_ele_2017_trig_v5.root
+RecoNtuple_Skim/weight/MuEleSF/ele2018/
+RecoNtuple_Skim/weight/MuEleSF/ele2018/2018_ElectronTight.root
+RecoNtuple_Skim/weight/MuEleSF/ele2018/egammaEffi.txt_EGM2D_updatedAll.root
+RecoNtuple_Skim/weight/MuEleSF/ele2018/sf_ele_2018_trig_v5.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_jsonfiles_RunBCDEF_SF_ID.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_jsonfiles_RunBCDEF_SF_ISO.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_jsonfiles_RunGH_SF_ID.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_jsonfiles_RunGH_SF_ISO.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ID.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunBCDEF_SF_ISO.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunGH_SF_ID.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_legacy_rereco_rootfiles_RunGH_SF_ISO.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunBtoF.root
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunGtoH.json
+RecoNtuple_Skim/weight/MuEleSF/mu2016/EfficienciesStudies_2016_trigger_EfficienciesAndSF_RunGtoH.root
+RecoNtuple_Skim/weight/MuEleSF/mu2017/
+RecoNtuple_Skim/weight/MuEleSF/mu2017/EfficienciesAndSF_RunBtoF_Nov17Nov2017.root
+RecoNtuple_Skim/weight/MuEleSF/mu2017/RunBCDEF_SF_ID.json
+RecoNtuple_Skim/weight/MuEleSF/mu2017/RunBCDEF_SF_ID.root
+RecoNtuple_Skim/weight/MuEleSF/mu2017/RunBCDEF_SF_ISO.json
+RecoNtuple_Skim/weight/MuEleSF/mu2017/RunBCDEF_SF_ISO.root
+RecoNtuple_Skim/weight/MuEleSF/mu2017/theJSONfile_RunBtoF_Nov17Nov2017.json
+RecoNtuple_Skim/weight/MuEleSF/mu2018/
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_jsonfiles_RunABCD_SF_ID.json
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_jsonfiles_RunABCD_SF_ISO.json
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ID.root
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_rootfiles_RunABCD_SF_ISO.root
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_trigger_EfficienciesAndSF_2018Data_BeforeMuonHLTUpdate.root
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_trigger_theJSONfile_2018Data_AfterMuonHLTUpdate.json
+RecoNtuple_Skim/weight/MuEleSF/mu2018/EfficienciesStudies_2018_trigger_theJSONfile_2018Data_BeforeMuonHLTUpdate.json
+RecoNtuple_Skim/weight/PileupSF/
+RecoNtuple_Skim/weight/PileupSF/Data_2016BCDGH_Pileup.root
+RecoNtuple_Skim/weight/PileupSF/Data_2016BCDGH_Pileup_scaledDown.root
+RecoNtuple_Skim/weight/PileupSF/Data_2016BCDGH_Pileup_scaledUp.root
+RecoNtuple_Skim/weight/PileupSF/Data_2017BCDEF_Pileup.root
+RecoNtuple_Skim/weight/PileupSF/Data_2017BCDEF_Pileup_scaledDown.root
+RecoNtuple_Skim/weight/PileupSF/Data_2017BCDEF_Pileup_scaledUp.root
+RecoNtuple_Skim/weight/PileupSF/Data_2018ABCD_Pileup.root
+RecoNtuple_Skim/weight/PileupSF/Data_2018ABCD_Pileup_scaledDown.root
+RecoNtuple_Skim/weight/PileupSF/Data_2018ABCD_Pileup_scaledUp.root
+RecoNtuple_Skim/README.md
+RecoNtuple_Skim/makeRecoNtuple.C
+RecoNtuple_Skim/src/
+RecoNtuple_Skim/src/JECvariation.cpp
+RecoNtuple_Skim/src/JetCorrectionUncertainty.cpp
+RecoNtuple_Skim/src/JetResolution.cc
+RecoNtuple_Skim/src/JetResolutionObject.cc
+RecoNtuple_Skim/src/SimpleJetCorrectionUncertainty.cpp
+RecoNtuple_Skim/src/makeSkim.cpp
+RecoNtuple_Skim/src/FactorizedJetCorrector.cpp
+RecoNtuple_Skim/src/Selector.cpp
+RecoNtuple_Skim/src/EventPick_gen.cpp
+RecoNtuple_Skim/src/EventTree.cpp
+RecoNtuple_Skim/src/EventPick.cpp
+RecoNtuple_Skim/src/PUReweight.cpp
+RecoNtuple_Skim/src/Selector_gen.cpp
+RecoNtuple_Skim/src/testLepSF.cpp
+RecoNtuple_Skim/src/BTagCalibrationStandalone.o
+RecoNtuple_Skim/src/EventTree.o
+RecoNtuple_Skim/src/JECvariation.o
+RecoNtuple_Skim/src/JetResolution.o
+RecoNtuple_Skim/src/SimpleJetCorrectionUncertainty.o
+RecoNtuple_Skim/src/Utils.cc
+RecoNtuple_Skim/src/BTagCalibrationStandalone.cpp
+RecoNtuple_Skim/src/EventPick.o
+RecoNtuple_Skim/src/FactorizedJetCorrector.o
+RecoNtuple_Skim/src/JetCorrectionUncertainty.o
+RecoNtuple_Skim/src/Selector.o
+RecoNtuple_Skim/src/TopEventCombinatorics.cpp
+RecoNtuple_Skim/src/METzCalculator.cpp
+RecoNtuple_Skim/src/JECUncertainty.cpp
+RecoNtuple_Skim/src/JetDefs.hpp
+RecoNtuple_Skim/src/Utils.o
+RecoNtuple_Skim/src/Makefile
+RecoNtuple_Skim/src/JetResolutionObject.o
+RecoNtuple_Skim/src/ErrorTypes.cpp
+RecoNtuple_Skim/src/ErrorTypes.hpp
+RecoNtuple_Skim/src/JetCorrectorParameters.o
+RecoNtuple_Skim/src/SimpleJetCorrector.o
+RecoNtuple_Skim/src/JECUncertainty.hpp
+RecoNtuple_Skim/src/JetCorrectorParameters.cpp
+RecoNtuple_Skim/src/SimpleJetCorrector.cpp
+RecoNtuple_Skim/src/Utilities.cc
+RecoNtuple_Skim/interface/
+RecoNtuple_Skim/interface/BTagCalibrationStandalone.h
+RecoNtuple_Skim/interface/METzCalculator.h
+RecoNtuple_Skim/interface/PUReweight.h
+RecoNtuple_Skim/interface/TopEventCombinatorics.h
+RecoNtuple_Skim/interface/Utils.h
+RecoNtuple_Skim/interface/eleSF_reader.h
+RecoNtuple_Skim/interface/muSF_reader.h
+RecoNtuple_Skim/interface/FactorizedJetCorrector.h
+RecoNtuple_Skim/interface/JECvariation.h
+RecoNtuple_Skim/interface/JERUtilities.h
+RecoNtuple_Skim/interface/JetCorrectionUncertainty.h
+RecoNtuple_Skim/interface/JetCorrectorParameters.h
+RecoNtuple_Skim/interface/JetResolution.h
+RecoNtuple_Skim/interface/JetResolutionObject.h
+RecoNtuple_Skim/interface/SimpleJetCorrectionUncertainty.h
+RecoNtuple_Skim/interface/SimpleJetCorrector.h
+RecoNtuple_Skim/interface/UncertaintySourcesList.h
+RecoNtuple_Skim/interface/elemuSF_2017.h
+RecoNtuple_Skim/interface/EventPick.h
+RecoNtuple_Skim/interface/elemuSF_2016.h
+RecoNtuple_Skim/interface/makeRecoNtuple.h
+RecoNtuple_Skim/interface/JERUtilities.h.gch
+RecoNtuple_Skim/interface/Selector.h
+RecoNtuple_Skim/interface/elemuSF_2018.h
+RecoNtuple_Skim/interface/elemuSF.h
+RecoNtuple_Skim/interface/ScaleFactorFunction.h
+RecoNtuple_Skim/interface/EventTree.h
+RecoNtuple_Skim/MakefileNew
+RecoNtuple_Skim/sample/
+RecoNtuple_Skim/sample/produceFileLists.py
+RecoNtuple_Skim/sample/Skim_NanoAOD_FileLists_cff.sh
+RecoNtuple_Skim/makeRecoNtuple
+All arguements: 2018 Data_SingleEle_a 2 35
+Number of arguements: 4
+/storage/local/data1/condor/execute/dir_32115
+./makeRecoNtuple 2018 Data_SingleEle_a  2of35 . root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_10of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_11of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_12of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_13of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_14of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_15of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_16of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_17of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_18of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_19of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_1of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_20of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_21of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_22of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_23of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_24of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_25of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_26of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_27of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_28of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_29of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_2of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_30of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_31of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_32of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_33of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_34of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_35of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_3of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_4of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_5of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_6of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_7of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_8of35.root root://cmseos.fnal.gov//store/user/rverma/Output/cms-hcs-run2/Skim_NanoAOD/2018/Data_SingleEle_a_Skim_NanoAOD_9of35.root
+2 of 35
+Data_SingleEle_a
+Data_SingleEle_a  
+Dilepton Sample :0
+. Data_SingleEle_a 
+. Data_SingleEle_a 
+./Data_SingleEle_a_RecoNtuple_Skim_2of35.root
+HERE
+DONE
+isMC: 0
+Using event weight 1
+XS = 5487.79
+lumi = 59740.6
+nEvents_MC = 3.27844e+08
+174815690
+processing entry 5000000 out of 174815690 : 23.4764 seconds since last progress
+processing entry 6000000 out of 174815690 : 50.6745 seconds since last progress
+processing entry 7000000 out of 174815690 : 50.8416 seconds since last progress
+processing entry 8000000 out of 174815690 : 48.1667 seconds since last progress
+processing entry 9000000 out of 174815690 : 47.6825 seconds since last progress
+Done Histogramming at Mon Dec 21 22:19:45 UTC 2020
+Cleanup
+Done Mon Dec 21 22:19:46 UTC 2020

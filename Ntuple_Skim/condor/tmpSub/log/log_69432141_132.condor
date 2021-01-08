@@ -1,0 +1,47 @@
+000 (69432141.132.000) 12/21 16:08:42 Job submitted from host: <131.225.188.235:9618?addrs=131.225.188.235-9618&noUDP&sock=2886_2269_3>
+...
+001 (69432141.132.000) 12/21 16:15:15 Job executing on host: <131.225.205.191:9618?addrs=131.225.205.191-9618&noUDP&sock=1457_f593_3>
+...
+006 (69432141.132.000) 12/21 16:15:24 Image size of job updated: 10
+	10  -  MemoryUsage of job (MB)
+	10948  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:16:24 Image size of job updated: 205
+	205  -  MemoryUsage of job (MB)
+	210156  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:17:25 Image size of job updated: 265
+	265  -  MemoryUsage of job (MB)
+	271788  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:18:25 Image size of job updated: 273
+	273  -  MemoryUsage of job (MB)
+	280256  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:19:25 Image size of job updated: 280
+	280  -  MemoryUsage of job (MB)
+	287284  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:20:25 Image size of job updated: 287
+	287  -  MemoryUsage of job (MB)
+	294368  -  ResidentSetSize of job (KB)
+...
+006 (69432141.132.000) 12/21 16:21:09 Image size of job updated: 542
+	542  -  MemoryUsage of job (MB)
+	555288  -  ResidentSetSize of job (KB)
+...
+005 (69432141.132.000) 12/21 16:21:11 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:05:12, Sys 0 00:00:06  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:05:12, Sys 0 00:00:06  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	1645691  -  Run Bytes Sent By Job
+	7226122  -  Run Bytes Received By Job
+	1645691  -  Total Bytes Sent By Job
+	7226122  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :     0.00        1         1 
+	   Disk (KB)            : 52149        7500   1642253 
+	   Memory (MB)          :   542        2048      2048 
+...
