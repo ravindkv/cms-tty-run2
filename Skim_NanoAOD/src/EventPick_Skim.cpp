@@ -43,6 +43,7 @@ void EventPick::process_event(EventTree* tree){
     }
     if (year=="2017"){
 	Pass_trigger_mu = (tree->HLT_IsoMu24_ || tree->HLT_IsoMu27_);
+    cout<<tree->HLT_Ele32_WPTight_Gsf_<<", "<<tree->HLT_Ele32_WPTight_Gsf_L1DoubleEG_<<endl;
 	Pass_trigger_ele = (tree->HLT_Ele32_WPTight_Gsf_L1DoubleEG_ || tree->HLT_Ele32_WPTight_Gsf_);
     }
     if (year=="2018"){

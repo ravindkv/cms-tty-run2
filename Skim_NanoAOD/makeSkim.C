@@ -229,6 +229,7 @@ int main(int ac, char** av){
 
 	for(Long64_t entry= startEntry; entry < endEntry; entry++){
 		if(entry%dumpFreq == 0) {
+            if(entry>1000) break;
 		    
 			// duration =  ( clock() - startClock ) / (double) CLOCKS_PER_SEC;
 			// std::cout << "processing entry " << entry << " out of " << nEntr << " : " << duration << " seconds since last progress" << std::endl;
