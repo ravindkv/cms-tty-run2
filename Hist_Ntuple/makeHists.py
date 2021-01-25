@@ -191,13 +191,9 @@ if not syst=="Base":
 			btagWeight = "btagWeight_1a_l_Do"
     else:
     	if  levelUp:
-            analysisNtupleLocation = ntupleDirSyst+"/%s_up_"%(syst)
-            if "Dilep" in ttbarDecayMode:
-                analysisNtupleLocation = ntupleDirBase
+            analysisNtupleLocation = ntupleDirSyst
     	else:
-            analysisNtupleLocation = ntupleDirSyst+"/%s_down_"%(syst)
-            if "Dilep" in ttbarDecayMode:
-                analysisNtupleLocation = ntupleDirBase
+            analysisNtupleLocation = ntupleDirSyst
 
 #-----------------------------------------
 #Select channels
@@ -253,6 +249,7 @@ else:
     sys.exit()
 
 weights = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s"%(evtWeight,prefire,Pileup,MuEff,EleEff,Q2,Pdf,isr,fsr,btagWeight)
+#weights = "10"
 toPrint("Extra cuts ", extraCuts)
 toPrint("Extra photon cuts ", extraPhotonCuts)
 toPrint("Final event weight ", weights)
@@ -331,13 +328,19 @@ if not "QCD_DD" in sample:
  	if year=="2018":
 	    fileName = fileName.replace("2016", "2018")
         if "Dilep" in ttbarDecayMode:
-            fileName = "Dilep_%s"%fileName
-        if "JE" in syst and not "Di" in ttbarDecayMode:
-            print "%s%s"%(analysisNtupleLocation,fileName)
-            tree.Add("%s%s"%(analysisNtupleLocation,fileName))
+            fullPath = "%s/Dilep_%s"%(analysisNtupleLocation, fileName)
+            if "JE" in syst and levelUp:
+                fullPath = "%s/Dilep_%s_up_%s"%(analysisNtupleLocation, syst, fileName)
+            if "JE" in syst and not levelUp: 
+                fullPath = "%s/Dilep_%s_down_%s"%(analysisNtupleLocation, syst, fileName)
         else:
-            print "%s/%s"%(analysisNtupleLocation,fileName)
-            tree.Add("%s/%s"%(analysisNtupleLocation,fileName))
+            fullPath = "%s/%s"%(analysisNtupleLocation, fileName)
+            if "JE" in syst and levelUp:
+                fullPath = "%s/%s_up_%s"%(analysisNtupleLocation, syst, fileName)
+            if "JE" in syst and not levelUp: 
+                fullPath = "%s/%s_down_%s"%(analysisNtupleLocation, syst, fileName)
+        print fullPath
+        tree.Add(fullPath)
     print "Number of events:", tree.GetEntries()
     for index, hist in enumerate(histogramsToMake, start=1):
         hInfo = histogramInfo[hist]

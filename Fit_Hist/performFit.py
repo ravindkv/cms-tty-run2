@@ -22,7 +22,7 @@ parser.add_option("--isComb","--isComb",dest="isComb", default=False, action="st
 		  help="combine datacards")
 parser.add_option("--combYear", dest="combYear",default=["2016"], action="append",
           help="years to be combined" )
-parser.add_option("--combChannel", dest="combChannel",default=["Mu"],action="append",
+parser.add_option("--combChannel", dest="combChannel",default=["Mu","Ele"],action="append",
           help="channels to be combined" )
 parser.add_option("--cr", "--CR", dest="CR", default="",type='str', 
                      help="which control selection and region")
@@ -52,6 +52,7 @@ combYear        = options.combYear[0].split(",")
 combChannel     = options.combChannel[0].split(",")
 isCount         = options.isCount
 print combChannel
+combChannel = ["Mu","Ele"]
 
 isComb          = options.isComb
 
@@ -170,8 +171,10 @@ if isTP:
 #Impacts of Systematics
 #----------------------------------------
 if isImpact:
-    runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s "%(pathT2W, params)) 
-    runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s --parallel 10"%(pathT2W, params))
+    #runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s "%(pathT2W, params)) 
+    #runCmd("combineTool.py -M Impacts -d %s  -m 125 -t -1 --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s --parallel 10"%(pathT2W, params))
+    runCmd("combineTool.py -M Impacts -d %s  -m 125 --doInitialFit --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s "%(pathT2W, params)) 
+    runCmd("combineTool.py -M Impacts -d %s  -m 125  --doFits --robustFit 1 --cminDefaultMinimizerStrategy 0 --expectSignal 1 --redefineSignalPOIs %s --parallel 10"%(pathT2W, params))
     runCmd("combineTool.py -M Impacts -d %s -m 125 -o %s/nuisImpact.json --redefineSignalPOIs %s "%(pathT2W, dirDC, params))
     runCmd("python ./plotImpacts.py --cms-label \"   Internal\" -i %s/nuisImpact.json -o %s/nuisImpact.pdf"%(dirDC, dirDC))
 

@@ -5,8 +5,8 @@ condorHistDir  = "/store/user/rverma/OutputTTGamma"
 #condorHistDir  = "/eos/uscms/store/user/rverma/OutputTTGamma"
 #condorHistDir  = "root://cmseos.fnal.gov//store/user/rverma/OutputTTGamma/"
 #-----------------------------------------------------------------
-#Year 	      =	["2016", "2017", "2018"]
-Year 	      =	["2016"]
+Year 	      =	["2016", "2017", "2018"]
+#Year 	      =	["2016"]
 Channel 	  =	["Mu", "Ele"]
 #Channel 	  =	["Mu"]
 Decay 	  =	["Semilep", "Dilep"]

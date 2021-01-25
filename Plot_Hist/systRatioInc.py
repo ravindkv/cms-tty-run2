@@ -40,6 +40,9 @@ sample          = options.sample
 hName            = options.hName
 CR              = options.CR
 
+print "------------------------------------"
+print "%s, %s, %s, %s, %s"%(year, decayMode, channel, sample, hName)
+print "------------------------------------"
 #-----------------------------------------
 #Path of the I/O histrograms/plots
 #----------------------------------------
@@ -65,7 +68,12 @@ gPad.SetLeftMargin(0.11);
 gPad.RedrawAxis();
 rootFile = TFile("%s/%s.root"%(inHistFullDir,sample), "read")
 print rootFile
-print("Systematics, \tDown, \tBase, \tUp")
+#print("%10s %10s %10s %10s, %10s"%("Systematics", "Down", "Base", "Up", "RelativeUnc"))
+print("%10s %22s %22s %22s %10s"%("Syst", "Down", "Base", "Up", "Unc"))
+print("%10s %6s %8s %8s %6s %8s %8s %6s %8s %8s %5s"%("", 
+"UnderF", "Int", "OverF", 
+"UnderF", "Int", "OverF", 
+"UnderF", "Int", "OverF", ""))
 def checkNanInBins(hist):
     checkNan = False
     for b in range(hist.GetNbinsX()):
@@ -94,6 +102,22 @@ for index, syst in enumerate(Systematics):
     evtDown = hDown_.Integral()
     #check if intergal is 0
     #if evtUp ==0.0 or evtBase ==0.0 or evtDown ==0.0:
+    #i = integral, u = undeflow, o = overflow
+    iEvtBase = round(hBase_.Integral(),0)
+    iEvtUp   = round(hUp_.Integral(),0)
+    iEvtDown = round(hDown_.Integral(),0)
+    uEvtBase = round(hBase_.GetBinContent(0),0)
+    uEvtUp   = round(hUp_.GetBinContent(0),0)
+    uEvtDown = round(hDown_.GetBinContent(0),0)
+    oEvtBase = round(hBase_.GetBinContent(hBase_.GetNbinsX()+1),0)
+    oEvtUp   = round(hUp_.GetBinContent(hUp_.GetNbinsX()+1),0)
+    oEvtDown = round(hDown_.GetBinContent(hDown_.GetNbinsX()+1),0)
+    if uEvtBase >1000 or oEvtBase >1000:
+        print "%s: Base:  Overflow or Undeflow is more than 1000"%syst
+    if uEvtUp >1000 or oEvtUp >1000:
+        print "%s: Up:  Overflow or Undeflow is more than 1000"%syst
+    if uEvtDown >1000 or oEvtDown >1000:
+        print "%s: Down:  Overflow or Undeflow is more than 1000"%syst
     if evtBase ==0.0:
         print "evtBase is zero"
         continue
@@ -106,12 +130,15 @@ for index, syst in enumerate(Systematics):
         print "Some of the bins are nan"
         continue
     allSystPercentage[syst] = 100*max(abs(evtUp -evtBase),abs(evtBase-evtDown))/evtBase
-    print("%10s %10.2f %10.2f %10.2f %10.2f %%"%(syst, 
-        round(evtDown,2), 
-        round(evtBase,2), 
-        round(evtUp,2),
-        allSystPercentage[syst]
-        ))
+    print("%10s" 
+           "|%6.0f %8.0f %8.0f"
+           "|%6.0f %8.0f %8.0f"
+           "|%6.0f %8.0f %8.0f"
+           "|%5.0f%%"%(syst, 
+         uEvtDown, iEvtDown, oEvtDown, 
+         uEvtBase, iEvtBase, oEvtBase, 
+         uEvtUp, iEvtUp, oEvtUp,
+        allSystPercentage[syst]))
     if allSystPercentage[syst] > 100.0:
         print "Large uncertainty for %s: %10.2f"%(syst, allSystPercentage[syst])
     xAxis = hBase_.GetXaxis()
@@ -203,4 +230,4 @@ baseLine.SetLineColor(1);
 baseLine.Draw("same");
 
 #canvas.SaveAs("%s/%s.pdf"%(outPlotFullDir, hName))
-canvas.SaveAs("SystRatio_%s_%s_%s_%s_%s_%s.pdf"%(year, decayMode, channel, hName, sample, CR))
+#canvas.SaveAs("SystRatio_%s_%s_%s_%s_%s_%s.pdf"%(year, decayMode, channel, hName, sample, CR))

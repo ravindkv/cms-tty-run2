@@ -87,7 +87,7 @@ def CMS_lumi(lumi_13TeV, pad,  iPeriod,  iPosX, extraText):
     elif ( iPeriod==0 ):
         lumiText += lumi_sqrtS
             
-    print lumiText
+    #print lumiText
 
     latex = rt.TLatex()
     latex.SetNDC()

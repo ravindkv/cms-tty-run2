@@ -54,8 +54,10 @@ else:
 runCmd("eos root://cmseos.fnal.gov mv %s/Data%s.root %s/Data.root"%(outHistFullDir, channel, outHistFullDir))
 runCmd("eos root://cmseos.fnal.gov mv %s/QCD%s.root %s/QCD.root"%(outHistFullDir, channel, outHistFullDir))
 #Merge all histograms
-haddOut = "root://cmseos.fnal.gov/%s/AllInc.root"%(outHistFullDir)
-haddIn  = "`xrdfs root://cmseos.fnal.gov ls -u %s | grep \'.*root\'`"%(outHistFullDir)
+#haddOut = "root://cmseos.fnal.gov/%s/AllInc.root"%(outHistFullDir)
+#haddIn  = "`xrdfs root://cmseos.fnal.gov ls -u %s | grep \'.*root\'`"%(outHistFullDir)
+haddOut = "/eos/uscms/%s/AllInc.root"%(outHistFullDir)
+haddIn  = "/eos/uscms/%s/*.root"%(outHistFullDir)
 runCmd("hadd -f %s %s"%(haddOut, haddIn))
 print "-------------------------------------"
 print "OUTPUT DIR: ", outHistFullDir
